@@ -1,9 +1,9 @@
-import LoginForm from "./components/HeadPage.jsx"
+import HeadPage from "./components/HeadPage";
 
 function App() {
   return (
     <div>
-     <LoginForm></LoginForm>
+     <HeadPage></HeadPage>
     </div>
   );
 }
