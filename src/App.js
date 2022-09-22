@@ -1,10 +1,9 @@
-
+import LoginForm from "./components/HeadPage.jsx"
 
 function App() {
   return (
-    <div className="bg-yellow-400">
-     <p className="text-3xl font-bold underline">aaa
-     </p>
+    <div>
+     <LoginForm></LoginForm>
     </div>
   );
 }
