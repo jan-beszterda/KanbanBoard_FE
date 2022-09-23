@@ -1,9 +1,9 @@
-import HeadPage from "./components/HeadPage";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   return (
     <div>
-     <HeadPage></HeadPage>
+     <LoginPage></LoginPage>
     </div>
   );
 }
