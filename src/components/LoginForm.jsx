@@ -12,14 +12,13 @@ function LoginForm({logo}) {
     <div>
         <form className='max-w-[400px] w-full mb-48 ml-36 bg-white p-4 '>
 
-            <FormHeader logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
-
+            <FormHeader linkUrl={"/register"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
                 {loginFields.map((field, index) => (
                     <Input key={index} placeholder={field.placeholder} labelText={field.labelText} type={field.type} isRequired={field.isRequired}></Input>
                 ))}
                 <FormFotter/>
 
-            <FormButton />
+            <FormButton text={"Sign in"} />
             </form>
     </div>
   )
