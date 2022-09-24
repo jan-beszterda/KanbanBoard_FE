@@ -1,9 +1,9 @@
-import LoginPage from "./components/LoginPage";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   return (
     <div>
-     <LoginPage></LoginPage>
+     <LandingPage></LandingPage>
     </div>
   );
 }
