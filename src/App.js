@@ -1,9 +1,9 @@
-import LandingPage from "./components/LandingPage";
+import Layout from "./kb-components/Layout";
 
 function App() {
   return (
     <div>
-     <LandingPage/>
+     <Layout/>
     </div>
   );
 }
