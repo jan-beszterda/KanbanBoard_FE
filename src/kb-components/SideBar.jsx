@@ -5,7 +5,6 @@ function SideBar() {
   return (
     <div>
         <Menu/>
-    
     </div>
   )
 }
