@@ -32,8 +32,9 @@ function LoginForm({logo}) {
         <form className='max-w-[400px] w-full mb-48 ml-36 bg-white p-4' onSubmit={handleSubmit}>
 
             <FormHeader linkUrl={"/register"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
-                {loginFields.map((field, index) => (
-                    <Input key={index} 
+                {loginFields.map((field) => (
+                    <Input key={field.id} 
+                      id={field.id}
                       handleChange={handleChange}
                       value={loginState[field.id]}
                       placeholder={field.placeholder} 
