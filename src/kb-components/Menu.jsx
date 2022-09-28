@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamItem from './TeamItem'
+import TeamList from './TeamList'
 import Signout from './Signout'
 import Home from './Home'
 import Extra from './Extra'
@@ -16,7 +16,7 @@ function Menu() {
             <Home/>
             <Extra/>
             <hr class="my-5 border-gray-200 dark:border-gray-200" />
-                <TeamItem/>
+                <TeamList/>
         </nav>
 
         <Signout/>

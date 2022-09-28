@@ -1,15 +1,20 @@
 import React from 'react'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
+import BoardPage from './BoardPage'
 
 
 function Layout() {
   return (
-    <div className='flex flex-col w-full h-screen' >
+    <div className="min-w-full min-h-screen  h-screen overflow-hidden" >
         <NavBar/>
         <SideBar/>
-        
-        <h1 className=' text-center  mt-40'>hii</h1>
+         <main className=" px-96 pt-28">
+
+         <BoardPage/>
+
+         </main>
+
     </div>
   )
 }
