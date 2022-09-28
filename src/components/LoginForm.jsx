@@ -36,19 +36,19 @@ function LoginForm({logo}) {
         "teams": [],
         "invitations": []
       }
-      const logInUser = async () => {
-        let response = await fetch('/api/user/login', {
+      const logInUser = async (data={}) => {
+        const response = await fetch('/api/user/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'},
-          body: JSON.stringify(user)
+          body: JSON.stringify(data)
         });
-        console.log(response)
-        let result = await response.json();
-        console.log(JSON.parse(result))
-        //setLoggedUser(result);
+        return response.json();
       }
-      logInUser(); 
+      logInUser(user).then((data) => {
+        console.log("Success")
+        console.log(data);
+      }); 
       //Set cookie for user id
     }
   return (

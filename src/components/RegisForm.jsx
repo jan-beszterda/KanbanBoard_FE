@@ -25,7 +25,7 @@ function RegisForm({logo}) {
 
   //handle Signup API Integration here
   const createAccount=()=>{
-      let user = {
+      const user = {
         "userName":"",
         "firstName":"",
         "lastName":"",
@@ -35,18 +35,20 @@ function RegisForm({logo}) {
         "invitations":[]
       }
       // Add check for confirm password
-      const signUpUser = async () => {
+      const signUpUser = async (data={}) => {
         let response = await fetch('/api/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'},
-          body: JSON.stringify(user)
+          body: JSON.stringify(data)
         });
-        console.log(response)
-        let result = await response.json();
-        console.log(JSON.parse(result))
+        return response.json();
       }
-      signUpUser(); 
+      signUpUser(user).then((data) => {
+        console.log("Success");
+        console.log(data);
+      });
+      //navigate to dashboard and pass user
     }
   
   
