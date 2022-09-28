@@ -25,16 +25,39 @@ function RegisForm({logo}) {
 
   //handle Signup API Integration here
   const createAccount=()=>{
-
-  }
+      let user = {
+        "userName":"",
+        "firstName":"",
+        "lastName":"",
+        "password":signupState.password,
+        "email":signupState.email,
+        "teams":[],
+        "invitations":[]
+      }
+      // Add check for confirm password
+      const signUpUser = async () => {
+        let response = await fetch('/api/user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'},
+          body: JSON.stringify(user)
+        });
+        console.log(response)
+        let result = await response.json();
+        console.log(JSON.parse(result))
+      }
+      signUpUser(); 
+    }
+  
   
   return (
     <div>
         <form className='max-w-[400px] w-full mb-10 pt-0 pb-11 ml-36 bg-white p-4 ' onSubmit={handleSubmit}>
                 <FormHeader linkUrl={"/"} logo={logo} title = {"Sign up"} subtitle ={"Already a user?"}/>
-                {signupFields.map((field, index) => (
+                {signupFields.map((field) => (
                     <Input 
-                      key={index} 
+                      key={field.id} 
+                      id={field.id}
                       handleChange={handleChange}
                       value={signupState[field.id]}
                       placeholder={field.placeholder} 
