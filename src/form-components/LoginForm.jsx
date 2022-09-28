@@ -13,8 +13,10 @@ fields.forEach(field=>fieldsState[field.id]='');
 
 function LoginForm({logo}) {
   const [loginState,setLoginState]=useState(fieldsState);
+  const [loggedUser, setLoggedUser] = useState({});
 
     const handleChange=(e)=>{
+      console.log(e.target.id, e.target.value)
         setLoginState({...loginState,[e.target.id]:e.target.value})
     }
 
@@ -25,7 +27,31 @@ function LoginForm({logo}) {
 
     //Handle Login API Integration here
     const authenticateUser = () =>{
-
+      const user = {
+        "userName":"",
+        "firstName":"",
+        "lastName":"",
+        "password": loginState.password,
+        "email": loginState.email,
+        "teams": [],
+        "invitations": []
+      }
+      const logInUser = async (data={}) => {
+        const response = await fetch('/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        return response.json();
+      }
+      logInUser(user).then((data) => {
+        console.log("Success")
+        console.log(data);
+      }); 
+      // Navigate to dashboard
+      // Pass User object
+      // Set cookie for user id
     }
   return (
     <div>
@@ -34,6 +60,7 @@ function LoginForm({logo}) {
             <FormHeader linkUrl={"/register"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
                 {loginFields.map((field, index) => (
                     <Input key={index} 
+                      id={field.id}
                       handleChange={handleChange}
                       value={loginState[field.id]}
                       placeholder={field.placeholder} 
