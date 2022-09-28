@@ -1,0 +1,74 @@
+[
+    {
+        "id" : "1",
+        "teamName" : "John",
+        "teamDescription" : "Lorem Ipsum",
+        
+        "boards" : [{
+            "id" : "1",
+            "boardName" : "Supreme",
+            "boardDescription" : "Lorem Ipsum",
+
+            "columnList":[{
+                "id" : "1",
+                "columnTitle" : "columnList",
+                "cardList" : [{
+                    "id" : "1",
+                    "cardTitle" : "cardList",
+                    "cardText" : "Lorem Ipsum",
+                    "comments" : [],
+                    "author" : "John"  
+                }]
+            }]
+        }]
+    },
+    {
+        "id" : "2",
+        "teamName" : "Mary",
+        "teamDescription" : "Lorem Ipsum",
+        
+        "boards" : [{
+            "id" : "1",
+            "boardName" : "Supreme",
+            "boardDescription" : "Lorem Ipsum",
+
+            "columnList":[{
+                "id" : "1",
+                "columnTitle" : "columnList",
+                "cardList" : [{
+                    "id" : "1",
+                    "cardTitle" : "cardList",
+                    "cardText" : "Lorem Ipsum",
+                    "comments" : [],
+                    "author" : "John"  
+                }]
+            }]
+        }]
+    },
+    {
+        "id" : "3",
+        "teamName" : "Peter",
+        "teamDescription" : "Lorem Ipsum",
+        
+        "boards" : [{
+            "id" : "1",
+            "boardName" : "Supreme",
+            "boardDescription" : "Lorem Ipsum",
+
+            "columnList":[{
+                "id" : "1",
+                "columnTitle" : "columnList",
+                "cardList" : [{
+                    "id" : "1",
+                    "cardTitle" : "cardList",
+                    "cardText" : "Lorem Ipsum",
+                    "comments" : [],
+                    "author" : "John"  
+                }]
+            }]
+        }]
+
+    }
+
+
+]
