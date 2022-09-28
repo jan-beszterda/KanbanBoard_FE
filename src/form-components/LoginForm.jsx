@@ -49,7 +49,9 @@ function LoginForm({logo}) {
         console.log("Success")
         console.log(data);
       }); 
-      //Set cookie for user id
+      // Navigate to dashboard
+      // Pass User object
+      // Set cookie for user id
     }
   return (
     <div>

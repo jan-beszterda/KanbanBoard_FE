@@ -48,7 +48,9 @@ function RegisForm({logo}) {
         console.log("Success");
         console.log(data);
       });
-      //navigate to dashboard and pass user
+      // navigate to dashboard
+      // pass user object
+      // set cokie for user id
     }
   
   
