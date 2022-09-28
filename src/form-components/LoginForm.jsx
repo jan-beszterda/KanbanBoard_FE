@@ -33,10 +33,11 @@ function LoginForm({logo}) {
 
             <FormHeader linkUrl={"/register"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
                 {loginFields.map((field) => (
-                    <Input key={field.id} 
+                    <Input 
+                      key={field.id} 
                       id={field.id}
                       handleChange={handleChange}
-                      value={loginState[field.id]}
+                       value={loginState[field.id]}
                       placeholder={field.placeholder} 
                       labelText={field.labelText} 
                       type={field.type} 
