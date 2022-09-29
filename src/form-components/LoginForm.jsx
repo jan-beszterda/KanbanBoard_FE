@@ -5,6 +5,7 @@ import FormFotter from './FormFotter'
 import FormButton from './FormButton'
 import { loginFields } from '../constants/formFields'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 
 
 const fields=loginFields;
@@ -47,6 +48,13 @@ function LoginForm({logo}) {
         let result = await response.json();
         console.log(JSON.parse(result))
         //setLoggedUser(result);
+
+        if (result.status === 200) {
+          onsole.log('User logged in successfully');
+          return <Navigate to="/layout" />
+          c
+        }
+        console.log(result);
       }
       logInUser(); 
       //Set cookie for user id

@@ -2,6 +2,8 @@ import React from 'react'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
 import BoardPage from './BoardPage'
+import {Routes,Route} from 'react-router-dom'
+import TeamPage from './TeamPage'
 
 
 function Layout() {
@@ -11,7 +13,14 @@ function Layout() {
         <SideBar/>
          <main className=" px-96 pt-28">
 
-         <BoardPage/>
+         
+
+        <Routes>
+            <Route path="/teampage" element={<TeamPage/>}/>
+            <Route path="/boardpage" element={<BoardPage/>}/>
+            <Route path="/layout" element={<Layout/>}/>
+        </Routes>
+         
 
          </main>
 

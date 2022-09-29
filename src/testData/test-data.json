@@ -64,7 +64,15 @@
                     "cardText" : "Lorem Ipsum",
                     "comments" : [],
                     "author" : "John"  
-                }]
+                },
+                {
+                    "id" : "2",
+                    "cardTitle" : "cardList2",
+                    "cardText" : "Lorem Ipsum",
+                    "comments" : [],
+                    "author" : "John"  
+                } 
+            ]
             }]
         }]
 
