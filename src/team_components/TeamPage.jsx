@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useWebSocket } from "../custom_hooks/useWebSocket";
-import { useTeams } from "../custom_hooks/useTeams";
+import { useTeam } from "../custom_hooks/useTeams";
 
 import CreateBtn from "../utility_components/CreateBtn";
 import BoardItem from "../board_components/BoardItem";
