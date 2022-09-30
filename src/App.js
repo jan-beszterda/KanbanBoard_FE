@@ -1,8 +1,8 @@
-import LandingPage from "./form-components/LandingPage";
+import LandingPage from "./pages/LandingPage";
 function App() {
   return (
     <div>
-     <LandingPage />
+      <LandingPage />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../page_partials/NavBar";
-import SideBar from "../kb-components/SideBar";
-import BoardPage from "./BoardPage";
+import SideBar from "../page_partials/SideBar";
+import BoardPage from "../board_components/BoardPage";
 
 function Layout() {
   return (

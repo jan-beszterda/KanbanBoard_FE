@@ -1,28 +1,44 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useWebSocket } from "../custom_hooks/useWebSocket";
-import { useTeam } from "../custom_hooks/useTeams";
+import { createStompClient } from "../custom_hooks/createStompClient";
+import { useTeam } from "../custom_hooks/useTeam";
 
 import CreateBtn from "../utility_components/CreateBtn";
 import BoardItem from "../board_components/BoardItem";
 import Button from "../utility_components/Button";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function TeamPage() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
   const params = useParams();
+
+  const [team, setTeam] = useState(useTeam(params.teamId));
+  const navigate = useNavigate();
+  //const { state } = useLocation();
+  //console.log(state);
+
   //const team = useTeams(/*userId*/);
-  const socketClient = useWebSocket(
+  const stompClient = createStompClient(
     "topic/team/" + params.teamId,
-    useTeam(state.teamId)
+    useTeam(params.teamId)
   );
+
+  useEffect(() => {
+    stompClient.activate();
+    return () => {
+      stompClient.deactivate();
+    };
+  }, []);
+
+  const remove = () => {};
+  console.log(team);
 
   return (
     <div>
-      <h1 className="pt-5 text-3xl">{state.teamName}</h1>
-      <p className="text-l">{state.teamDescription}</p>
+      <h1 className="pt-5 text-3xl">{team.teamName}</h1>
+      <p className="text-l">{team.teamDescription}</p>
       <h2 className="text-xl">Boards</h2>
       <div className="flex">
-        {state.boards.map((board) => (
+        {team.boards.map((board) => (
           <div className="">
             <Button
               className={""}

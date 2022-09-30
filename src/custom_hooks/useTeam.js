@@ -1,6 +1,6 @@
-const { useState, useEffect } = require("react");
+import { useState, useEffect } from "react";
 
-const useTeam = (teamId) => {
+export const useTeam = (teamId) => {
   const [team, setTeam] = useState({});
 
   useEffect(() => {

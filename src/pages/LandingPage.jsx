@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import startImage from "../assets/Slice 1-2.png";
 import logo from "../assets/colorfilter.svg";
 import LoginForm from "./LoginForm";
-import RegisForm from "../form_components/RegisForm";
+import RegisForm from "./RegisForm";
+import Layout from "./Layout";
+import TeamPage from "../team_components/TeamPage";
 
 function LandingPage() {
   return (
@@ -13,6 +15,8 @@ function LandingPage() {
           <Routes>
             <Route path="/" element={<LoginForm logo={logo} />} />
             <Route path="/register" element={<RegisForm logo={logo} />} />
+            <Route path="/layout" element={<Layout />} />
+            <Route path="/team/:teamId" element={<TeamPage />} />
           </Routes>
         </div>
         <div className="hidden sm:block">
