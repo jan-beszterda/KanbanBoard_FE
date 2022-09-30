@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useWebSocket } from "../custom_hooks/useWebSocket";
 import { useTeams } from "../custom_hooks/useTeams";
 
@@ -8,20 +8,21 @@ import Button from "../utility_components/Button";
 
 function TeamPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const params = useParams();
-  const team = useTeams(/*userId*/);
+  //const team = useTeams(/*userId*/);
   const socketClient = useWebSocket(
     "topic/team/" + params.teamId,
-    useTeams(/*userId*/)
+    useTeam(state.teamId)
   );
 
   return (
     <div>
-      <h1 className="pt-5 text-3xl">{team.teamName}</h1>
-      <p className="text-l">{team.teamDescription}</p>
+      <h1 className="pt-5 text-3xl">{state.teamName}</h1>
+      <p className="text-l">{state.teamDescription}</p>
       <h2 className="text-xl">Boards</h2>
       <div className="flex">
-        {team.boards.map((board) => (
+        {state.boards.map((board) => (
           <div className="">
             <Button
               className={""}

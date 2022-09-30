@@ -14,7 +14,7 @@ function TeamList(props) {
           <Button
             className={""}
             type={"button"}
-            onClick={navigate(`/team/${team.id}`)}
+            onClick={navigate(`/team/${team.id}`, { state: { team } })}
             id={team.id}
           >
             {team.name}
