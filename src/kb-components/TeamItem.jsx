@@ -1,18 +1,14 @@
 import React from 'react'
-import mockData from '../testData/test-data.json'
+import {Link} from 'react-router-dom'
 
 
 
-function TeamItem({team}) {
+function TeamItem({teamName,teamId}) {
         
-    const boardsName = mockData.filter((item) => item.id === team.id).map((item) => item.boards.map((board) => board.boardName))
-
-       
+     
   return (
     <div>
-        <button >{team}</button>
-
-        
+      <Link key={teamId} id={teamId} to={`/teampage/${teamId}`}>{teamName}</Link>
     </div>
   )
 }

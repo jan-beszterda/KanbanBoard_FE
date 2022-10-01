@@ -16,9 +16,9 @@ function Layout() {
          
 
         <Routes>
-            <Route path="/teampage" element={<TeamPage/>}/>
-            <Route path="/boardpage" element={<BoardPage/>}/>
             <Route path="/layout" element={<Layout/>}/>
+            <Route path="/teampage/:id" element={<TeamPage/>}/>
+            <Route path="/boardpage" element={<BoardPage/>}/>
         </Routes>
          
 

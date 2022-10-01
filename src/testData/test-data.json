@@ -6,7 +6,24 @@
         
         "boards" : [{
             "id" : "1",
-            "boardName" : "Supreme",
+            "boardName" : "Board 1",
+            "boardDescription" : "Lorem Ipsum",
+
+            "columnList":[{
+                "id" : "1",
+                "columnTitle" : "columnList",
+                "cardList" : [{
+                    "id" : "1",
+                    "cardTitle" : "cardList",
+                    "cardText" : "Lorem Ipsum",
+                    "comments" : [],
+                    "author" : "John"  
+                }]
+            }]
+        },
+        {
+            "id" : "2",
+            "boardName" : "Board 2",
             "boardDescription" : "Lorem Ipsum",
 
             "columnList":[{
@@ -41,7 +58,8 @@
                     "cardText" : "Lorem Ipsum",
                     "comments" : [],
                     "author" : "John"  
-                }]
+                }
+            ]
             }]
         }]
     },
