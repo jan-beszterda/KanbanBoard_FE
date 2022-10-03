@@ -6,24 +6,32 @@ import testData from '../testData/test-data.json'
 
 function TeamPage() {
 
+  // get team id from url
+  // get board list from team id
+
   const {id} = useParams()
+  const teamName = testData.find((team) => team.id === id).teamName
   const boards = testData.find((team) => team.id === id).boards
   
  console.log(boards)
   return (
     <div>
 
-      <h1 className=' pt-5 text-3xl'>Team name</h1>
+      <div>
+      <h1 className=' pt-5 text-3xl'>{teamName}</h1>
 
-      <div className=' flex gap-4 py-16'>
+      <div className=' flex gap-4 py-10'>
       <CreateBtn name={"Board name"} btnName={" Create board"}/>
 
       </div>
+      </div>
 
-      <div className='flex flex-col my-5 gap-2 border-2 rounded border-gray-200' >
-      {boards.map((board) => <BoardItem key={board.id} boardId = {board.id} boardName={board.boardName}/>)}
+      <div className='w-[800px] rounded-md bg-light-grey flex flex-col justify-evenly' >
+      {boards.map((board) => <BoardItem teamId={id} key={board.id} boardId = {board.id} boardName={board.boardName}/>)}
 
       </div>
+
+     
       
     </div>
   )
