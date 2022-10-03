@@ -1,6 +1,6 @@
 import React from 'react'
-import CreateBtn from './CreateBtn'
-import BoardItem from './BoardItem'
+import CreateBtn from '../kb-components/CreateBtn'
+import BoardItem from '../board_components/BoardItem'
 import {useParams} from 'react-router-dom'
 import testData from '../testData/test-data.json'
 

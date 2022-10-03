@@ -1,9 +1,11 @@
 import React from 'react'
 import Signout from './Signout'
-import ProfilePage from './ProfilePage'
-import Extra from './Extra'
+import Extra from '../page_partials/Extra'
 import { Link } from 'react-router-dom'
-import TeamList from './TeamList'
+import TeamList from '../team_components/TeamList'
+import ProfilePage from '../kb-components/ProfilePage'
+
+
 function SideBarItems() {
   return (
     <div>

@@ -1,7 +1,8 @@
 import React from 'react'
-import CreateBtn from './CreateBtn'
-import TeamItem from './TeamItem'
+import CreateBtn from '../kb-components/CreateBtn'
 import testData from '../testData/test-data.json'
+import TeamItem  from './TeamItem'
+
 function TeamList() {
   return (
     <div>

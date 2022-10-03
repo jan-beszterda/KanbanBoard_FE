@@ -2,6 +2,7 @@ import React from 'react'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
 import BoardPage from './BoardPage'
+import Layout from ' ../pages/Layout'
 import {Routes,Route} from 'react-router-dom'
 
 

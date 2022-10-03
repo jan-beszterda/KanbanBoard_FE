@@ -1,4 +1,4 @@
-import Layout from './kb-components/Layout';
+import Layout from './pages/Layout';
 
 
 function App() {
