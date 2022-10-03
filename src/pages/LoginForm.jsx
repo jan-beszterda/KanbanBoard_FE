@@ -1,8 +1,8 @@
 import React from 'react'
-import Input from '../form-components/Input'
-import FormHeader from '../form-components/FormHeader'
-import FormFooter from '../form-components/FormFooter'
-import FormButton from '../form-components/FormButton'
+import Input from '../form_components/Input'
+import FormHeader from '../form_components/FormHeader'
+import FormFooter from '../form_components/FormFooter'
+import FormButton from '../form_components/FormButton'
 import { loginFields } from '../constants/formFields'
 import { useState } from 'react'
 
