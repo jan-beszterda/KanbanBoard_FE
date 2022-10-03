@@ -56,13 +56,12 @@ function LoginForm({logo}) {
 
         if (response.status === 200) {
           console.log('User logged in successfully');
-
         }
         return result;
       }
 
       logInUser(user).then((result) => {
-        console.log("Success 1");
+        console.log("Success Logging In");
         console.log(result);
         //Set localStorage for user id
         localStorage.setItem('active-user-id', result.userId);
