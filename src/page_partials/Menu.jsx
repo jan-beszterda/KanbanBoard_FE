@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamList from '../kb-components/TeamList'
+import TeamList from '../team_components/TeamList'
 import Signout from '../kb-components/Signout'
 import Home from '../kb-components/Home'
 import Extra from './Extra'

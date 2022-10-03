@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateBtn from './CreateBtn'
+import CreateBtn from '../kb-components/CreateBtn'
 
 function TeamList() {
   return (
