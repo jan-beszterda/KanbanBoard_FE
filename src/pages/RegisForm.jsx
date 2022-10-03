@@ -77,6 +77,7 @@ function RegisForm({logo}) {
         console.log(data);
       });
 
+
     }
   
   

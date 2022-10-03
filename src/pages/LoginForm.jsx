@@ -5,7 +5,8 @@ import FormFooter from '../form_components/FormFooter'
 import FormButton from '../form_components/FormButton'
 import { loginFields } from '../constants/formFields'
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import {Navigate, useNavigate} from 'react-router-dom'
+
 
 
 const fields=loginFields;
@@ -14,6 +15,9 @@ fields.forEach(field=>fieldsState[field.id]='');
 
 function LoginForm({logo}) {
   const [loginState,setLoginState]=useState(fieldsState);
+
+  const navigate = useNavigate();
+  const toLayout = () => navigate("/layout", { replace: true });
   //const [loggedUser, setLoggedUser] = useState({});
 
     const handleChange=(e)=>{
@@ -50,18 +54,21 @@ function LoginForm({logo}) {
 
         //setLoggedUser(result);
 
-        if (result.status === 200) {
+        if (response.status === 200) {
           console.log('User logged in successfully');
-          //Set localStorage for user id
-          localStorage.setItem('active-user-id', logInUser.userId);
-          return <Navigate to="/layout" />
+
         }
-        console.log(result);
+        return result;
       }
 
-      logInUser(user).then((data) => {
-        console.log("Success");
-        console.log(data);
+      logInUser(user).then((result) => {
+        console.log("Success 1");
+        console.log(result);
+        //Set localStorage for user id
+        localStorage.setItem('active-user-id', result.userId);
+        let idTest = localStorage.getItem('active-user-id');
+        console.log(idTest);
+        toLayout();
       });
 
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import Column from './Column'
+
 
 function BoardPage() {
   return (
