@@ -5,36 +5,50 @@ import { signupFields } from '../constants/formFields'
 import FormFooter from '../form_components/FormFooter'
 import FormButton from '../form_components/FormButton'
 import { useState } from 'react'
+import {Navigate} from "react-router-dom";
 
 const fields=signupFields;
 let fieldsState={};
-
 fields.forEach(field => fieldsState[field.id]='');
 
+
 function RegisForm({logo}) {
-
   const [signupState,setSignupState]=useState(fieldsState);
-
   const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
 
   const handleSubmit=(e)=>{
     e.preventDefault();
     console.log(signupState)
-    createAccount()
+
+      function passwordConfirmed() {
+          if (signupState.password !== signupState.confirm_password) {
+              // clear password & confirm_password fields and give message that they must match
+              signupState.password = "";
+              signupState.confirm_password = "";
+              return false;
+          }
+          return true;
+      }
+
+      if(passwordConfirmed()){
+          createAccount();
+      }
+
   }
 
   //handle Signup API Integration here
   const createAccount=()=>{
       const user = {
-        "userName":"",
-        "firstName":"",
-        "lastName":"",
+        "userId":"",
+        "userName":signupState.userName,
+        "firstName":signupState.firstName,
+        "lastName":signupState.lastName,
         "password":signupState.password,
         "email":signupState.email,
         "teams":[],
         "invitations":[]
       }
-      // Add check for confirm password
+
       const signUpUser = async (data={}) => {
         let response = await fetch('/api/user', {
           method: 'POST',
@@ -42,15 +56,28 @@ function RegisForm({logo}) {
             'Content-Type': 'application/json'},
           body: JSON.stringify(data)
         });
-        return response.json();
+
+      console.log(response);
+
+      let result = await response.json();
+
+      console.log(JSON.parse(result));
+
+          if (result.status === 200) {
+              console.log('User created successfully');
+              //Set localStorage for user id
+              localStorage.setItem('active-user-id', signUpUser.userId);
+              return <Navigate to="/layout" />
+          }
+          console.log(result);
       }
+
       signUpUser(user).then((data) => {
         console.log("Success");
         console.log(data);
       });
-      // navigate to dashboard
-      // pass user object
-      // set cokie for user id
+
+
     }
   
   
