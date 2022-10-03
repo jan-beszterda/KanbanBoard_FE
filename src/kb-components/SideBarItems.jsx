@@ -1,8 +1,9 @@
 import React from 'react'
 import Signout from './Signout'
-import Home from './ProfilePage'
+import ProfilePage from './ProfilePage'
 import Extra from './Extra'
 import { Link } from 'react-router-dom'
+import TeamList from './TeamList'
 function SideBarItems() {
   return (
     <div>
@@ -15,9 +16,10 @@ function SideBarItems() {
     <div className="flex flex-col items-center justify-between flex-1 mt-6">
         
         <nav>
-            <Home/>
+            <ProfilePage/>
             <Extra/>
             <hr className="my-5 border-gray-200 dark:border-gray-200" />    
+            <TeamList />
         </nav>
 
         <Signout/>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Home() {
+function ProfilePage() {
   return (
     <div>
          <a className="flex items-center py-2 mt-4 px-4  text-black hover:bg-blue-300 hover:rounded" href="#">
@@ -11,4 +11,4 @@ function Home() {
   )
 }
 
-export default Home
+export default ProfilePage

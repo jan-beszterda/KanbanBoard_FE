@@ -1,10 +1,11 @@
 import React from 'react'
-import Menu from './Menu'
+import SideBarItems from './SideBarItems'
+
 
 function SideBar() {
   return (
     <div>
-        <Menu/>
+        <SideBarItems/>
     </div>
   )
 }
