@@ -5,16 +5,19 @@ import { signupFields } from '../constants/formFields'
 import FormFooter from '../form_components/FormFooter'
 import FormButton from '../form_components/FormButton'
 import { useState } from 'react'
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 const fields=signupFields;
 let fieldsState={};
 fields.forEach(field => fieldsState[field.id]='');
 
-
 function RegisForm({logo}) {
   const [signupState,setSignupState]=useState(fieldsState);
-  const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
+
+    const navigate = useNavigate();
+    const toLayout = () => navigate("/layout", { replace: true });
+
+    const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
 
   const handleSubmit=(e)=>{
     e.preventDefault();
@@ -57,24 +60,22 @@ function RegisForm({logo}) {
           body: JSON.stringify(data)
         });
 
-      console.log(response);
-
       let result = await response.json();
 
-      console.log(JSON.parse(result));
-
-          if (result.status === 200) {
+          if (response.status === 200) {
               console.log('User created successfully');
-              //Set localStorage for user id
-              localStorage.setItem('active-user-id', signUpUser.userId);
-              return <Navigate to="/layout" />
           }
-          console.log(result);
+        return result;
       }
 
-      signUpUser(user).then((data) => {
-        console.log("Success");
-        console.log(data);
+      signUpUser(user).then((result) => {
+        console.log("Success Creating User");
+        console.log(result);
+          //Set localStorage for user id
+          localStorage.setItem('active-user-id', signUpUser.userId);
+          let idTest = localStorage.getItem('active-user-id');
+          console.log(idTest);
+          toLayout();
       });
 
 
