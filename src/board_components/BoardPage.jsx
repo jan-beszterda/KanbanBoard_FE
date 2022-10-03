@@ -24,7 +24,7 @@ function BoardPage() {
 
       </div>
 
-      <div className='flex flex-row justify-evenly gap-5'>
+      <div className='flex flex-row justify-evenly gap-5  '>
       
       {columns.map((column) => <Column key={column.id} columnId={column.id} columnTitle={column.columnTitle} cards={column.cardList}/>)}
       

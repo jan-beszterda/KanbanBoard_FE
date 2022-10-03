@@ -13,13 +13,13 @@ function Layout() {
         <NavBar/>
         <SideBar/>
 
-         <main className=" px-96 pt-28">
+         <main className=" px-96 pt-28 flex">
             <Routes>
                 <Route path="/layout" element={<Layout/>}/>
                 <Route path="/loginform" element={<LoginForm/>}/>
                 <Route path="/regisform" element={<RegisForm/>}/>
                 <Route path="/teampage/:id" element={<TeamPage/>}/>
-                <Route path="/boardpage" element={<BoardPage/>}/>
+                <Route path="/boardpage/:teamid/:id" element={<BoardPage/>}/>
             </Routes>
 
          </main>
