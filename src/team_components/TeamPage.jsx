@@ -13,17 +13,27 @@ function TeamPage() {
   return (
     <div>
 
+      <div>
       <h1 className=' pt-5 text-3xl'>Team name</h1>
 
-      <div className=' flex gap-4 py-16'>
+      <div className=' flex gap-4 py-10'>
       <CreateBtn name={"Board name"} btnName={" Create board"}/>
 
       </div>
+      </div>
 
-      <div className='flex flex-col my-5 gap-2 border-2 rounded border-gray-200' >
-      {boards.map((board) => <BoardItem key={board.id} boardId = {board.id} boardName={board.boardName}/>)}
+     
+
+
+      <div className='w-[800px] rounded-md bg-light-grey flex flex-col justify-evenly' >
+      {boards.map((board) => <BoardItem teamId={id} key={board.id} boardId = {board.id} boardName={board.boardName}/>)}
+
+     
+
 
       </div>
+
+     
       
     </div>
   )

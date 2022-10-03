@@ -8,7 +8,7 @@ function AddCardBtn({name,btnName}) {
     return (
       <>
         <button
-          className=" w-[248px] font-sans font-normal text-sm m-auto bg-gray-200 py-1 mt-2 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+          className=" w-[248px] font-sans font-normal text-sm m-auto bg-dark-grey py-2 mt-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >

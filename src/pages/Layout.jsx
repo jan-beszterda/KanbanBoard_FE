@@ -7,17 +7,17 @@ import TeamPage from '../team_components/TeamPage'
 
 function Layout() {
   return (
-    <div className="min-w-full min-h-screen  h-screen overflow-hidden" >
+    <div className="min-w-full min-h-screen w-auto " >
         <NavBar/>
         <SideBar/>
-         <main className=" px-96 pt-28">
+         <main className=" pl-80 pt-28 flex h-auto">
 
          
 
         <Routes>
             <Route path="/layout" element={<Layout/>}/>
             <Route path="/teampage/:id" element={<TeamPage/>}/>
-            <Route path="/boardpage" element={<BoardPage/>}/>
+            <Route path="/boardpage/:teamid/:id" element={<BoardPage/>}/>
         </Routes>
          
 

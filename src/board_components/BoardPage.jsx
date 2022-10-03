@@ -1,12 +1,19 @@
 import React from 'react'
 import Column from '../kb-components/Column'
+import {useParams} from 'react-router-dom'
+import testData from '../testData/test-data.json'
 import AddColBtn from '../kb-components/AddColBtn'
 
 function BoardPage() {
+
+  const {id} = useParams()
+  const {teamid} = useParams()
+  const columns = testData.find((team) => team.id === teamid).boards.find((board) => board.id === id).columnList 
+  console.log(columns)
   return (
     <div >
 
-      <div className=' mb-20 mt-5 flex flex-col justify-start text-start gap-8'>
+      <div className=' h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto'>
 
       <h1 className=' text-3xl mt-5 mr-5'>Board name</h1>
 
@@ -14,16 +21,18 @@ function BoardPage() {
 
       </div>
 
-      <div className='flex flex-row justify-center'>
+      <div className='flex flex-row justify-evenly gap-5'>
       
-       <Column/> 
+      {columns.map((column) => <Column key={column.id} columnId={column.id} columnTitle={column.columnTitle} cards={column.cardList}/>)}
       
-
+      <AddColBtn name={"Title"} btnName={"+ Add column"}></AddColBtn>
 
       </div>
 
 
-     
+      <div>
+    </div>
+
 
 
         

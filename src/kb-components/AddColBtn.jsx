@@ -8,7 +8,7 @@ function AddColBtn({name,btnName}) {
     return (
       <>
         <button
-          className=" w-[240px] py-1 mt-0 font-sans font-normal text-sm bg-gray-200 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
+          className=" w-[248px] h-10 mt-5 font-sans font-normal text-sm bg-dark-grey px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >

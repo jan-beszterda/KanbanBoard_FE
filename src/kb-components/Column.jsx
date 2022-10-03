@@ -1,30 +1,36 @@
 import React from 'react'
 import AddCardBtn from './AddCardBtn'
 import AddColBtn from './AddColBtn'
+import Card from './Card'
 
-function Column() {
+function Column({columnTitle,cards}) {
+
+
+    // Get user column data from database
+    // Get user card data from database
+
+
+
+
   return (
 
-    <div className=' flex flex-row gap-4 mt-5 w-[250px]  border-2 rounded-md '>
+    <div className=' flex flex-row gap-8 mt-5 w-[250px] bg-light-grey h-full rounded-lg'>
 
     <div >
         <div className='flex justify-between'>
-        <h1 className=' mb-4 mt-4 ml-4 font-bold'>Title</h1>
+        <h1 className=' text-red-pink-dark mb-4 mt-4 ml-4 font-bold'> • {columnTitle}</h1>
 
         </div>
         <hr className=' rounded-md mx-5 border-2 border-red-pink'></hr>
 
-        <div className='flex justify-center'>
-        <AddCardBtn name={"Title"} btnName={" + Add card"}/>
-        </div>
+        {/* Cards here*/}
+        <div className='flex justify-center my-5 flex-col gap-3 items-center '>
+
+        {cards.map((card) => ( <Card key={card.id} cardId={card.id} cardTitle={card.cardTitle} cardDescription={card.cardText}/>))}
+      
+      <AddCardBtn name={"Card"} btnName={"+ Add card"}/>
+      </div>
     </div>
-
-    <div>
-      <AddColBtn name={"Title"} btnName={"+ Add column"}></AddColBtn>
-
-
-    </div>
-
 
     </div>
 
