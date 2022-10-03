@@ -1,9 +1,9 @@
 import React from 'react'
-import FormHeader from './FormHeader'
-import Input from './Input'
+import FormHeader from '../form-components/FormHeader'
+import Input from '../form-components/Input'
 import { signupFields } from '../constants/formFields'
-import FormFotter from './FormFotter'
-import FormButton from './FormButton'
+import FormFooter from '../form-components/FormFooter'
+import FormButton from '../form-components/FormButton'
 import { useState } from 'react'
 
 const fields=signupFields;
@@ -70,7 +70,7 @@ function RegisForm({logo}) {
                       isRequired={field.isRequired}>
                     </Input>
                 ))}
-                    <FormFotter />
+                    <FormFooter />
 
                 <FormButton text={"Register"} onSubmit={handleSubmit}/>    
             </form>

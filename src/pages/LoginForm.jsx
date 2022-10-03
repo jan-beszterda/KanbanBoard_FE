@@ -1,8 +1,8 @@
 import React from 'react'
-import Input from './Input'
-import FormHeader from './FormHeader'
-import FormFotter from './FormFotter'
-import FormButton from './FormButton'
+import Input from '../form-components/Input'
+import FormHeader from '../form-components/FormHeader'
+import FormFooter from '../form-components/FormFooter'
+import FormButton from '../form-components/FormButton'
 import { loginFields } from '../constants/formFields'
 import { useState } from 'react'
 
@@ -69,7 +69,7 @@ function LoginForm({logo}) {
                       isRequired={field.isRequired}>
                     </Input>
                 ))}
-                <FormFotter/>
+                <FormFooter/>
 
             <FormButton text={"Sign in"} onSubmit={handleSubmit}/>
             </form>

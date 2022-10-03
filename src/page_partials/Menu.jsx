@@ -1,7 +1,7 @@
 import React from 'react'
-import TeamList from './TeamList'
-import Signout from './Signout'
-import Home from './Home'
+import TeamList from '../kb-components/TeamList'
+import Signout from '../kb-components/Signout'
+import Home from '../kb-components/Home'
 import Extra from './Extra'
 function Menu() {
   return (

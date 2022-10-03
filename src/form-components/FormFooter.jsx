@@ -1,6 +1,6 @@
 import React from 'react'
 
-function FormFotter() {
+function FormFooter() {
   return (
     <div>
         <div className='flex justify-between mb-5  text-gray-400'>
@@ -12,4 +12,4 @@ function FormFotter() {
   )
 }
 
-export default FormFotter
+export default FormFooter

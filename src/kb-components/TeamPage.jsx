@@ -1,6 +1,6 @@
 import React from 'react'
 import CreateBtn from './CreateBtn'
-import BoardItem from './BoardItem'
+import BoardItem from '../board_components/BoardItem'
 
 function TeamPage() {
   return (
