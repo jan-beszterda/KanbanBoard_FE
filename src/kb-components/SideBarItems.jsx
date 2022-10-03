@@ -1,10 +1,10 @@
 import React from 'react'
-import TeamList from './TeamList'
 import Signout from './Signout'
-import Home from './Home'
+import ProfilePage from './ProfilePage'
 import Extra from './Extra'
 import { Link } from 'react-router-dom'
-function Menu() {
+import TeamList from './TeamList'
+function SideBarItems() {
   return (
     <div>
        <div className=" fixed flex flex-col w-60 h-screen py-8 bg-white border-r dark:bg-white dark:border-gray-200">
@@ -16,11 +16,10 @@ function Menu() {
     <div className="flex flex-col items-center justify-between flex-1 mt-6">
         
         <nav>
-            <Home/>
+            <ProfilePage/>
             <Extra/>
-            <hr className="my-5 border-gray-200 dark:border-gray-200" />
-                <TeamList/>
-                
+            <hr className="my-5 border-gray-200 dark:border-gray-200" />    
+            <TeamList />
         </nav>
 
         <Signout/>
@@ -31,4 +30,4 @@ function Menu() {
   )
 }
 
-export default Menu
+export default SideBarItems
