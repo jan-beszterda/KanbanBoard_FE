@@ -1,6 +1,13 @@
 import React from 'react'
 
 function CreateBtn({name,btnName}) {
+
+    // Create a function that take in props to push api here for create team/board/column/card
+
+
+
+
+
     const [showModal, setShowModal] = React.useState(false);
     return (
       <>

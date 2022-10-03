@@ -12,6 +12,7 @@
             "columnList":[{
                 "id" : "1",
                 "columnTitle" : "columnList",
+                
                 "cardList" : [{
                     "id" : "1",
                     "cardTitle" : "cardList",
