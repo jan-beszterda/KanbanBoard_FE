@@ -1,8 +1,10 @@
-import LandingPage from "./pages/LandingPage";
+import Layout from './kb-components/Layout';
+
+
 function App() {
   return (
     <div>
-     <LandingPage />
+     <Layout />
     </div>
   );
 }

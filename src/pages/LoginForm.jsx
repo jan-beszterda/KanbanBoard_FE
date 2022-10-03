@@ -5,6 +5,7 @@ import FormFooter from '../form_components/FormFooter'
 import FormButton from '../form_components/FormButton'
 import { loginFields } from '../constants/formFields'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 
 
 const fields=loginFields;
@@ -36,22 +37,27 @@ function LoginForm({logo}) {
         "teams": [],
         "invitations": []
       }
-      const logInUser = async (data={}) => {
-        const response = await fetch('/api/user/login', {
+      const logInUser = async () => {
+        let response = await fetch('/api/user/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'},
-          body: JSON.stringify(data)
+          body: JSON.stringify(user)
         });
-        return response.json();
+        console.log(response)
+        let result = await response.json();
+        console.log(JSON.parse(result))
+        //setLoggedUser(result);
+
+        if (result.status === 200) {
+          onsole.log('User logged in successfully');
+          return <Navigate to="/layout" />
+          c
+        }
+        console.log(result);
       }
-      logInUser(user).then((data) => {
-        console.log("Success")
-        console.log(data);
-      }); 
-      // Navigate to dashboard
-      // Pass User object
-      // Set cookie for user id
+      logInUser(); 
+      //Set cookie for user id
     }
   return (
     <div>
