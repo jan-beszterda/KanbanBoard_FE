@@ -8,14 +8,16 @@ function BoardPage() {
 
   const {id} = useParams()
   const {teamid} = useParams()
+  const boardName = testData.find((team) => team.id === teamid).boards.find((board) => board.id === id).boardName
+  
   const columns = testData.find((team) => team.id === teamid).boards.find((board) => board.id === id).columnList 
   console.log(columns)
   return (
     <div >
 
-      <div className=' h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto'>
+      <div className='relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto'>
 
-      <h1 className=' text-3xl mt-5 mr-5'>Board name</h1>
+      <h1 className=' text-3xl mt-5 mr-5'>{boardName}</h1>
 
       <button className=' text-start'>Back</button>
 

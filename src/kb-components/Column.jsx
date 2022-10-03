@@ -24,7 +24,7 @@ function Column({columnTitle,cards}) {
         <hr className=' rounded-md mx-5 border-2 border-red-pink'></hr>
 
         {/* Cards here*/}
-        <div className='flex justify-center my-5 flex-col gap-3 items-center '>
+        <div className='flex justify-center mt-5 flex-col gap-3 items-center '>
 
         {cards.map((card) => ( <Card key={card.id} cardId={card.id} cardTitle={card.cardTitle} cardDescription={card.cardText}/>))}
       
