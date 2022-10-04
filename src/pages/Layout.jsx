@@ -13,7 +13,7 @@ function Layout() {
         <NavBar/>
         <SideBar/>
 
-         <main className=" px-96 pt-28 flex">
+         <main className=" px-80 pt-28 flex">
             <Routes>
                 <Route path="/layout" element={<Layout/>}/>
                 <Route path="/loginform" element={<LoginForm/>}/>

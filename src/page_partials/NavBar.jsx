@@ -3,7 +3,7 @@ import React from 'react'
 function NavBar() {
   return (
     <div>
-        <div className=" fixed h-16 pl-40 border-2 py-10 border-gray-100  w-full flex items-cente justify-evenly pr-5">
+        <div className=" absolute h-16 pl-40 border-2 py-10 border-gray-100  w-full flex items-cente justify-evenly pr-5">
             <div className=" flex px-5 items-center">
                 
                 <input type="text" placeholder="Search for anything ..."
