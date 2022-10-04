@@ -33,7 +33,6 @@ function LoginForm({logo}) {
     //Handle Login API Integration here
     const authenticateUser = () =>{
       const user = {
-        "userName":"",
         "firstName":"",
         "lastName":"",
         "password": loginState.password,
