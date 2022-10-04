@@ -9,9 +9,10 @@ function App() {
   return (
     <div>
       <Routes>
+        // Skapa guardrouter för att skydda sidor som bara ska vara tillgängliga för inloggade användare
         <Route path="/profilepage" element={<Layout> <ProfilePage/> </Layout>} />
         <Route path="/teampage/:id" element={<Layout> <TeamPage/> </Layout>}/>
-        <Route path="/boardpage/:teamid/:id" element={<Layout><BoardPage/></Layout>}/>
+        <Route path="/boardpage/:teamid/:id" element={<Layout> <BoardPage/> </Layout>}/>
         <Route path="/*" element={<LandingPage />} />
       </Routes>
 
