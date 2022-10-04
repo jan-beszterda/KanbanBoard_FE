@@ -15,7 +15,7 @@ function RegisForm({logo}) {
   const [signupState,setSignupState]=useState(fieldsState);
 
     const navigate = useNavigate();
-    const toLayout = () => navigate("/layout", { replace: true });
+    const toLayout = () => navigate("/profilepage", { replace: true });
 
     const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
 
