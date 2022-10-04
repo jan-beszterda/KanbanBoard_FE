@@ -1,40 +1,46 @@
-import React from 'react'
-import CreateBtn from '../kb-components/CreateBtn'
-import BoardItem from '../board_components/BoardItem'
-import {useParams} from 'react-router-dom'
-import testData from '../testData/test-data.json'
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import CreateBtn from "../kb-components/CreateBtn";
+import BoardItem from "../board_components/BoardItem";
+
+import { loadTeam } from "../helper_functions/loadTeam";
 
 function TeamPage() {
+  const [team, setTeam] = useState();
+  const params = useParams();
 
-  // get team id from url
-  // get board list from team id
+  useEffect(() => {
+    const load = async () => {
+      let team = await loadTeam(params.id);
+      setTeam(team);
+    };
+    load();
+  }, [params.id]);
 
-  const {id} = useParams()
-  const teamName = testData.find((team) => team.id === id).teamName
-  const boards = testData.find((team) => team.id === id).boards
-  
- console.log(boards)
   return (
-    <div>
-
+    <div className="w-full">
       <div>
-      <h1 className=' pt-5 text-3xl'>{teamName}</h1>
+        {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
 
-      <div className=' flex gap-4 py-10'>
-      <CreateBtn name={"Board name"} btnName={" Create board"}/>
-
-      </div>
-      </div>
-
-      <div className='w-[800px] rounded-md bg-light-grey flex flex-col justify-evenly' >
-      {boards.map((board) => <BoardItem teamId={id} key={board.id} boardId = {board.id} boardName={board.boardName}/>)}
-
+        <div className=" flex gap-4 py-10">
+          <CreateBtn name={"Board name"} btnName={" Create board"} />
+        </div>
       </div>
 
-     
-      
+      <div className="w-[800px] rounded-md bg-light-grey flex flex-col justify-evenly">
+        {team &&
+          team.boards.map((board) => (
+            <BoardItem
+              key={board.id}
+              boardId={board.boardId}
+              boardName={board.boardName}
+              boardDescription={board.boardDescription}
+            />
+          ))}
+      </div>
     </div>
-  )
+  );
 }
 
-export default TeamPage
+export default TeamPage;
