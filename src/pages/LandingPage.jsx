@@ -17,7 +17,7 @@ function LandingPage() {
         <div className='bg-white flex flex-col justify-center'>
           <Routes>
             <Route path="/" element={<LoginForm logo={logo} />} />
-            <Route path="/register" element={<RegisForm logo={logo} />} />
+            <Route path="/regisform" element={<RegisForm logo={logo} />} />
           </Routes>
         </div>
         <div className='hidden sm:block'>

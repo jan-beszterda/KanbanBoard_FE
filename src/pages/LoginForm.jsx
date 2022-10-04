@@ -17,7 +17,7 @@ function LoginForm({logo}) {
   const [loginState,setLoginState]=useState(fieldsState);
 
   const navigate = useNavigate();
-  const toLayout = () => navigate("/layout", { replace: true });
+  const toLayout = () => navigate("/profilepage", { replace: true });
   //const [loggedUser, setLoggedUser] = useState({});
 
     const handleChange=(e)=>{
