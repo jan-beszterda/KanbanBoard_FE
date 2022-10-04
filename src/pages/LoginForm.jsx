@@ -17,7 +17,7 @@ function LoginForm({logo}) {
   const [loginState,setLoginState]=useState(fieldsState);
 
   const navigate = useNavigate();
-  const toLayout = () => navigate("/layout", { replace: true });
+  const toLayout = () => navigate("/profilepage", { replace: true });
   //const [loggedUser, setLoggedUser] = useState({});
 
     const handleChange=(e)=>{
@@ -51,9 +51,7 @@ function LoginForm({logo}) {
         });
 
         let result = await response.json();
-
         //setLoggedUser(result);
-
         if (response.status === 200) {
           console.log('User logged in successfully');
         }
