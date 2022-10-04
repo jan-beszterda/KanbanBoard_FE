@@ -43,7 +43,6 @@ function RegisForm({logo}) {
   const createAccount=()=>{
       const user = {
         "userId":"",
-        "userName":signupState.userName,
         "firstName":signupState.firstName,
         "lastName":signupState.lastName,
         "password":signupState.password,
