@@ -15,7 +15,7 @@ function RegisForm({logo}) {
   const [signupState,setSignupState]=useState(fieldsState);
 
     const navigate = useNavigate();
-    const toLayout = () => navigate("/layout", { replace: true });
+    const toLayout = () => navigate("/profilepage", { replace: true });
 
     const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
 
@@ -43,7 +43,6 @@ function RegisForm({logo}) {
   const createAccount=()=>{
       const user = {
         "userId":"",
-        "userName":signupState.userName,
         "firstName":signupState.firstName,
         "lastName":signupState.lastName,
         "password":signupState.password,
