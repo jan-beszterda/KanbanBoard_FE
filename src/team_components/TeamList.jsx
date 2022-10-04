@@ -3,6 +3,7 @@ import CreateBtn from '../kb-components/CreateBtn'
 import TeamItem from '../team_components/TeamItem'
 import testData from '../testData/test-data.json'
 import AddTeamBtn from "../kb-components/AddTeamBtn";
+import loadTeams from "../helper_functions";
 
 function TeamList() {
   return (
