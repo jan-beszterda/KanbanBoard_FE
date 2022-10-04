@@ -84,7 +84,7 @@ function RegisForm({logo}) {
   
   return (
     <div>
-        <form className='max-w-[400px] w-auto mb-10 pt-0 pb-11 ml-36 mr-0 bg-transparent z-0 ' onSubmit={handleSubmit}>
+        <form className='max-w-[400px] w-full mb-30 ml-36 bg-white p-4 ' onSubmit={handleSubmit}>
                 <FormHeader linkUrl={"/"} logo={logo} title = {"Sign up"} subtitle ={"Already a user?"}/>
                 {signupFields.map((field) => (
                     <Input 
