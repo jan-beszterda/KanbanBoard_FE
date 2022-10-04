@@ -2,6 +2,7 @@ import React from 'react'
 import CreateBtn from '../kb-components/CreateBtn'
 import TeamItem from '../team_components/TeamItem'
 import testData from '../testData/test-data.json'
+import AddTeamBtn from "../kb-components/AddTeamBtn";
 
 function TeamList() {
   return (
@@ -9,7 +10,7 @@ function TeamList() {
         <a >
                 <div className='flex justify-around'>
                 <h6 className="mx-4 font-medium">My Teams </h6>
-                <CreateBtn btnName={"+"} name={"Team name"}/>
+                <AddTeamBtn btnName={"+"} name={"Team name"}/>
                 </div>
 
             </a>

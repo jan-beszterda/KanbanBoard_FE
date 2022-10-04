@@ -70,6 +70,7 @@ function RegisForm({logo}) {
       signUpUser(user).then((result) => {
         console.log("Success Creating User");
         console.log(result);
+
           //Set localStorage for user id
           localStorage.setItem('active-user-id', result.userId);
           let idTest = localStorage.getItem('active-user-id');
