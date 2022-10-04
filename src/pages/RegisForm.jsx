@@ -72,7 +72,7 @@ function RegisForm({logo}) {
         console.log("Success Creating User");
         console.log(result);
           //Set localStorage for user id
-          localStorage.setItem('active-user-id', signUpUser.userId);
+          localStorage.setItem('active-user-id', result.userId);
           let idTest = localStorage.getItem('active-user-id');
           console.log(idTest);
           toLayout();
@@ -84,7 +84,7 @@ function RegisForm({logo}) {
   
   return (
     <div>
-        <form className='max-w-[400px] w-full mb-10 pt-0 pb-11 ml-36 bg-white p-4 ' onSubmit={handleSubmit}>
+        <form className='max-w-[400px] w-full mb-30 ml-36 bg-white p-4 ' onSubmit={handleSubmit}>
                 <FormHeader linkUrl={"/"} logo={logo} title = {"Sign up"} subtitle ={"Already a user?"}/>
                 {signupFields.map((field) => (
                     <Input 

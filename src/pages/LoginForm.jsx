@@ -17,7 +17,7 @@ function LoginForm({logo}) {
   const [loginState,setLoginState]=useState(fieldsState);
 
   const navigate = useNavigate();
-  const toLayout = () => navigate("/layout", { replace: true });
+  const toLayout = () => navigate("/profilepage", { replace: true });
   //const [loggedUser, setLoggedUser] = useState({});
 
     const handleChange=(e)=>{
@@ -51,9 +51,7 @@ function LoginForm({logo}) {
         });
 
         let result = await response.json();
-
         //setLoggedUser(result);
-
         if (response.status === 200) {
           console.log('User logged in successfully');
         }
@@ -76,7 +74,7 @@ function LoginForm({logo}) {
     <div>
         <form className='max-w-[400px] w-full mb-48 ml-36 bg-white p-4' onSubmit={handleSubmit}>
 
-            <FormHeader linkUrl={"/register"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
+            <FormHeader linkUrl={"/regisform"} logo={logo} title = {"Sign in"} subtitle ={"Create a Dashboard account? "} />
                 {loginFields.map((field, index) => (
                     <Input key={index} 
                       id={field.id}

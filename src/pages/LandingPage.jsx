@@ -13,15 +13,15 @@ import RegisForm from './RegisForm'
 function LandingPage() {
   return (
     <div>
-    <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
-        <div className='bg-white flex flex-col justify-center'>
+    <div className='flex flex-row justify-between w-screen gap-5'>
+        <div className=' bg-transparent w-auto flex flex-col justify-center '>
           <Routes>
             <Route path="/" element={<LoginForm logo={logo} />} />
-            <Route path="/register" element={<RegisForm logo={logo} />} />
+            <Route path="/regisform" element={<RegisForm logo={logo} />} />
           </Routes>
         </div>
-        <div className='hidden sm:block'>
-            <img className='w-full h-full object-cover' src={startImage} alt="" />
+        <div className=' '>
+            <img className='w-full h-full object-contain z-20' src={startImage} alt="" />
         </div>
     </div>
 </div>
