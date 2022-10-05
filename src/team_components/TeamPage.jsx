@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import CreateBtn from "../kb-components/CreateBtn";
+import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 
 import { loadTeam } from "../helper_functions/loadTeam";
@@ -10,13 +11,13 @@ function TeamPage() {
   const [team, setTeam] = useState();
   const params = useParams();
 
-  useEffect(() => {
+    useEffect(() => {
     const load = async () => {
       let team = await loadTeam(params.id);
       setTeam(team);
-    };
-    load();
-  }, [params.id]);
+        };
+        load();
+      }, [params.id]);
 
   return (
     <div className="w-full">
@@ -24,7 +25,7 @@ function TeamPage() {
         {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
 
         <div className=" flex gap-4 py-10">
-          <CreateBtn name={"Board name"} btnName={" Create board"} />
+          <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
         </div>
       </div>
 
