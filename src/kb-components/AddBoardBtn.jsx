@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useParams } from "react-router-dom";
 import {signupFields} from "../constants/formFields";
 
-function AddBoardBtn({name,btnName}) {
+function AddBoardBtn({name,btnName, teamId}) {
 
     const [boardName, setBoardName] = useState("");
     const [boardDescription, setBoardDescription] = useState("");
@@ -12,7 +12,7 @@ function AddBoardBtn({name,btnName}) {
     const handleSubmit=(e)=> {
 
         console.log("teamId:");
-        console.log(props.teamId)
+        console.log(teamId)
 
         const newBoard = {
             "boardName": boardName,
@@ -22,8 +22,8 @@ function AddBoardBtn({name,btnName}) {
         console.log("newBoard:");
         console.log(newBoard);
 
-         /*   const signUpBoard = async (data = {}) => {
-                let response = await fetch('/api/board?owner_team=' + this.props.teamId, {
+            const signUpBoard = async (data = {}) => {
+                let response = await fetch('/api/board/create?owner_team=' + teamId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ function AddBoardBtn({name,btnName}) {
             console.log(idTest);
             setShowModal(false);
         });
-*/
+
     }
     // End handleSubmit.
 
