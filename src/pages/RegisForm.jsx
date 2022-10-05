@@ -66,7 +66,6 @@ function RegisForm({logo}) {
           }
         return result;
       }
-
       signUpUser(user).then((result) => {
         console.log("Success Creating User");
         console.log(result);

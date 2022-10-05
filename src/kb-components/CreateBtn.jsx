@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CreateBtn({name,btnName}) {
+function CreateBtn({name,btnName,addBoard}) {
 
     // Create a function that take in props to push api here for create team/board/column/card
 
@@ -11,7 +11,10 @@ function CreateBtn({name,btnName}) {
         <button
           className=" font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
           type="button"
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setShowModal(true);
+            addBoard()
+          }}
         >
             {btnName}
         </button>

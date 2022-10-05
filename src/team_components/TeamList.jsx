@@ -1,9 +1,28 @@
 import React from 'react'
 import CreateBtn from '../kb-components/CreateBtn'
 import TeamItem from '../team_components/TeamItem'
-import testData from '../testData/test-data.json'
+import { loadTeams } from '../helper_functions/loadTeams';
+import { useState, useEffect } from 'react';
 
 function TeamList() {
+
+  const [teams, setTeams] = useState([])
+
+
+
+  let userId = localStorage.getItem('active-user-id');
+  
+  let load =  async () => {
+    let teamLoad = await loadTeams(userId);
+    setTeams(teamLoad);
+    return teamLoad;
+    
+  }
+  load();
+
+
+ 
+
   return (
     <div>
         <a >
@@ -15,7 +34,7 @@ function TeamList() {
             </a>
 
             <div  className='flex flex-col justify-start items-center'>
-                {testData.map((team) => ( 
+                {teams?.map((team) => ( 
                   <TeamItem teamId={team.id} key={team.id} teamName={team.teamName}/>
                 ))}
             </div>
