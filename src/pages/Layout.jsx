@@ -5,10 +5,10 @@ import {Routes,Route} from 'react-router-dom'
 import NavBar from '../page_partials/NavBar'
 import SideBar from '../page_partials/SideBar'
 import {loadUser} from '../helper_functions/loadUser'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
-function Layout() {
+function Layout({children}) {
 
 const [activeUser, setActiveUser] = useState([]);
 let userIdFromLocaleStorage = localStorage.getItem('active-user-id');
@@ -17,7 +17,10 @@ let load = async () => {
   let userLoad = await loadUser(userIdFromLocaleStorage);
   setActiveUser(userLoad);
 }
-load(); 
+
+useEffect(() => {
+  load();
+}, [])
 
 let fullName = activeUser.firstName + " " + activeUser.lastName;
 
@@ -28,7 +31,7 @@ let fullName = activeUser.firstName + " " + activeUser.lastName;
         
 
          <main className=" px-96 pt-28 flex">
-           
+           {children}
 
          </main>
 
