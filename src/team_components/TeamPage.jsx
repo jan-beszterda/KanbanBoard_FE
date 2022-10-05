@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CreateBtn from "../kb-components/CreateBtn";
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
+import LeaveTeamBtn from "./LeaveTeamBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 
@@ -24,8 +25,9 @@ function TeamPage() {
       <div>
         {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
 
-        <div className=" flex gap-4 py-10">
+        <div className=" flex gap-4 py-10">        
           <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
+          <LeaveTeamBtn/>
         </div>
       </div>
 
