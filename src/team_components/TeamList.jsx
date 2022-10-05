@@ -8,21 +8,16 @@ function TeamList() {
 
   const [teams, setTeams] = useState([])
   let userId = localStorage.getItem('active-user-id');
+  
   let load =  async () => {
     let teamLoad = await loadTeams(userId);
     setTeams(teamLoad);
-    return teamLoad;
-    
+  
   }
+ 
   useEffect(() => {
     load();
-  }, [])
-
-
- 
-
-
- 
+  }, [teams])
 
   return (
     <div>
