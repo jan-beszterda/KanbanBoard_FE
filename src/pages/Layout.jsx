@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 
-function Layout() {
+function Layout({children}) {
 
 const [activeUser, setActiveUser] = useState([]);
 let userIdFromLocaleStorage = localStorage.getItem('active-user-id');
@@ -31,7 +31,7 @@ let fullName = activeUser.firstName + " " + activeUser.lastName;
         
 
          <main className=" px-96 pt-28 flex">
-           
+            {children}
 
          </main>
 
