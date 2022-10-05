@@ -1,37 +1,7 @@
-import { useState } from "react";
-
 function AddTeamModal(props) {
-  const [teamName, setTeamName] = useState("");
-  const [teamDescription, setTeamDescription] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Debug 1");
-    console.log(teamName);
-    console.log(teamDescription);
-
-    const newTeam = {
-      teamId: "",
-      teamName: teamName,
-      teamDescription: teamDescription,
-      members: [],
-      invited: [],
-      boards: [],
-    };
-
-    props.add(newTeam).then((result) => {
-      console.log("Success Creating Team");
-      console.log(result);
-
-      //Set localStorage for team id
-      localStorage.setItem("active-team-id", result.teamId);
-      let idTest = localStorage.getItem("active-team-id");
-      console.log(idTest);
-      props.closeModal();
-    });
+  const handleChange = (e) => {
+    props.onChange(e.target.name, e.target.value);
   };
-  // End create team function
-
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -55,8 +25,9 @@ function AddTeamModal(props) {
               <input
                 className=" border-2 border-gray-300 rounded-md"
                 type="text"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
+                name="teamName"
+                value={props.data.teamName}
+                onChange={handleChange}
               />
             </div>
             <div className="relative p-6 pt-3 ">
@@ -64,8 +35,9 @@ function AddTeamModal(props) {
               <textarea
                 className=" h-40 border-2 border-gray-300 rounded-md"
                 type="text"
-                value={teamDescription}
-                onChange={(e) => setTeamDescription(e.target.value)}
+                name="teamDescription"
+                value={props.data.teamDescription}
+                onChange={handleChange}
               />
             </div>
             {/*footer*/}
@@ -79,8 +51,8 @@ function AddTeamModal(props) {
               </button>
               <button
                 className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handleSubmit()}
+                type="submit"
+                onClick={props.add}
               >
                 Add Team
               </button>

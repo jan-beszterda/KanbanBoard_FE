@@ -1,12 +1,9 @@
-import React from "react";
-import LoginForm from "../pages/LoginForm";
-import RegisForm from "../pages/RegisForm";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import NavBar from "../page_partials/NavBar";
 import SideBar from "../page_partials/SideBar";
+
 import { loadUser } from "../helper_functions/loadUser";
-import { useState } from "react";
-import { useEffect } from "react";
 
 function Layout({ children }) {
   const [activeUser, setActiveUser] = useState([]);

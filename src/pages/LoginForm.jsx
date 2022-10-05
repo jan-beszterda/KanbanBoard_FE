@@ -5,7 +5,7 @@ import FormFooter from "../form_components/FormFooter";
 import FormButton from "../form_components/FormButton";
 import { loginFields } from "../constants/formFields";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const fields = loginFields;
 let fieldsState = {};
@@ -15,7 +15,7 @@ function LoginForm({ logo }) {
   const [loginState, setLoginState] = useState(fieldsState);
 
   const navigate = useNavigate();
-  const toLayout = () => navigate("/layout", { replace: true });
+  const toLayout = () => navigate("/profilepage", { replace: true });
   //const [loggedUser, setLoggedUser] = useState({});
 
   const handleChange = (e) => {
