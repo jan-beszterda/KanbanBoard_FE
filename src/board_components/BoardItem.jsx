@@ -1,20 +1,16 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
-
-
-function BoardItem({teamId,boardId,boardName}) {
+function BoardItem(props) {
   return (
-    <div>
-        <ul className='flex flex-col '>
-          <Link to={`/boardpage/${teamId}/${boardId}`}>
-          <li key={boardId}  id = {boardId} teamId ={teamId} className='  rounded-lg font-medium pl-5 my-5 py-10 mx-5 text-start bg-white'>{boardName} <span className='pt-2'>Info</span></li>
-
-          </Link>
-        
-      </ul>
-    </div>
-  )
+    <Link
+      to={`/boardpage/${props.boardId}`}
+      className="flex flex-col rounded-lg pl-5 my-5 py-10 mx-5 text-start bg-white"
+      key={props.boardId}
+    >
+      <div className="text-2xl font-bold mb-3">{props.boardName}</div>
+      <div className="text-base font-normal">{props.boardDescription}</div>
+    </Link>
+  );
 }
 
-export default BoardItem
+export default BoardItem;
