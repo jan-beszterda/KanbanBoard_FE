@@ -6,6 +6,7 @@ import NavBar from '../page_partials/NavBar'
 import SideBar from '../page_partials/SideBar'
 import {loadUser} from '../helper_functions/loadUser'
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 function Layout() {
@@ -17,7 +18,9 @@ let load = async () => {
   let userLoad = await loadUser(userIdFromLocaleStorage);
   setActiveUser(userLoad);
 }
-load(); 
+useEffect(() => {
+  load();
+}, [])
 
 let fullName = activeUser.firstName + " " + activeUser.lastName;
 
