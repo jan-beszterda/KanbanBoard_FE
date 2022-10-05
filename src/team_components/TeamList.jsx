@@ -14,7 +14,12 @@ function TeamList() {
     return teamLoad;
     
   }
-  load();
+  useEffect(() => {
+    load();
+  }, [])
+
+
+ 
 
 
  
