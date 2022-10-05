@@ -1,6 +1,8 @@
 import React from 'react'
 
-function NavBar() {
+function NavBar({name}) {
+    
+    
   return (
     <div>
         <div className="   bg-white fixed h-16 pl-40 border-2 py-10 border-gray-100  w-full flex items-center justify-evenly pr-5 z-10">
@@ -14,8 +16,7 @@ function NavBar() {
             <div className="flex space-x-6">
                 
                 <div className="flex items-center text-black">
-                    <h3 className="font-bold mr-3">M. John Doe</h3>
-                    <p>qqq</p>
+                    <h3 className="font-bold mr-3">{name}</h3>
                 </div>
             </div>
         </div></div>
