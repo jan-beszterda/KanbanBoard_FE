@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateBtn from '../kb-components/CreateBtn'
+import AddTeamBtn from '../kb-components/AddTeamBtn'
 import TeamItem from '../team_components/TeamItem'
 import { loadTeams } from '../helper_functions/loadTeams';
 import { useState, useEffect } from 'react';
@@ -7,11 +7,7 @@ import { useState, useEffect } from 'react';
 function TeamList() {
 
   const [teams, setTeams] = useState([])
-
-
-
   let userId = localStorage.getItem('active-user-id');
-  
   let load =  async () => {
     let teamLoad = await loadTeams(userId);
     setTeams(teamLoad);
@@ -28,7 +24,7 @@ function TeamList() {
         <a >
                 <div className='flex justify-around'>
                 <h6 className="mx-4 font-medium">My Teams </h6>
-                <CreateBtn btnName={"+"} name={"Team name"}/>
+                <AddTeamBtn btnName={"+"} name={"Team name"}/>
                 </div>
 
             </a>

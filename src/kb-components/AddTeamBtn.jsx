@@ -61,7 +61,7 @@ function AddTeamBtn({name,btnName}) {
     return (
       <>
         <button
-          className=" w-[248px] font-sans font-normal text-sm m-auto bg-dark-grey py-2 mt-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+          className=" font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >
