@@ -7,10 +7,15 @@ import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
+import { useNavigate } from "react-router-dom";
 
 function TeamPage() {
   const [team, setTeam] = useState();
   const params = useParams();
+  const userId = localStorage.getItem('active-user-id');
+  const teamId = params.id;
+  const navigate = useNavigate();
+  const toLayout = () => navigate("/profilepage", { replace: true });
 
     useEffect(() => {
     const load = async () => {
@@ -20,9 +25,39 @@ function TeamPage() {
         load();
       }, [params.id]);
 
-      const leaveTeam = () => {
-        
-      }
+      const handleSubmit=(e)=> {           
+
+        const leaveTeam = async (data = {}) => {
+          console.log('/api/team/'+ params.id + '/leave?user_id=' + userId);
+          console.log(teamId);
+            let response = await fetch('/api/team/'+ params.id + '/leave?user_id=' + userId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response);
+            
+            if (response.status === 200) {
+                console.log('Left team successfully');
+            }
+
+            //let result = await response.json();
+            //console.log(response);
+
+            //return result;
+        }
+
+    leaveTeam().then(() => {
+      
+      toLayout(); 
+      window.location.reload();       
+    });
+
+}
+// End handleSubmit.
+    
 
   return (
     <div className="w-full">
@@ -31,7 +66,7 @@ function TeamPage() {
 
         <div className=" flex gap-4 py-10">        
           <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
-          <LeaveTeamBtn/>
+          <LeaveTeamBtn handleSubmit={handleSubmit}/>
         </div>
       </div>
 
