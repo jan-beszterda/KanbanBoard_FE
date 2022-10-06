@@ -51,6 +51,7 @@ function AddTeamBtn({ name, btnName }) {
       let idTest = localStorage.getItem("active-team-id");
       console.log(idTest);
       setShowModal(false);
+      window.location.reload();  
     });
   };
   // End create team function
