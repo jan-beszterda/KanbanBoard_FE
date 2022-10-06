@@ -20,6 +20,11 @@ function TeamPage() {
         load();
       }, [params.id]);
 
+      const leaveTeam = () => {
+
+        
+      }
+
   return (
     <div className="w-full">
       <div>
