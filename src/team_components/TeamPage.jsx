@@ -1,22 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import CreateBtn from "../kb-components/CreateBtn";
 import BoardItem from "../board_components/BoardItem";
-
 import { loadTeam } from "../helper_functions/loadTeam";
 
 function TeamPage() {
+
   const [team, setTeam] = useState();
   const params = useParams();
+  const load = async () => {
+  
+    let team = await loadTeam(params.id);
+    setTeam(team);
+  };
 
   useEffect(() => {
-    const load = async () => {
-      let team = await loadTeam(params.id);
-      setTeam(team);
-    };
     load();
   }, [params.id]);
+
 
   return (
     <div className="w-full">
