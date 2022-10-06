@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
@@ -59,8 +60,25 @@ function TeamPage() {
   return (
     <div className="w-full">
       <div>
-        {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
-
+        <div className="flex flex-wrap p-2">
+          {team && (
+            <h1 className="flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2">
+              {team.teamName ? team.teamName : <span>[Name not set]</span>}
+            </h1>
+          )}
+          <button className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
+            <FaPencilAlt />
+          </button>
+          {team && (
+            <p className="text-l p-2">
+              {team.teamDescription ? (
+                team.teamDescription
+              ) : (
+                <span>[Description not set]</span>
+              )}
+            </p>
+          )}
+        </div>
         <div className=" flex gap-4 py-10">
           <AddBoardBtn
             name={"Board name"}
