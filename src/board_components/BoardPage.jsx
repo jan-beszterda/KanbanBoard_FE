@@ -7,6 +7,7 @@ import AddColBtn from "../kb-components/AddColBtn";
 
 function BoardPage() {
   const [board, setBoard] = useState();
+
   const params = useParams();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ function BoardPage() {
           board.columnList.map((column) => (
             <Column
               key={column.columnId}
+              boardId={board.id}
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}
