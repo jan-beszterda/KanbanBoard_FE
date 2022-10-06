@@ -74,8 +74,9 @@ function TeamPage() {
         {team &&
           team.boards.map((board) => (
             <BoardItem
+              teamId={params.id}
               key={board.id}
-              boardId={board.boardId}
+              boardId={board.id}
               boardName={board.boardName}
               boardDescription={board.boardDescription}
             />
