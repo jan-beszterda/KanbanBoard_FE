@@ -1,16 +1,18 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
-
-
-function TeamItem({teamName,teamId}) {
-        
-     
+function TeamItem(props) {
   return (
     <div>
-      <Link key={teamId} id={teamId} to={`/teampage/${teamId}`}>{teamName}</Link>
+      <Link
+        key={props.teamId}
+        id={props.teamId}
+        to={`/teampage/${props.teamId}`}
+      >
+        {props.teamName}
+      </Link>
     </div>
-  )
+  );
 }
 
-export default TeamItem
+export default TeamItem;

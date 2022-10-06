@@ -12,7 +12,6 @@ function TeamPage() {
   const [team, setTeam] = useState();
   const params = useParams();
   const userId = localStorage.getItem("active-user-id");
-  const teamId = params.id;
   const navigate = useNavigate();
   const toLayout = () => navigate("/profilepage", { replace: true });
 
@@ -27,7 +26,7 @@ function TeamPage() {
   const handleSubmit = (e) => {
     const leaveTeam = async (data = {}) => {
       console.log("/api/team/" + params.id + "/leave?user_id=" + userId);
-      console.log(teamId);
+      //console.log(teamId);
       let response = await fetch(
         "/api/team/" + params.id + "/leave?user_id=" + userId,
         {

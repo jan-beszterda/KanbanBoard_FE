@@ -66,7 +66,7 @@ function TeamList() {
       </div>
 
       <div className="flex flex-col justify-start items-center">
-        {teams?.map((team) => (
+        {teams.map((team) => (
           <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
         ))}
       </div>
