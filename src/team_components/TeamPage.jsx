@@ -19,10 +19,7 @@ function TeamPage() {
         };
         load();
       }, [params.id]);
-
-      const leaveTeam = () => {
-        
-      }
+    
 
   return (
     <div className="w-full">
@@ -31,7 +28,7 @@ function TeamPage() {
 
         <div className=" flex gap-4 py-10">        
           <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
-          <LeaveTeamBtn/>
+          <LeaveTeamBtn teamId={params.id}/>
         </div>
       </div>
 
