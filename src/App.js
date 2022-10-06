@@ -29,15 +29,8 @@ function App() {
             </Layout>
           }
         />
-        <Route
-          path="/boardpage/:id"
-          element={
-            <Layout>
-              {" "}
-              <BoardPage />{" "}
-            </Layout>
-          }
-        />
+                <Route path="/boardpage/:teamid/:id" element={<Layout> <BoardPage/> </Layout>}/>
+
         <Route path="/*" element={<LandingPage />} />
       </Routes>
     </div>

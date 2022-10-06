@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom";
 import { loadBoard } from "../helper_functions/loadBoard";
 import Column from "../kb-components/Column";
 import AddColBtn from "../kb-components/AddColBtn";
+import testData from '../testData/test-data.json'
 
 function BoardPage() {
-  const [board, setBoard] = useState();
+
+  
+  /*const [board, setBoard] = useState();
   const params = useParams();
 
   useEffect(() => {
@@ -16,16 +19,22 @@ function BoardPage() {
     };
     load();
   }, [params.id]);
+  */
+  const {teamid} = useParams()
+  const {id} = useParams()
+  const boardName = testData.find((team) => team.id === teamid).boards.find((board) =>board.id === id).boardName
+  const columns = testData.find((team) => team.id === teamid).boards.find((board) => board.id === id).columnList 
+  console.log(columns)
 
   return (
     <div>
       <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
-        {board && <h2 className="text-3xl mt-5 mr-5">{board.boardName}</h2>}
+        { <h2 className="text-3xl mt-5 mr-5">{boardName}</h2>}
         <button className="text-start">Back</button>
       </div>
       <div className="flex flex-row justify-evenly gap-5 flex-nowrap">
-        {board &&
-          board.columnList.map((column) => (
+        {
+          columns.map((column) => (
             <Column
               key={column.columnId}
               columnId={column.columnId}
