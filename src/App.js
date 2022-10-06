@@ -30,7 +30,7 @@ function App() {
           }
         />
         <Route
-          path="/boardpage/:teamid/:id"
+          path="/boardpage/:id"
           element={
             <Layout>
               {" "}
