@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AddColBtn({name,btnName}) {
+function AddColBtn({name,btnName,handleSubmit}) {
 
     // Create a function that take in props to push api here for create card
 
@@ -10,7 +10,7 @@ function AddColBtn({name,btnName}) {
         <button
           className=" w-[248px] h-10 mt-5 font-sans font-normal text-sm bg-dark-grey px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
           type="button"
-          onClick={() => setShowModal(true)}
+          onClick={handleSubmit}
         >
             {btnName}
         </button>
