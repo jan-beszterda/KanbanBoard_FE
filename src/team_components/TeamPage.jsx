@@ -17,13 +17,13 @@ function TeamPage() {
   const navigate = useNavigate();
   const toLayout = () => navigate("/profilepage", { replace: true });
 
-    useEffect(() => {
+  useEffect(() => {
     const load = async () => {
       let team = await loadTeam(params.id);
       setTeam(team);
-        };
-        load();
-      }, [params.id]);
+    };
+    load();
+  }, [params.id]);
 
       const handleSubmit=(e)=> {           
 
@@ -64,9 +64,18 @@ function TeamPage() {
       <div>
         {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
 
+<<<<<<< HEAD
+        <div className=" flex gap-4 py-10">
+          <AddBoardBtn
+            name={"Board name"}
+            btnName={"Create board"}
+            teamId={params.id}
+          />
+=======
         <div className=" flex gap-4 py-10">        
           <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
           <LeaveTeamBtn handleSubmit={handleSubmit}/>
+>>>>>>> dev
         </div>
       </div>
 
