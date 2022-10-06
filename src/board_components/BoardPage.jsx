@@ -17,6 +17,34 @@ function BoardPage() {
     load();
   }, [params.id]);
 
+
+  const handleSubmit=(e)=> {
+
+  const createColumn = async (data = {}) => {
+    let response = await fetch("/api/column/create?board_id=" + params.id, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status === 200) {
+      console.log("Column created successfully");
+    }
+
+    //let result = await response.json();
+    //console.log(result);
+
+    //return result;
+  };
+
+  createColumn().then(() => {
+    console.log("Success Creating Column");
+    window.location.reload();
+  });
+} 
+
   return (
     <div>
       <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
@@ -33,10 +61,11 @@ function BoardPage() {
               cards={column.cardList}
             />
           ))}
-        <AddColBtn name={"Title"} btnName={"+ Add column"}></AddColBtn>
+        <AddColBtn name={"Title"} btnName={"+ Add column"} handleSubmit={handleSubmit}></AddColBtn>
       </div>
     </div>
   );
 }
+
 
 export default BoardPage;
