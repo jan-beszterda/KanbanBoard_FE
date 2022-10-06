@@ -11,13 +11,13 @@ function TeamPage() {
   const [team, setTeam] = useState();
   const params = useParams();
 
-    useEffect(() => {
+  useEffect(() => {
     const load = async () => {
       let team = await loadTeam(params.id);
       setTeam(team);
-        };
-        load();
-      }, [params.id]);
+    };
+    load();
+  }, [params.id]);
 
   return (
     <div className="w-full">
@@ -25,7 +25,11 @@ function TeamPage() {
         {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
 
         <div className=" flex gap-4 py-10">
-          <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
+          <AddBoardBtn
+            name={"Board name"}
+            btnName={"Create board"}
+            teamId={params.id}
+          />
         </div>
       </div>
 
@@ -34,7 +38,7 @@ function TeamPage() {
           team.boards.map((board) => (
             <BoardItem
               key={board.id}
-              boardId={board.boardId}
+              boardId={board.id}
               boardName={board.boardName}
               boardDescription={board.boardDescription}
             />
