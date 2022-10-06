@@ -5,6 +5,7 @@ import { loadBoard } from "../helper_functions/loadBoard";
 import Column from "../kb-components/Column";
 import AddColBtn from "../kb-components/AddColBtn";
 import testData from '../testData/test-data.json'
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
 function BoardPage() {
 
@@ -32,7 +33,11 @@ function BoardPage() {
         { <h2 className="text-3xl mt-5 mr-5">{boardName}</h2>}
         <button className="text-start">Back</button>
       </div>
-      <div className="flex flex-row justify-evenly gap-5 flex-nowrap">
+      <DragDropContext>
+      <Droppable  droppableId="cards">
+      {(provided) => (
+        
+      <div className="flex flex-row justify-evenly gap-5 flex-nowrap" {...provided.droppableProps} ref ={provided.innerRef} >
         {
           columns.map((column) => (
             <Column
@@ -44,6 +49,13 @@ function BoardPage() {
           ))}
         <AddColBtn name={"Title"} btnName={"+ Add column"}></AddColBtn>
       </div>
+
+      )}
+      </Droppable>
+      
+
+      </DragDropContext>
+      
     </div>
   );
 }
