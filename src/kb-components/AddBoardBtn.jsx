@@ -1,13 +1,9 @@
 import React, {useState} from 'react';
-import { useParams } from "react-router-dom";
-import {signupFields} from "../constants/formFields";
 
 function AddBoardBtn({name,btnName, teamId}) {
 
     const [boardName, setBoardName] = useState("");
     const [boardDescription, setBoardDescription] = useState("");
-
-
 
     const handleSubmit=(e)=> {
 
@@ -49,6 +45,8 @@ function AddBoardBtn({name,btnName, teamId}) {
             console.log("Active board:")
             console.log(idTest);
             setShowModal(false);
+            window.location.reload();
+            // toTeamPage(); // did not work as expected, wanted to reload page.
         });
 
     }
