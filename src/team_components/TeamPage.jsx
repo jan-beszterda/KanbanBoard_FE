@@ -21,7 +21,6 @@ function TeamPage() {
       }, [params.id]);
 
       const leaveTeam = () => {
-
         
       }
 
