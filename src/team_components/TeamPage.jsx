@@ -61,18 +61,20 @@ function TeamPage() {
     <div className="w-full">
       <div className="flex flex-wrap p-2 mb-6 border-b">
         {team && (
-          <h1 className="flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2">
+          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 " >
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
+            <FaPencilAlt className=" cursor-pointer mt-2" onClick={console.log("hello")} color="#FF8E7F" size={"17px"} />
+
           </h1>
         )}
         <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
           <button className="mr-4">
-            <FaPencilAlt />
+          
           </button>
           <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
         </div>
         {team && (
-          <p className="text-l p-2">
+          <p className="text-l mt-4 p-2">
             {team.teamDescription ? (
               team.teamDescription
             ) : (
