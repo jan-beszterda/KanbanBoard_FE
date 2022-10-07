@@ -21,7 +21,7 @@ function TeamList() {
       setTeams(teamLoad);
     };
     load();
-  }, [userId]);
+  }, [newTeam]);
 
   const closeModal = () => {
     setShowModal(false);

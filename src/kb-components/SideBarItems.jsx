@@ -4,6 +4,7 @@ import Extra from "../page_partials/Extra";
 import { Link } from "react-router-dom";
 import TeamList from "../team_components/TeamList";
 import ProfilePage from "../kb-components/ProfilePage";
+import Home from "../page_partials/Home";
 
 function SideBarItems() {
   return (
@@ -17,7 +18,7 @@ function SideBarItems() {
         <hr className=" mt-[14.5px] border-1 border-gray-200" />
         <div className="flex flex-col items-center justify-between flex-1 mt-6">
           <nav>
-            <ProfilePage />
+            <Home />
             <Extra />
             <hr className="my-5 border-gray-200 dark:border-gray-200" />
             <TeamList />
