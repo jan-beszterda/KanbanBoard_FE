@@ -1,8 +1,45 @@
-import React from 'react'
+import React, {useState} from 'react';
 
-function AddCardBtn({name,btnName}) {
+function AddCardBtn({name,btnName, columnId}) {
 
     // Create a function that take in props to push api here for create card
+
+    const userId = localStorage.getItem("active-user-id");
+    const [cardTitle, setCardTitle] = useState("");
+    const [cardText, setCardText] = useState("");
+    
+
+    const handleSubmit=(e)=> {
+
+      const newCard = {
+        "cardTitle": cardTitle, 
+        "cardText": cardText,
+    }
+
+      const createCard = async (data = {}) => {
+        let response = await fetch("/api/card/create?creator_id=" + userId + "&column_id=" + columnId,{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+    
+        if (response.status === 200) {
+          console.log("Card created successfully");
+        }
+    
+        //let result = await response.json();
+        //console.log(result);
+    
+        //return result;
+      };
+    
+      createCard(newCard).then(() => {
+        console.log("Success Creating Card");
+        //window.location.reload();
+      });
+    } 
 
     const [showModal, setShowModal] = React.useState(false);
     return (
@@ -59,7 +96,7 @@ function AddCardBtn({name,btnName}) {
                     <button
                       className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={handleSubmit}
                     >
                       Add
                     </button>
