@@ -8,12 +8,15 @@ import { createTeam } from "../helper_functions/createTeam";
 
 function TeamList() {
   const [teams, setTeams] = useState([]);
+  teams.sort((a, b) => (a.id > b.id ? 1 : -1));
   const [newTeam, setNewTeam] = useState({
     teamName: "",
     teamDescription: "",
   });
   const [showModal, setShowModal] = useState(false);
   const userId = localStorage.getItem("active-user-id");
+
+ 
 
   useEffect(() => {
     let load = async () => {

@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import React from "react";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
@@ -10,6 +11,7 @@ import InviteUserBtn from "./InviteUserBtn";
 import { loadTeam } from "../helper_functions/loadTeam";
 import { useNavigate } from "react-router-dom";
 import CreateBtn from "../kb-components/CreateBtn";
+import { editTeamName } from "../helper_functions/editTeams";
 
 
 function TeamPage() {
@@ -61,6 +63,31 @@ function TeamPage() {
   // End handleSubmit.
 
 
+  const [teamName, setTeamName] = useState("");
+  const [showModal, setShowModal] = React.useState(false);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleChange = (e) => {
+    console.log(e. target.value);
+    setTeamName(e.target.value);
+  };
+
+  const edit = () => {
+    editTeamName  (params.id,teamName).then(() => {
+        closeModal();
+      });
+  };
+
+
+ 
+
+
+
+
+
   
 
   return (
@@ -70,8 +97,17 @@ function TeamPage() {
         {team && (
           <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 " >
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
-            <CreateBtn btnType={"Edit"}/>
 
+            <FaPencilAlt
+          className=" cursor-pointer mt-2"  color="#FF8E7F" size={"17px"} 
+          type="button"
+          onClick={() => setShowModal(true)}
+        >
+        </FaPencilAlt>
+        { showModal ? (
+            <CreateBtn  edit={edit} closeModal={closeModal} btnType={"Edit"} value={teamName} onChange ={handleChange} />
+        ) : null} 
+       
           </h1>
         )}
         <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
