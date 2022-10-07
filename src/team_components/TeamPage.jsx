@@ -9,6 +9,7 @@ import InviteUserBtn from "./InviteUserBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { useNavigate } from "react-router-dom";
+import CreateBtn from "../kb-components/CreateBtn";
 
 
 function TeamPage() {
@@ -59,6 +60,9 @@ function TeamPage() {
   };
   // End handleSubmit.
 
+
+  
+
   return (
     <div className="w-full">
 
@@ -66,7 +70,7 @@ function TeamPage() {
         {team && (
           <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 " >
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
-            <FaPencilAlt className=" cursor-pointer mt-2" onClick={console.log("hello")} color="#FF8E7F" size={"17px"} />
+            <CreateBtn btnType={"Edit"}/>
 
           </h1>
         )}
