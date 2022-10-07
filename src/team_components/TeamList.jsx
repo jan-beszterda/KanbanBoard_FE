@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
 
 import AddTeamModal from "../kb-components/AddTeamModal";
 import TeamItem from "../team_components/TeamItem";
@@ -34,7 +33,7 @@ function TeamList() {
 
   const addTeam = (e) => {
     e.preventDefault();
-    if (newTeam.teamName && newTeam.teamDescription) {
+    if (newTeam.teamName) {
       createTeam(newTeam, +userId).then((result) => {
         closeModal();
         setNewTeam({
