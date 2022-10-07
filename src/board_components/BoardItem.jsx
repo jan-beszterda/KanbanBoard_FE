@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 
-function BoardItem({teamId,boardId,boardName,boardDescription}) {
+function BoardItem({teamId,boardId,boardName,boardDescription,index}) {
   return (
     <div>
       
