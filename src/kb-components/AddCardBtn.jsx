@@ -4,7 +4,7 @@ function AddCardBtn({name,btnName, columnId}) {
 
     // Create a function that take in props to push api here for create card
 
-    const userId = localStorage.getItem("active_user_id");
+    const userId = localStorage.getItem("active-user-id");
     const [cardTitle, setCardTitle] = useState("");
     const [cardText, setCardText] = useState("");
     
@@ -17,7 +17,7 @@ function AddCardBtn({name,btnName, columnId}) {
     }
 
       const createCard = async (data = {}) => {
-        let response = await fetch("/api/card/create?creator_id=" + userId + "?column_id=" + columnId,{
+        let response = await fetch("/api/card/create?creator_id=" + userId + "&column_id=" + columnId,{
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ function AddCardBtn({name,btnName, columnId}) {
     
       createCard(newCard).then(() => {
         console.log("Success Creating Card");
-        window.location.reload();
+        //window.location.reload();
       });
     } 
 
