@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import CreateBtn from "../kb-components/CreateBtn";
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
+import InviteUserBtn from "./InviteUserBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { useNavigate } from "react-router-dom";
+
 
 function TeamPage() {
   const [team, setTeam] = useState();
@@ -66,6 +67,7 @@ function TeamPage() {
 
         <div className=" flex gap-4 py-10">        
           <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
+            <InviteUserBtn name={"Invite user"} btnName={"Invite user"} teamId={params.id}/>
           <LeaveTeamBtn handleSubmit={handleSubmit}/>
         </div>
       </div>

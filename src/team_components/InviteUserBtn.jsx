@@ -2,40 +2,36 @@ import React, {useState} from 'react';
 
 function InviteUserBtn({name,btnName, teamId}) {
 
-    const [userName, setUserName] = useState("");
-    const [boardDescription, setBoardDescription] = useState("");
+    const [userEmail, setUserEmail] = useState("");
 
     const handleSubmit=(e)=> {
 
-            const findUser = async (data = {}) => {
-                let response = await fetch('/api/user/get_by_email?owner_team=' + teamId, {
-                    method: 'GET',
+            const inviteUser = async (data = {}) => {
+                let response = await fetch('/api/team/' + teamId + "/invite_user?user_email=" + userEmail, {
+                    method: 'put',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
+                    }
                 });
 
                 if (response.status === 200) {
-                    console.log('Board created successfully');
+                    console.log('Endpoint works!');
                 }
 
-                let result = await response.json();
-                console.log(result);
+                //let result = await response.json();
 
-                return result;
+                console.log("Result (should be a string):");
+                console.log(response);
+
+                return response;
             }
 
-        signUpBoard(newBoard).then((result) => {
-
-            //Set localStorage for team id
-            localStorage.setItem('active-board-id', result.boardId);
-            let idTest = localStorage.getItem('active-board-id');
-            console.log("Active board:")
-            console.log(idTest);
+        inviteUser(userEmail).then((result) => {
+            // user invite user endpoint with user and team.
+            console.log(result);
             setShowModal(false);
             window.location.reload();
-            // toTeamPage(); // did not work as expected, wanted to reload page.
+
         });
 
     }
@@ -78,11 +74,7 @@ function InviteUserBtn({name,btnName, teamId}) {
                   
                   <div className="relative p-6  ">
                     <p className='mb-5 font-bold'>Title</p>
-                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={boardName} onChange={e => setBoardName(e.target.value)}/>
-                  </div>
-                  <div className="relative p-6 pt-3 ">
-                    <p className='mb-5  font-bold '>Description</p>
-                    <textarea  className=' h-40 border-2 border-gray-300 rounded-md' value={boardDescription} onChange={e => setBoardDescription(e.target.value)}/>
+                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={userEmail} onChange={e => setUserEmail(e.target.value)}/>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -98,7 +90,7 @@ function InviteUserBtn({name,btnName, teamId}) {
                       type="button"
                       onClick={handleSubmit}
                     >
-                      Add Board
+                      Send Invite
                     </button>
                   </div>
                 </div>
@@ -111,4 +103,4 @@ function InviteUserBtn({name,btnName, teamId}) {
     )
 }
 
-export default AddBoardBtn
+export default InviteUserBtn
