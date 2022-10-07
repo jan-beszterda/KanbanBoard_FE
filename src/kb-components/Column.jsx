@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { TiDelete } from "react-icons/ti";
+
 
 import AddCardBtn from "./AddCardBtn";
 import Card from "./Card";
@@ -32,7 +33,7 @@ function Column(props) {
             type={"button"}
             onClick={() => setShowModal(true)}
           >
-            <FaTrashAlt />
+            <TiDelete  color={"FF8E7F"} size={"25px"} />
           </Button>
           {showModal ? (
             <ConfirmationModal
