@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
@@ -58,20 +59,57 @@ function TeamPage() {
 
   return (
     <div className="w-full">
-      <div>
-        {team && <h1 className=" pt-5 text-3xl">{team.teamName}</h1>}
-
-        <div className=" flex gap-4 py-10">
-          <AddBoardBtn
-            name={"Board name"}
-            btnName={"Create board"}
-            teamId={params.id}
-          />
-          <LeaveTeamBtn handleSubmit={handleSubmit} />
+      <div className="flex flex-wrap p-2 mb-6 border-b">
+        {team && (
+          <h1 className="flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2">
+            {team.teamName ? team.teamName : <span>[Name not set]</span>}
+          </h1>
+        )}
+        <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
+          <button className="mr-4">
+            <FaPencilAlt />
+          </button>
+          <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
+        </div>
+        {team && (
+          <p className="text-l p-2">
+            {team.teamDescription ? (
+              team.teamDescription
+            ) : (
+              <span>[Description not set]</span>
+            )}
+          </p>
+        )}
+      </div>
+      <div className="flex gap-0 mb-6 border-b">
+        <div className="basis-1/2 gap-2 border-r">
+          <h3 className="text-xl font-bold border-b p-2">Members</h3>
+          {team &&
+            (team.teamMembers.length !== 0 ? (
+              team.teamMembers.map((member) => (
+                <p className="mb-2 p-2" key={member.userId}>
+                  {member.firstName} {member.lastName} ({member.email})
+                </p>
+              ))
+            ) : (
+              <p className="mb-2 p-2">No members</p>
+            ))}
+        </div>
+        <div className="basis-1/2 gap-2 border-l">
+          <h3 className="text-xl font-bold border-b p-2">Invited users</h3>
+          {team &&
+            (team.invited.length !== 0 ? (
+              team.invited.map((invitee) => (
+                <p className="mb-2 p-2" key={invitee.userId}>
+                  {invitee.firstName} {invitee.lastName} ({invitee.email})
+                </p>
+              ))
+            ) : (
+              <p className="mb-2 p-2">No invited users</p>
+            ))}
         </div>
       </div>
-
-      <div className="w-[800px] rounded-md bg-light-grey flex flex-col justify-evenly">
+      <div className=" rounded-md bg-light-grey flex flex-col justify-evenly">
         {team &&
           team.boards.map((board) => (
             <BoardItem
@@ -82,6 +120,11 @@ function TeamPage() {
               boardDescription={board.boardDescription}
             />
           ))}
+        <AddBoardBtn
+          name={"Board name"}
+          btnName={"+ New board"}
+          teamId={params.id}
+        />
       </div>
     </div>
   );

@@ -33,7 +33,7 @@ function TeamList() {
 
   const addTeam = (e) => {
     e.preventDefault();
-    if (newTeam.teamName && newTeam.teamDescription) {
+    if (newTeam.teamName) {
       createTeam(newTeam, +userId).then((result) => {
         closeModal();
         setNewTeam({
@@ -45,11 +45,11 @@ function TeamList() {
   };
 
   return (
-    <div>
-      <div className="flex justify-around">
-        <h6 className="mx-4 font-medium">My Teams </h6>
+    <div className="flex flex-col">
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-bold mr-5 px-2 ml-1 mb-3">My Teams</h3>
         <button
-          className="font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
+          className="font-sans font-bold uppercase text-m ml-5 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
           type="button"
           onClick={() => setShowModal(true)}
         >
@@ -64,8 +64,7 @@ function TeamList() {
           />
         ) : null}
       </div>
-
-      <div className="flex flex-col justify-start items-center">
+      <div className="flex flex-col justify-start items-left">
         {teams.map((team) => (
           <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
         ))}
