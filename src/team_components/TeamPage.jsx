@@ -72,7 +72,6 @@ function TeamPage() {
           <button className="mr-4">
             <FaPencilAlt />
           </button>
-          <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
           <InviteUserBtn name={"Invite user"} btnName={"Invite user"} teamId={params.id}/>
           <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
 
