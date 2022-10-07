@@ -5,12 +5,11 @@ import { loadBoard } from "../helper_functions/loadBoard";
 import Column from "../kb-components/Column";
 import AddColBtn from "../kb-components/AddColBtn";
 import { createStompClient } from "../helper_functions/createStompClient";
-import { Client } from "@stomp/stompjs";
 
 function BoardPage() {
   const [board, setBoard] = useState();
   const [client, setClient] = useState({});
-  const [isToBeUpdated, setIsToBeUpdated] = useState("false");
+  const [isToBeUpdated, setIsToBeUpdated] = useState(false);
   const params = useParams();
 
   useEffect(() => {
@@ -22,27 +21,17 @@ function BoardPage() {
   }, [params.id]);
 
   useEffect(() => {
-    let stompClient = new Client();
-    stompClient.configure({
-      brokerURL: "ws://localhost:8080/ws",
-      onConnect: function (frame) {
-        stompClient.subscribe("/board" + params.id, function (message) {
-          setIsToBeUpdated("true");
-        });
-      },
-      debug: function (str) {
-        console.log(str);
-      },
-    });
-    stompClient.activate();
+    let stompClient = createStompClient("/topic/board/" + params.id, () =>
+      setIsToBeUpdated(true)
+    );
     setClient(stompClient);
     return () => {
-      client.deactivate();
+      stompClient.deactivate();
     };
   }, []);
 
   useEffect(() => {
-    if (isToBeUpdated === "true") {
+    if (isToBeUpdated) {
       const load = async () => {
         let board = await loadBoard(params.id);
         setBoard(board);
@@ -66,12 +55,14 @@ function BoardPage() {
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}
+              stompClient={client}
             />
           ))}
         <AddColBtn
           name={"Title"}
           btnName={"+ Add column"}
           boardId={params.id}
+          stompClient={client}
         ></AddColBtn>
       </div>
     </div>

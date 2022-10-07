@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { TiDelete } from "react-icons/ti";
 
-
 import AddCardBtn from "./AddCardBtn";
 import Card from "./Card";
 
@@ -15,6 +14,9 @@ function Column(props) {
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
     if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
       setShowModal(false);
     }
   };
@@ -34,7 +36,7 @@ function Column(props) {
             type={"button"}
             onClick={() => setShowModal(true)}
           >
-            <TiDelete  color={"FF8E7F"} size={"25px"} />
+            <TiDelete color={"FF8E7F"} size={"25px"} />
           </Button>
           {showModal ? (
             <ConfirmationModal
