@@ -7,6 +7,7 @@ import AddColBtn from "../kb-components/AddColBtn";
 
 function BoardPage() {
   const [board, setBoard] = useState();
+
   const params = useParams();
 
   useEffect(() => {
@@ -18,7 +19,7 @@ function BoardPage() {
   }, [params.id]);
 
 
-  
+
   return (
     <div>
       <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
@@ -30,6 +31,7 @@ function BoardPage() {
           board.columnList.map((column) => (
             <Column
               key={column.columnId}
+              boardId={board.id}
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}

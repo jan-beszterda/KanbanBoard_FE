@@ -1,51 +1,49 @@
 import React, {useState} from 'react';
 
-function AddColBtn({name,btnName, boardId}) {
+function InviteUserBtn({name,btnName, teamId}) {
 
-  const [columnTitle, setColumnTitle] = useState("");
-
-    // Create a function that take in props to push api here for create card
+    const [userEmail, setUserEmail] = useState("");
 
     const handleSubmit=(e)=> {
 
-      const newColumn = {
-        "columnTitle": columnTitle,
-          }
+            const inviteUser = async (data = {}) => {
+                let response = await fetch('/api/team/' + teamId + "/invite_user?user_email=" + userEmail, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
+                if (response.status === 200) {
+                    console.log('Endpoint works!');
+                    console.log(response)
+                }
 
-      const createColumn = async (data = {}) => {
-        let response = await fetch("/api/column/create?board_id=" + boardId, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+                //let result = await response.json();
+                //console.log("Result (should be a string):");
+                //console.log(result);
+
+                return response;
+            }
+
+        inviteUser(userEmail).then((result) => {
+            // user invite user endpoint with user and team.
+            console.log(result);
+            setShowModal(false);
+            //window.location.reload();
+
         });
-    
-        if (response.status === 200) {
-          console.log("Column created successfully");
-        }
-    
-        //let result = await response.json();
-        //console.log(result);
-    
-        //return result;
-      };
-    
-      createColumn(newColumn).then(() => {
-        console.log("Success Creating Column");
-        window.location.reload();
-      });
-    } 
 
+    }
+    // End handleSubmit.
 
     const [showModal, setShowModal] = React.useState(false);
     return (
       <>
         <button
-          className=" w-[248px] h-10 mt-5 font-sans font-normal text-sm bg-dark-grey px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
+          className=" font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
           type="button"
-          onClick={handleSubmit}
+          onClick={() => setShowModal(true)}
         >
             {btnName}
         </button>
@@ -67,7 +65,7 @@ function AddColBtn({name,btnName, boardId}) {
                       onClick={() => setShowModal(false)}
                     >
                       <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        ×
+
                       </span>
                     </button>
                   </div>
@@ -75,8 +73,8 @@ function AddColBtn({name,btnName, boardId}) {
 
                   
                   <div className="relative p-6  ">
-                    <p className='mb-5 font-bold'>Title</p>
-                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={columnTitle} onChange={e => setColumnTitle(e.target.value)}/>
+                    <p className='mb-5 font-bold'>User E-mail</p>
+                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={userEmail} onChange={e => setUserEmail(e.target.value)}/>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -92,7 +90,7 @@ function AddColBtn({name,btnName, boardId}) {
                       type="button"
                       onClick={handleSubmit}
                     >
-                      Add
+                      Send Invite
                     </button>
                   </div>
                 </div>
@@ -105,4 +103,4 @@ function AddColBtn({name,btnName, boardId}) {
     )
 }
 
-export default AddColBtn
+export default InviteUserBtn
