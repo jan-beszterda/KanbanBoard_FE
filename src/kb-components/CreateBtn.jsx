@@ -1,6 +1,9 @@
 import React from 'react'
+import { FaPencilAlt } from "react-icons/fa";
 
-function CreateBtn({name,btnName,addBoard}) {
+
+function CreateBtn({btnType}) {
+
 
     // Create a function that take in props to push api here for create team/board/column/card
 
@@ -8,16 +11,14 @@ function CreateBtn({name,btnName,addBoard}) {
     
     return (
       <>
-        <button
-          className=" font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
+        <FaPencilAlt
+          className=" cursor-pointer mt-2"  color="#FF8E7F" size={"17px"} 
           type="button"
-          onClick={() => {
-            setShowModal(true);
-            addBoard()
-          }}
+          onClick={() => setShowModal(true)}
+          
         >
-            {btnName}
-        </button>
+            Name
+        </FaPencilAlt>
         {showModal ? (
           <>
             <div
@@ -29,7 +30,7 @@ function CreateBtn({name,btnName,addBoard}) {
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <h3 className="text-xl font-semibold">
-                      {name}
+                      Name
                     </h3>
                     <button
                       className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -42,7 +43,9 @@ function CreateBtn({name,btnName,addBoard}) {
                   </div>
                   {/*body*/}
                   <div className="relative p-6  ">
-                    <input className=' border-2 border-gray-300 rounded-md' type="text" />
+                    <input className=' border-2 border-gray-300 rounded-md' type="text" 
+                    
+                    />
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -56,9 +59,9 @@ function CreateBtn({name,btnName,addBoard}) {
                     <button
                       className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={() => {setShowModal(false)}}
                     >
-                      Create
+                      {btnType}
                     </button>
                   </div>
                 </div>
