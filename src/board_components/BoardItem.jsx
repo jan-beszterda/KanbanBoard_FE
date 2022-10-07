@@ -1,15 +1,19 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 function BoardItem(props) {
   return (
-    <Link
-      to={`/boardpage/${props.boardId}`}
-      className="flex flex-col rounded-lg pl-5 my-5 py-10 mx-5 text-start bg-white"
-      key={props.boardId}
-    >
-      <div className="text-2xl font-bold mb-3">{props.boardName}</div>
-      <div className="text-base font-normal">{props.boardDescription}</div>
-    </Link>
+    <div className="flex flex-col">
+      <Link
+        className="flex flex-col rounded-lg font-medium pl-5 my-5 py-10 mx-5 text-start bg-white"
+        key={props.boardId}
+        id={props.boardId}
+        team_Id={props.teamId}
+        to={`/boardpage/${props.boardId}`}
+      >
+        {props.boardName} <span className="pt-2">{props.boardDescription}</span>
+      </Link>
+    </div>
   );
 }
 
