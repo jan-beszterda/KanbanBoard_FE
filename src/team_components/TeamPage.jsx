@@ -5,9 +5,11 @@ import { FaPencilAlt } from "react-icons/fa";
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
+import InviteUserBtn from "./InviteUserBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { useNavigate } from "react-router-dom";
+
 
 function TeamPage() {
   const [team, setTeam] = useState();
@@ -59,6 +61,7 @@ function TeamPage() {
 
   return (
     <div className="w-full">
+
       <div className="flex flex-wrap p-2 mb-6 border-b">
         {team && (
           <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 " >
@@ -71,7 +74,10 @@ function TeamPage() {
           <button className="mr-4">
           
           </button>
+          <AddBoardBtn name={"Board name"} btnName={"Create board"} teamId={params.id}/>
+          <InviteUserBtn name={"Invite user"} btnName={"Invite user"} teamId={params.id}/>
           <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
+
         </div>
         {team && (
           <p className="text-l mt-4 p-2">
