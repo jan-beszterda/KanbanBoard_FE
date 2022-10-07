@@ -1,8 +1,43 @@
-import React from 'react'
+import React, {useState} from 'react';
 
-function AddColBtn({name,btnName,handleSubmit}) {
+function AddColBtn({name,btnName, boardId}) {
+
+  const [columnTitle, setColumnTitle] = useState("");
 
     // Create a function that take in props to push api here for create card
+
+    const handleSubmit=(e)=> {
+
+      const newColumn = {
+        "columnTitle": columnTitle,
+          }
+
+
+      const createColumn = async (data = {}) => {
+        let response = await fetch("/api/column/create?board_id=" + boardId, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+    
+        if (response.status === 200) {
+          console.log("Column created successfully");
+        }
+    
+        //let result = await response.json();
+        //console.log(result);
+    
+        //return result;
+      };
+    
+      createColumn(newColumn).then(() => {
+        console.log("Success Creating Column");
+        window.location.reload();
+      });
+    } 
+
 
     const [showModal, setShowModal] = React.useState(false);
     return (
@@ -40,7 +75,8 @@ function AddColBtn({name,btnName,handleSubmit}) {
 
                   
                   <div className="relative p-6  ">
-                    <input className=' border-2 border-gray-300 rounded-md' type="text" />
+                    <p className='mb-5 font-bold'>Title</p>
+                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={columnTitle} onChange={e => setColumnTitle(e.target.value)}/>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -54,7 +90,7 @@ function AddColBtn({name,btnName,handleSubmit}) {
                     <button
                       className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={handleSubmit}
                     >
                       Add
                     </button>

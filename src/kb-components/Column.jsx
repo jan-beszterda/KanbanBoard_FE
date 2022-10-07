@@ -4,6 +4,7 @@ import { TiDelete } from "react-icons/ti";
 
 import AddCardBtn from "./AddCardBtn";
 import Card from "./Card";
+
 import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import { removeColumn } from "../helper_functions/removeColumn";
@@ -52,7 +53,7 @@ function Column(props) {
               cardDescription={card.cardText}
             />
           ))}
-          <AddCardBtn name={"Card"} btnName={"+ Add card"} />
+          <AddCardBtn name={"Card"} btnName={"+ Add card"} columnId={params.id}/>
         </div>
       </div>
     </>
