@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import { loadBoard } from "../helper_functions/loadBoard";
 import Column from "../kb-components/Column";
 import AddColBtn from "../kb-components/AddColBtn";
+import { createStompClient } from "../helper_functions/createStompClient";
 
 function BoardPage() {
   const [board, setBoard] = useState();
-
+  const [client, setClient] = useState({});
+  const [isToBeUpdated, setIsToBeUpdated] = useState(false);
   const params = useParams();
 
   useEffect(() => {
@@ -18,7 +20,25 @@ function BoardPage() {
     load();
   }, [params.id]);
 
+  useEffect(() => {
+    let stompClient = createStompClient("/topic/board/" + params.id, () =>
+      setIsToBeUpdated(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
+  }, []);
 
+  useEffect(() => {
+    if (isToBeUpdated) {
+      const load = async () => {
+        let board = await loadBoard(params.id);
+        setBoard(board);
+      };
+      load();
+    }
+  }, [isToBeUpdated]);
 
   return (
     <div>
@@ -35,13 +55,18 @@ function BoardPage() {
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}
+              stompClient={client}
             />
           ))}
-        <AddColBtn name={"Title"} btnName={"+ Add column"} boardId={params.id}></AddColBtn>
+        <AddColBtn
+          name={"Title"}
+          btnName={"+ Add column"}
+          boardId={params.id}
+          stompClient={client}
+        ></AddColBtn>
       </div>
     </div>
   );
 }
-
 
 export default BoardPage;
