@@ -29,7 +29,7 @@ function Column(props) {
             cardDescription={card.cardText}
           />
         ))}
-        <AddCardBtn name={"Card"} btnName={"+ Add card"} columnId={params.id}/>
+        <AddCardBtn name={"Card"} btnName={"+ Add card"} boardId = {props.boardId} columnId={params.id}/>
       </div>
     </div>
   );

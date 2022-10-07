@@ -30,6 +30,7 @@ function BoardPage() {
           board.columnList.map((column) => (
             <Column
               key={column.columnId}
+              boardId={params.id}
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}

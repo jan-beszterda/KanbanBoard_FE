@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function AddCardBtn({name,btnName, columnId}) {
+function AddCardBtn({name,btnName, boardId, columnId}) {
 
     // Create a function that take in props to push api here for create card
 
@@ -17,7 +17,7 @@ function AddCardBtn({name,btnName, columnId}) {
     }
 
       const createCard = async (data = {}) => {
-        let response = await fetch("/api/card/create?creator_id=" + userId + "&column_id=" + columnId,{
+        let response = await fetch("/api/card/create?creator_id=" + userId + "&board_id=?" + boardId +"&column_id=" + columnId,{
           method: "POST",
           headers: {
             "Content-Type": "application/json",
