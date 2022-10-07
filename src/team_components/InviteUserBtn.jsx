@@ -8,7 +8,7 @@ function InviteUserBtn({name,btnName, teamId}) {
 
             const inviteUser = async (data = {}) => {
                 let response = await fetch('/api/team/' + teamId + "/invite_user?user_email=" + userEmail, {
-                    method: 'put',
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -16,12 +16,12 @@ function InviteUserBtn({name,btnName, teamId}) {
 
                 if (response.status === 200) {
                     console.log('Endpoint works!');
+                    console.log(response)
                 }
 
                 //let result = await response.json();
-
-                console.log("Result (should be a string):");
-                console.log(response);
+                //console.log("Result (should be a string):");
+                //console.log(result);
 
                 return response;
             }
@@ -30,7 +30,7 @@ function InviteUserBtn({name,btnName, teamId}) {
             // user invite user endpoint with user and team.
             console.log(result);
             setShowModal(false);
-            window.location.reload();
+            //window.location.reload();
 
         });
 
