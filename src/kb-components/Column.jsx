@@ -1,7 +1,51 @@
 import AddCardBtn from "./AddCardBtn";
 import Card from "./Card";
+import { loadColumn } from "../helper_functions/loadColumn";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function Column(props) {
+
+  const userId = localStorage.getItem("active_user_id");
+  const [column, setColumn] = useState();
+  const params = useParams();
+
+  useEffect(() => {
+    const load = async () => {
+      let column = await loadColumn(params.id);
+      setColumn(column);
+    };
+    load();
+  }, [params.id]);
+
+
+  const handleSubmit=(e)=> {
+
+  const createCard = async (data = {}) => {
+    let response = await fetch("/api/card/create?creator_id=" + userId + "?column_id=" + params.id,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status === 200) {
+      console.log("Card created successfully");
+    }
+
+    //let result = await response.json();
+    //console.log(result);
+
+    //return result;
+  };
+
+  createCard().then(() => {
+    console.log("Success Creating Card");
+    window.location.reload();
+  });
+} 
+
   return (
     <div
       key={props.columnId}
@@ -20,7 +64,7 @@ function Column(props) {
             cardDescription={card.cardText}
           />
         ))}
-        <AddCardBtn name={"Card"} btnName={"+ Add card"} />
+        <AddCardBtn name={"Card"} btnName={"+ Add card"} handleSubmit={handleSubmit}/>
       </div>
     </div>
   );
