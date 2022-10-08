@@ -2,14 +2,17 @@ import { useState } from "react";
 import { TiDelete } from "react-icons/ti";
 
 import AddCardBtn from "./AddCardBtn";
-import Card from "./Card";
+import CardItem from "./CardItem";
 
 import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import { removeColumn } from "../helper_functions/removeColumn";
+import Card from "../card_components/Card";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [currentCard, setCurrentCard] = useState(-1);
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -48,13 +51,32 @@ function Column(props) {
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">
           {props.cards.map((card) => (
-            <Card
+            <CardItem
               key={card.cardId}
               cardId={card.cardId}
               cardTitle={card.cardTitle}
-              cardDescription={card.cardText}
+              column={props.columnTitle}
+              onClick={() => {
+                setCurrentCard(card.cardId);
+                setShowCard(true);
+              }}
             />
           ))}
+          {showCard ? (
+            <Card
+              cardId={currentCard}
+              onClose={() => {
+                setShowCard(false);
+                setCurrentCard(-1);
+              }}
+              onMove={() => {
+                return;
+              }}
+              onDelete={() => {
+                return;
+              }}
+            />
+          ) : null}
           <AddCardBtn name={"Card"} btnName={"+ Add card"} />
         </div>
       </div>
