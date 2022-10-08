@@ -56,6 +56,7 @@ function BoardPage() {
               columnTitle={column.columnTitle}
               cards={column.cardList}
               stompClient={client}
+              columns={board.columnList}
             />
           ))}
         <AddColBtn

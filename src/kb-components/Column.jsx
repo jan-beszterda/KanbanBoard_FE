@@ -76,6 +76,8 @@ function Column(props) {
           {showCard ? (
             <Card
               cardId={currentCard}
+              board={props.boardId}
+              columnsList={props.columns}
               onClose={() => {
                 setShowCard(false);
                 setCurrentCard(-1);

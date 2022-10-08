@@ -105,6 +105,15 @@ const Card = (props) => {
                 >
                   Delete card
                 </button>
+                <hr />
+                <p>Move card</p>
+                <select name="" id="">
+                  {props.columnsList.map((column) => (
+                    <option value={column.columnId}>
+                      {column.columnTitle}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="flex items-start justify-between p-5 pb-1">
