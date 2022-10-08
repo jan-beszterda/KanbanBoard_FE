@@ -105,7 +105,6 @@ const Card = (props) => {
                 >
                   Delete card
                 </button>
-                {/* Other buttons here */}
               </div>
             </div>
             <div className="flex items-start justify-between p-5 pb-1">
@@ -130,20 +129,28 @@ const Card = (props) => {
             </div>
             <div className="flex flex-col items-start justify-between p-5 pt-1">
               {cardComments && cardComments.length !== 0 ? (
-                cardComments.map((comment) => (
-                  <div
-                    key={comment.commentId}
-                    className="border-b border-solid border-slate-200 p-2"
-                  >
-                    <p className="text-xs font-light tracking-wide italic my-1">
-                      On {comment.publishedOn} {comment.user.firstName}{" "}
-                      {comment.user.lastName} ({comment.user.email}) wrote:
-                    </p>
-                    <p className="text-sm font-normal my-1">
-                      {comment.commentText}
-                    </p>
-                  </div>
-                ))
+                cardComments
+                  .sort((a, b) => {
+                    return a.publishedOn > b.publishedOn
+                      ? -1
+                      : a.publishedOn === b.publishedOn
+                      ? 0
+                      : 1;
+                  })
+                  .map((comment) => (
+                    <div
+                      key={comment.commentId}
+                      className="border-b border-solid border-slate-200 p-2"
+                    >
+                      <p className="text-xs font-light tracking-wide italic my-1">
+                        On {comment.publishedOn} {comment.user.firstName}{" "}
+                        {comment.user.lastName} ({comment.user.email}) wrote:
+                      </p>
+                      <p className="text-sm font-normal my-1">
+                        {comment.commentText}
+                      </p>
+                    </div>
+                  ))
               ) : (
                 <p className="text-sm font-normal">No comments yet</p>
               )}

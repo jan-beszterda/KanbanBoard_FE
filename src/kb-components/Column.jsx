@@ -8,6 +8,7 @@ import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import { removeColumn } from "../helper_functions/removeColumn";
 import Card from "../card_components/Card";
+import { removeCard } from "../helper_functions/removeCard";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
@@ -21,6 +22,16 @@ function Column(props) {
         destination: "/app/board/" + props.boardId,
       });
       setShowModal(false);
+    }
+  };
+
+  const deleteCard = async (cardId) => {
+    let response = await removeCard(cardId);
+    if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+      setShowCard(false);
     }
   };
 
@@ -73,7 +84,7 @@ function Column(props) {
                 return;
               }}
               onDelete={() => {
-                return;
+                deleteCard(currentCard);
               }}
             />
           ) : null}
