@@ -3,14 +3,18 @@ import { TiDelete } from "react-icons/ti";
 
 
 import AddCardBtn from "./AddCardBtn";
-import Card from "./Card";
+import CardItem from "./CardItem";
 
 import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import { removeColumn } from "../helper_functions/removeColumn";
+import Card from "../card_components/Card";
+import { removeCard } from "../helper_functions/removeCard";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [currentCard, setCurrentCard] = useState(-1);
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -18,6 +22,26 @@ function Column(props) {
       setShowModal(false);
     }
   };
+
+  const deleteCard = async (cardId) => {
+    let response = await removeCard(cardId);
+    if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+      setShowCard(false);
+    }
+  };
+
+  async function moveCard(callback, cardId, columnId1, columnId2) {
+    let response = await callback(cardId, columnId1, columnId2);
+    if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+      console.log("on move, should publish");
+    }
+  }
 
   return (
     <>
@@ -46,13 +70,35 @@ function Column(props) {
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">
           {props.cards.map((card) => (
-            <Card
+            <CardItem
               key={card.cardId}
               cardId={card.cardId}
               cardTitle={card.cardTitle}
-              cardDescription={card.cardText}
+              /*column={props.columnTitle}*/
+              onClick={() => {
+                setCurrentCard(card.cardId);
+                setShowCard(true);
+              }}
             />
           ))}
+          {showCard ? (
+            <Card
+              cardId={currentCard}
+              board={props.boardId}
+              currentColumnId={props.columnId}
+              column={props.columnTitle}
+              columnsList={props.columns}
+              boardCLient={props.stompClient}
+              onMove={moveCard}
+              onClose={() => {
+                setShowCard(false);
+                setCurrentCard(-1);
+              }}
+              onDelete={() => {
+                deleteCard(currentCard);
+              }}
+            />
+          ) : null}
           <AddCardBtn name={"Card"} btnName={"+ Add card"} />
         </div>
       </div>

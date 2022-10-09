@@ -35,6 +35,8 @@ function BoardPage() {
               columnId={column.columnId}
               columnTitle={column.columnTitle}
               cards={column.cardList}
+              stompClient={client}
+              columns={board.columnList}
             />
           ))}
         <AddColBtn name={"Title"} btnName={"+ Add column"} boardId={params.id}></AddColBtn>
