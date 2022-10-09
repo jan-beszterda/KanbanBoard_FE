@@ -35,6 +35,15 @@ function Column(props) {
     }
   };
 
+  async function moveCard(callback, cardId, columnId1, columnId2) {
+    let response = await callback(cardId, columnId1, columnId2);
+    if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+    }
+  }
+
   return (
     <>
       <div
@@ -66,7 +75,7 @@ function Column(props) {
               key={card.cardId}
               cardId={card.cardId}
               cardTitle={card.cardTitle}
-              column={props.columnTitle}
+              /*column={props.columnTitle}*/
               onClick={() => {
                 setCurrentCard(card.cardId);
                 setShowCard(true);
@@ -77,13 +86,14 @@ function Column(props) {
             <Card
               cardId={currentCard}
               board={props.boardId}
+              currentColumnId={props.columnId}
+              column={props.columnTitle}
               columnsList={props.columns}
+              boardCLient={props.stompClient}
+              onMove={moveCard}
               onClose={() => {
                 setShowCard(false);
                 setCurrentCard(-1);
-              }}
-              onMove={() => {
-                return;
               }}
               onDelete={() => {
                 deleteCard(currentCard);

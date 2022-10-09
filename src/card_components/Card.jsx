@@ -1,10 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { loadCard } from "../helper_functions/loadCard";
 import { createStompClient } from "../helper_functions/createStompClient";
 import { createComment } from "../helper_functions/createComment";
+import { moveCard } from "../helper_functions/moveCard";
+import { loadColumn } from "../helper_functions/loadColumn";
 
 const Card = (props) => {
   const [card, setCard] = useState();
+  const [currentColumnId, setCurrentColumnId] = useState();
+  const [currentColumnTitle, setCurrentColumnTitle] = useState();
+  const [futureColumnId, setFutureColumnId] = useState();
   const [cardAuthor, setCardAuthor] = useState();
   const [cardComments, setCardComments] = useState([]);
   const [client, setClient] = useState({});
@@ -12,6 +17,7 @@ const Card = (props) => {
   const [newComment, setNewComment] = useState({
     commentText: "",
   });
+  const columnSelect = useRef(null);
 
   useEffect(() => {
     const load = async () => {
@@ -24,6 +30,27 @@ const Card = (props) => {
     };
     load();
   }, [props.cardId]);
+
+  useEffect(() => {
+    const load = async () => {
+      let column = await loadColumn(props.currentColumnId);
+      console.log(column);
+      setCurrentColumnId(column.columId);
+      setCurrentColumnTitle(column.columnTitle);
+    };
+    load();
+  }, []);
+
+  /*useEffect(() => {
+    async function getColumn() {
+      let response = await fetch("/api/column/" + currentColumnId);
+      let data = await response.json();
+      return data;
+    }
+    let column = getColumn();
+    setCurrentColumnId(column.columId);
+    setCurrentColumnTitle(column.columnTitle);
+  }, [currentColumnId]);*/
 
   useEffect(() => {
     let stompClient = createStompClient("/topic/card/" + props.cardId, () =>
@@ -43,7 +70,7 @@ const Card = (props) => {
         setCardComments(card.comments);
         card.author = null;
         card.comments = null;
-        setCard(JSON.parse(card));
+        setCard(card);
       };
       load();
     }
@@ -67,6 +94,19 @@ const Card = (props) => {
 
   const handleCommentFieldChange = (e) => {
     setNewComment({ ...newComment, [e.target.name]: e.target.value });
+  };
+
+  const changeColumn = async (cardId, columnId1, columnId2) => {
+    let response = await moveCard(cardId, columnId1, columnId2);
+    if (response.status === 200) {
+      client.publish({ destination: "/app/card/" + props.cardId });
+    }
+    return response;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onMove(changeColumn, props.cardId, currentColumnId, futureColumnId);
   };
 
   return (
@@ -97,7 +137,51 @@ const Card = (props) => {
               <p className="text-l font-normal basis-4/5 p-5">
                 {card && card.cardText}
               </p>
-              <div className="flex flex-col basis-1/5 border-l p-5">
+              <div className="flex flex-col items-center basis-1/5 border-l p-5">
+                <h3 className="text-l font-semibold p-2">
+                  Status: {currentColumnTitle && currentColumnTitle}
+                </h3>
+                <form
+                  ref={columnSelect}
+                  className="p-2"
+                  onSubmit={handleSubmit}
+                >
+                  <label
+                    className="text-base font-semibold p-2"
+                    htmlFor="column"
+                  >
+                    Move to
+                  </label>
+                  <select
+                    name="column"
+                    id="column"
+                    //value={currentColumnId}
+                    onChange={(e) => {
+                      setFutureColumnId(e.target.value);
+                    }}
+                  >
+                    {props.columnsList.map((column) =>
+                      column.columnId === props.currentColumnId ? (
+                        <option
+                          key={column.columnId}
+                          value={column.columnId}
+                          //disabled={true}
+                        >
+                          {column.columnTitle}
+                        </option>
+                      ) : (
+                        <option
+                          key={column.columnId}
+                          value={column.columnId}
+                          disabled={false}
+                        >
+                          {column.columnTitle}
+                        </option>
+                      )
+                    )}
+                  </select>
+                  <button type={"submit"}>Submit</button>
+                </form>
                 <button
                   className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 mb-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                   type="button"
@@ -105,15 +189,6 @@ const Card = (props) => {
                 >
                   Delete card
                 </button>
-                <hr />
-                <p>Move card</p>
-                <select name="" id="">
-                  {props.columnsList.map((column) => (
-                    <option value={column.columnId}>
-                      {column.columnTitle}
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
             <div className="flex items-start justify-between p-5 pb-1">
