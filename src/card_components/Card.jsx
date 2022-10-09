@@ -29,13 +29,13 @@ const Card = (props) => {
       setCard(card);
     };
     load();
-  }, [props.cardId]);
+  }, []);
 
   useEffect(() => {
     const load = async () => {
       let column = await loadColumn(props.currentColumnId);
       console.log(column);
-      setCurrentColumnId(column.columId);
+      setCurrentColumnId(column.columnId);
       setCurrentColumnTitle(column.columnTitle);
     };
     load();
@@ -71,6 +71,11 @@ const Card = (props) => {
         card.author = null;
         card.comments = null;
         setCard(card);
+
+        let column = await loadColumn(futureColumnId);
+        console.log(column);
+        setCurrentColumnId(column.columnId);
+        setCurrentColumnTitle(column.columnTitle);
       };
       load();
     }
@@ -137,11 +142,14 @@ const Card = (props) => {
               <p className="text-l font-normal basis-4/5 p-5">
                 {card && card.cardText}
               </p>
-              <div className="flex flex-col items-center basis-1/5 border-l p-5">
-                <h3 className="text-l font-semibold p-2">
-                  Status: {currentColumnTitle && currentColumnTitle}
-                </h3>
-                <form
+              <div className="flex flex-col items-center basis-1/5 border-l p-3">
+                <div className="flex items-start mb-2 border-b">
+                  <span>Status:&nbsp;</span>
+                  <span className="text-l font-semibold">
+                    {currentColumnTitle && currentColumnTitle}
+                  </span>
+                </div>
+                {/*<form
                   ref={columnSelect}
                   className="p-2"
                   onSubmit={handleSubmit}
@@ -151,8 +159,11 @@ const Card = (props) => {
                     htmlFor="column"
                   >
                     Move to
-                  </label>
+                  </label>*/}
+                <div className="flex flex-col items-center mb-2 border-b">
+                  <h3 className="text-l font-semibold mb-2">Move card:</h3>
                   <select
+                    className="mb-2 p-2 rounded"
                     name="column"
                     id="column"
                     //value={currentColumnId}
@@ -161,11 +172,12 @@ const Card = (props) => {
                     }}
                   >
                     {props.columnsList.map((column) =>
-                      column.columnId === props.currentColumnId ? (
+                      column.columnId === currentColumnId ? (
                         <option
                           key={column.columnId}
                           value={column.columnId}
-                          //disabled={true}
+                          disabled={true}
+                          selected={true}
                         >
                           {column.columnTitle}
                         </option>
@@ -180,15 +192,24 @@ const Card = (props) => {
                       )
                     )}
                   </select>
-                  <button type={"submit"}>Submit</button>
-                </form>
-                <button
-                  className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 mb-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={props.onDelete}
-                >
-                  Delete card
-                </button>
+                  <button
+                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 mb-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={handleSubmit}
+                  >
+                    Move
+                  </button>
+                </div>
+                {/*</form>*/}
+                <div className="flex flex-col items-center mb-2">
+                  <button
+                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={props.onDelete}
+                  >
+                    Delete card
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex items-start justify-between p-5 pb-1">

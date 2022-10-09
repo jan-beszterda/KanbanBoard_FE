@@ -41,6 +41,7 @@ function Column(props) {
       props.stompClient.publish({
         destination: "/app/board/" + props.boardId,
       });
+      console.log("on move, should publish");
     }
   }
 
