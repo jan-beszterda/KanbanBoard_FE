@@ -1,27 +1,24 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FaPencilAlt } from "react-icons/fa";
-import React from "react";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
 import InviteUserBtn from "./InviteUserBtn";
+import CreateBtn from "../kb-components/CreateBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
-import { useNavigate } from "react-router-dom";
-import CreateBtn from "../kb-components/CreateBtn";
-import { editTeamName } from "../helper_functions/editTeams";
-
+import { createStompClient } from "../helper_functions/createStompClient";
 
 function TeamPage() {
   const [team, setTeam] = useState();
+  const [client, setClient] = useState({});
+  const [isToBeUpdated, setIsToBeUpdated] = useState(false);
+
   const params = useParams();
   const userId = localStorage.getItem("active-user-id");
   const navigate = useNavigate();
   const toLayout = () => navigate("/profilepage", { replace: true });
-
-  
 
   useEffect(() => {
     const load = async () => {
@@ -31,6 +28,25 @@ function TeamPage() {
     load();
   }, [params.id]);
 
+  useEffect(() => {
+    let stompClient = createStompClient("/topic/team/" + params.id, () =>
+      setIsToBeUpdated(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isToBeUpdated) {
+      const load = async () => {
+        let team = await loadTeam(params.id);
+        setTeam(team);
+      };
+      load();
+    }
+  }, [isToBeUpdated]);
 
   const handleSubmit = (e) => {
     const leaveTeam = async (data = {}) => {
@@ -65,7 +81,6 @@ function TeamPage() {
   };
   // End handleSubmit.
 
-
   const [teamName, setTeamName] = useState("");
   const [showModal, setShowModal] = React.useState(false);
 
@@ -74,50 +89,49 @@ function TeamPage() {
   };
 
   const handleChange = (e) => {
-    console.log(e. target.value);
+    console.log(e.target.value);
     setTeamName(e.target.value);
   };
 
-  const handleEdit = (e) => {
-    e.preventDefault();
-    editTeamName  (params.id,teamName).then(() => {
-        closeModal();
-        window.location.reload();
-      });
+  const edit = () => {
+    editTeamName(params.id, teamName).then(() => {
+      closeModal();
+    });
   };
-
- 
-
 
   return (
     <div className="w-full">
-
       <div className="flex flex-wrap p-2 mb-6 border-b">
         {team && (
-          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 " >
+          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 ">
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
 
             <FaPencilAlt
-          className=" cursor-pointer mt-2"  color="#FF8E7F" size={"17px"} 
-          type="button"
-          onClick={() => setShowModal(true)}
-        >
-        </FaPencilAlt>
-        { showModal ? (
-            <form onSubmit={handleEdit}>
-             <CreateBtn edit={handleEdit} closeModal={closeModal} btnType={"Edit"} value={teamName} onChange ={handleChange} />
-            </form>
-        ) : null} 
-       
+              className=" cursor-pointer mt-2"
+              color="#FF8E7F"
+              size={"17px"}
+              type="button"
+              onClick={() => setShowModal(true)}
+            ></FaPencilAlt>
+            {showModal ? (
+              <CreateBtn
+                edit={edit}
+                closeModal={closeModal}
+                btnType={"Edit"}
+                value={teamName}
+                onChange={handleChange}
+              />
+            ) : null}
           </h1>
         )}
         <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
-          <button className="mr-4">
-          
-          </button>
-          <InviteUserBtn name={"Invite user"} btnName={"Invite user"} teamId={params.id}/>
+          <button className="mr-4"></button>
+          <InviteUserBtn
+            name={"Invite user"}
+            btnName={"Invite user"}
+            teamId={params.id}
+          />
           <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
-
         </div>
         {team && (
           <p className="text-l mt-4 p-2">
