@@ -8,7 +8,6 @@ function BoardItem(props) {
         className="flex flex-col rounded-lg font-medium pl-5 my-5 py-10 mx-5 text-start bg-white"
         key={props.boardId}
         id={props.boardId}
-        team_Id={props.teamId}
         to={`/boardpage/${props.boardId}`}
       >
         {props.boardName} <span className="pt-2">{props.boardDescription}</span>
