@@ -1,18 +1,33 @@
 import { Client } from "@stomp/stompjs";
 
 export const createStompClient = (topicAddress, onMessage) => {
-  let stompClient = new Client();
-  stompClient.configure({
-    brokerURL: "ws://127.0.0.1:8080/ws",
-    onConnect: () => {
-      stompClient.subscribe(topicAddress, (message) => {
-        onMessage();
-      });
+  const client = new Client({
+    brokerURL: "ws://localhost:8080/ws",
+    /* connectHeaders: {
+      login: "user",
+      passcode: "password",
     },
-    debug: (str) => {
+    debug: function (str) {
       console.log(str);
     },
+    reconnectDelay: 5000,
+    heartbeatIncoming: 4000,
+    heartbeatOutgoing: 4000, */
   });
-  stompClient.activate();
-  return stompClient;
+  client.onConnect = function (frame) {
+    const subscription = client.subscribe(topicAddress, function (message) {
+      onMessage();
+    });
+  };
+
+  client.onStompError = function (frame) {
+    // Will be invoked in case of error encountered at Broker
+    // Bad login/passcode typically will cause an error
+    // Complaint brokers will set `message` header with a brief message. Body may contain details.
+    // Compliant brokers will terminate the connection after any error
+    console.log("Broker reported error: " + frame.headers["message"]);
+    console.log("Additional details: " + frame.body);
+  };
+
+  return client;
 };

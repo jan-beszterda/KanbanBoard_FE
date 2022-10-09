@@ -1,12 +1,11 @@
 export const editTeamName = async (teamId, teamName) => {
-    let response = await fetch("/api/team/" + teamId + "/" + teamName, {
+    let response = await fetch("/api/team/" + teamId + "/edit?teamName=" + teamName, {
       method: "PUT",
     });
 
     if (response.status === 200) {
-      return response;
       console.log("Successfully edited team name");
-
+      return response;
     }
   
     let result = await response.json();
