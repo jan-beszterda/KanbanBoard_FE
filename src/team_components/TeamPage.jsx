@@ -21,6 +21,8 @@ function TeamPage() {
   const navigate = useNavigate();
   const toLayout = () => navigate("/profilepage", { replace: true });
 
+  
+
   useEffect(() => {
     const load = async () => {
       let team = await loadTeam(params.id);
@@ -28,6 +30,7 @@ function TeamPage() {
     };
     load();
   }, [params.id]);
+
 
   const handleSubmit = (e) => {
     const leaveTeam = async (data = {}) => {
@@ -75,20 +78,16 @@ function TeamPage() {
     setTeamName(e.target.value);
   };
 
-  const edit = () => {
+  const handleEdit = (e) => {
+    e.preventDefault();
     editTeamName  (params.id,teamName).then(() => {
         closeModal();
+        window.location.reload();
       });
   };
 
-
  
 
-
-
-
-
-  
 
   return (
     <div className="w-full">
@@ -105,7 +104,9 @@ function TeamPage() {
         >
         </FaPencilAlt>
         { showModal ? (
-            <CreateBtn  edit={edit} closeModal={closeModal} btnType={"Edit"} value={teamName} onChange ={handleChange} />
+            <form onSubmit={handleEdit}>
+             <CreateBtn edit={handleEdit} closeModal={closeModal} btnType={"Edit"} value={teamName} onChange ={handleChange} />
+            </form>
         ) : null} 
        
           </h1>
