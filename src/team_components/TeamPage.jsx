@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
@@ -9,6 +10,7 @@ import CreateBtn from "../kb-components/CreateBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";
+import { editTeamName } from "../helper_functions/editTeams";
 
 function TeamPage() {
   const [team, setTeam] = useState();
@@ -82,7 +84,7 @@ function TeamPage() {
   // End handleSubmit.
 
   const [teamName, setTeamName] = useState("");
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const closeModal = () => {
     setShowModal(false);

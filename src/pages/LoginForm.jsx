@@ -20,7 +20,7 @@ function LoginForm({ logo }) {
 
   const handleChange = (e) => {
     console.log(e.target.id, e.target.value);
-    setLoginState({ ...loginState, [e.target.value]: e.target.value });
+    setLoginState({ ...loginState, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = (e) => {
