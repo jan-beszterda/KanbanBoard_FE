@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import TeamPage from "./team_components/TeamPage";
 import BoardPage from "./board_components/BoardPage";
 import ProfilePage from "./kb-components/ProfilePage";
+import InvitationsPage from "./page_partials/InvitationsPage";
 
 function App() {
   return (
@@ -17,6 +18,15 @@ function App() {
             <Layout>
               {" "}
               <ProfilePage />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/invitations"
+          element={
+            <Layout>
+              {" "}
+              <InvitationsPage />{" "}
             </Layout>
           }
         />
