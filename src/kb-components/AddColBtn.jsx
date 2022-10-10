@@ -9,7 +9,7 @@ function AddColBtn({name,btnName, boardId}) {
     const handleSubmit=(e)=> {
 
       const newColumn = {
-        "columnTitle": columnTitle,
+        columnTitle: columnTitle,
           }
 
 
@@ -34,7 +34,7 @@ function AddColBtn({name,btnName, boardId}) {
     
       createColumn(newColumn).then(() => {
         console.log("Success Creating Column");
-        window.location.reload();
+        setShowModal(false);
       });
     } 
 
@@ -45,7 +45,7 @@ function AddColBtn({name,btnName, boardId}) {
         <button
           className=" w-[248px] h-10 mt-5 font-sans font-normal text-sm bg-dark-grey px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
           type="button"
-          onClick={handleSubmit}
+          onClick={() => {setShowModal(true)}}
         >
             {btnName}
         </button>

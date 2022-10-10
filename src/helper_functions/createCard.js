@@ -1,6 +1,6 @@
-export const createCard = async (userId, columnId, card) => {
+export const createCard = async (userId, columnId, boardId, card) => {
   let response = await fetch(
-    "/api/card/edit?creator_id=" + userId + "&ccolumn_id=" + columnId,
+    "/api/card/create?creator_id=" + userId + "&board_id=" + boardId + "&column_id=" + columnId,
     {
       method: "POST",
       headers: {

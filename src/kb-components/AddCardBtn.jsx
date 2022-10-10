@@ -15,8 +15,9 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
       cardText: cardText,
     };
 
-    createCard(userId, columnId, newCard).then(() => {
+    createCard(userId, columnId, boardId, newCard).then(() => {
       console.log("Success Creating Card");
+      setShowModal(false);
     });
   };
 
@@ -54,6 +55,8 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
                   <input
                     className=" border-2 border-gray-300 rounded-md"
                     type="text"
+                    value={cardTitle}
+                    onChange= {(e) => {setCardTitle (e.target.value)}}
                   />
                 </div>
                 <div className="relative p-6 pt-3 ">
@@ -61,6 +64,8 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
                   <textarea
                     className=" h-40 border-2 border-gray-300 rounded-md"
                     type="text"
+                    value={cardText}
+                    onChange= {(e) => {setCardText (e.target.value)}}
                   />
                 </div>
                 {/*footer*/}
