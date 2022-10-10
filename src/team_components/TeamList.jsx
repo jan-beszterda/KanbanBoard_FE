@@ -44,6 +44,10 @@ function TeamList() {
     }
   };
 
+  let colorArray = [{color: "border-red-500"}, {color: "border-yellow-500"}, {color: "border-green-500"}, {color: "border-blue-500"}, {color: "border-indigo-500"}, {color: "border-purple-500"}, {color: "border-pink-500"}, {color: "border-black"}, {color: "border-black-500"}];
+  let randomColor = colorArray[Math.floor(Math.random() * colorArray.length)].color;
+  console.log(randomColor);
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center">
@@ -66,7 +70,7 @@ function TeamList() {
       </div>
       <div className="flex flex-col justify-start items-left">
         {teams.map((team) => (
-          <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
+          <TeamItem color={randomColor} teamId={team.id} key={team.id} teamName={team.teamName} />
         ))}
       </div>
     </div>
