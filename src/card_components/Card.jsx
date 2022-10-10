@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
+
 import { loadCard } from "../helper_functions/loadCard";
 import { createStompClient } from "../helper_functions/createStompClient";
 import { createComment } from "../helper_functions/createComment";
 import { moveCard } from "../helper_functions/moveCard";
 import { loadColumn } from "../helper_functions/loadColumn";
+import EditCardModal from "./EditCardModal";
 
 const Card = (props) => {
   const [card, setCard] = useState();
@@ -17,7 +20,7 @@ const Card = (props) => {
   const [newComment, setNewComment] = useState({
     commentText: "",
   });
-  const columnSelect = useRef(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -40,17 +43,6 @@ const Card = (props) => {
     };
     load();
   }, []);
-
-  /*useEffect(() => {
-    async function getColumn() {
-      let response = await fetch("/api/column/" + currentColumnId);
-      let data = await response.json();
-      return data;
-    }
-    let column = getColumn();
-    setCurrentColumnId(column.columId);
-    setCurrentColumnTitle(column.columnTitle);
-  }, [currentColumnId]);*/
 
   useEffect(() => {
     let stompClient = createStompClient("/topic/card/" + props.cardId, () =>
@@ -123,6 +115,21 @@ const Card = (props) => {
               <h2 className="text-xl font-semibold">
                 {card && card.cardTitle}
               </h2>
+              <FaPencilAlt
+                className=" cursor-pointer mt-2"
+                color="#FF8E7F"
+                size={"17px"}
+                type="button"
+                onClick={() => setShowModal(true)}
+              />
+              {showModal ? (
+                <EditCardModal
+                  //data={newTeam}
+                  //onChange={handleFIeldChange}
+                  //add={addTeam}
+                  closeModal={() => setShowModal(false)}
+                />
+              ) : null}
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={props.onClose}
@@ -149,24 +156,12 @@ const Card = (props) => {
                     {currentColumnTitle && currentColumnTitle}
                   </span>
                 </div>
-                {/*<form
-                  ref={columnSelect}
-                  className="p-2"
-                  onSubmit={handleSubmit}
-                >
-                  <label
-                    className="text-base font-semibold p-2"
-                    htmlFor="column"
-                  >
-                    Move to
-                  </label>*/}
                 <div className="flex flex-col items-center mb-2 border-b">
                   <h3 className="text-l font-semibold mb-2">Move card:</h3>
                   <select
                     className="mb-2 p-2 rounded"
                     name="column"
                     id="column"
-                    //value={currentColumnId}
                     onChange={(e) => {
                       setFutureColumnId(e.target.value);
                     }}
@@ -200,7 +195,6 @@ const Card = (props) => {
                     Move
                   </button>
                 </div>
-                {/*</form>*/}
                 <div className="flex flex-col items-center mb-2">
                   <button
                     className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
