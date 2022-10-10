@@ -45,6 +45,15 @@ function Column(props) {
     }
   }
 
+  const changeCard = async (callback, cardId, card) => {
+    let response = await callback(cardId, card);
+    if (response.status === 200) {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+    }
+  };
+
   return (
     <>
       <div
@@ -99,6 +108,7 @@ function Column(props) {
               onDelete={() => {
                 deleteCard(currentCard);
               }}
+              onDetailsChange={changeCard}
             />
           ) : null}
           <AddCardBtn name={"Card"} btnName={"+ Add card"} />
