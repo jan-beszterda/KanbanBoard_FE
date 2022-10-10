@@ -96,9 +96,9 @@ function TeamPage() {
   };
 
   const edit = () => {
-    editTeamName(params.id, teamName).then(() => {
-      closeModal();
-    });
+    editTeamName(params.id, teamName)
+    closeModal();
+    window.location.reload();
   };
 
   return (
