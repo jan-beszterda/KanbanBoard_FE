@@ -54,8 +54,6 @@ function Column(props) {
     }
   };
 
-
-  
   return (
     <>
       <div
@@ -87,7 +85,6 @@ function Column(props) {
               key={card.cardId}
               cardId={card.cardId}
               cardTitle={card.cardTitle}
-              /*column={props.columnTitle}*/
               onClick={() => {
                 setCurrentCard(card.cardId);
                 setShowCard(true);
@@ -113,7 +110,13 @@ function Column(props) {
               onDetailsChange={changeCard}
             />
           ) : null}
-         <AddCardBtn name={"Card"} btnName={"+ Add card"} boardId = {props.boardId} columnId={props.columnId}/>
+          <AddCardBtn
+            name={"Add new card"}
+            btnName={"+ Add card"}
+            boardId={props.boardId}
+            columnId={props.columnId}
+            stompClient={props.stompClient}
+          />
         </div>
       </div>
     </>

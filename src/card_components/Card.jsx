@@ -77,6 +77,7 @@ const Card = (props) => {
         }
       };
       load();
+      setIsToBeEdited(false);
     }
   }, [isToBeUpdated]);
 
