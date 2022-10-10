@@ -16,7 +16,7 @@ function TeamList() {
   const [showModal, setShowModal] = useState(false);
   const userId = localStorage.getItem("active-user-id");
 
- 
+
 
   useEffect(() => {
     let load = async () => {
