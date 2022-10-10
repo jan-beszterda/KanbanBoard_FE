@@ -26,6 +26,7 @@ function TeamList() {
     load();
   }, [newTeam]);
 
+
   const closeModal = () => {
     setShowModal(false);
   };
