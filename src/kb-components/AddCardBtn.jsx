@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { createCard } from "../helper_functions/createCard";
 
-function AddCardBtn({ name, btnName, columnId }) {
+function AddCardBtn({name,btnName, boardId, columnId}) {
   const [showModal, setShowModal] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const [cardText, setCardText] = useState("");

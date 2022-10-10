@@ -111,7 +111,7 @@ function Column(props) {
               onDetailsChange={changeCard}
             />
           ) : null}
-          <AddCardBtn name={"Card"} btnName={"+ Add card"} />
+         <AddCardBtn name={"Card"} btnName={"+ Add card"} boardId = {props.boardId} columnId={params.id}/>
         </div>
       </div>
     </>
