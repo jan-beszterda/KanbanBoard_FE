@@ -17,7 +17,7 @@ function Layout({ children }) {
     load();
   }, [userIdFromLocaleStorage]);
 
-  let fullName = activeUser.firstName + " " + activeUser.lastName;
+  let fullName = activeUser.firstName + "  " + activeUser.lastName;
 
   return (
     <div className="min-w-full min-h-screen w-auto ">
