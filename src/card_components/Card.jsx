@@ -36,6 +36,8 @@ const Card = (props) => {
       card.author = null;
       card.comments = null;
       setCard(card);
+
+      setCardChanges({ cardTitle: card.cardTitle, cardText: card.cardText });
     };
     load();
   }, []);
@@ -149,7 +151,6 @@ const Card = (props) => {
                   className="p-2 border-2 border-gray-300 rounded-md"
                   type="text"
                   name="cardTitle"
-                  placeholder="Edit title"
                   value={cardChanges.cardTitle}
                   onChange={(e) => {
                     handleCardFieldChange(e.target.name, e.target.value);
@@ -211,7 +212,6 @@ const Card = (props) => {
                   className="basis-4/5 m-2 p-2 h-40 border-2 border-gray-300 rounded-md"
                   type="text"
                   name="cardText"
-                  placeholder="Edit card text"
                   value={cardChanges.cardText}
                   onChange={(e) => {
                     handleCardFieldChange(e.target.name, e.target.value);
