@@ -24,7 +24,7 @@ function Layout({ children }) {
       <NavBar name={fullName}></NavBar>
       <SideBar />
 
-      <main className=" px-96 pt-28 flex">{children}</main>
+      <main className=" px-80 pt-28 flex">{children}</main>
     </div>
   );
 }
