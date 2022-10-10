@@ -7,7 +7,6 @@ import { createStompClient } from "../helper_functions/createStompClient";
 import { createComment } from "../helper_functions/createComment";
 import { moveCard } from "../helper_functions/moveCard";
 import { loadColumn } from "../helper_functions/loadColumn";
-import EditCardModal from "./EditCardModal";
 import { editCard } from "../helper_functions/editCard";
 
 const Card = (props) => {
@@ -45,7 +44,6 @@ const Card = (props) => {
   useEffect(() => {
     const load = async () => {
       let column = await loadColumn(props.currentColumnId);
-      console.log(column);
       setCurrentColumnId(column.columnId);
       setCurrentColumnTitle(column.columnTitle);
     };
@@ -53,9 +51,9 @@ const Card = (props) => {
   }, []);
 
   useEffect(() => {
-    let stompClient = createStompClient("/topic/card/" + props.cardId, () =>
-      setIsToBeUpdated(true)
-    );
+    let stompClient = createStompClient("/topic/card/" + props.cardId, () => {
+      setIsToBeUpdated(true);
+    });
     setClient(stompClient);
     return () => {
       stompClient.deactivate();
@@ -74,7 +72,6 @@ const Card = (props) => {
 
         if (futureColumnId) {
           let column = await loadColumn(futureColumnId);
-          console.log(column);
           setCurrentColumnId(column.columnId);
           setCurrentColumnTitle(column.columnTitle);
         }
@@ -236,7 +233,6 @@ const Card = (props) => {
                     name="column"
                     id="column"
                     onChange={(e) => {
-                      console.log(e.target.value);
                       setFutureColumnId(e.target.value);
                     }}
                   >
