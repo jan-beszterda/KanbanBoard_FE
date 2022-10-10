@@ -37,6 +37,7 @@ function BoardPage() {
         setBoard(board);
       };
       load();
+      setIsToBeUpdated(false);
     }
   }, [isToBeUpdated]);
 
@@ -60,7 +61,7 @@ function BoardPage() {
             />
           ))}
         <AddColBtn
-          name={"Title"}
+          name={"Add new column"}
           btnName={"+ Add column"}
           boardId={params.id}
           stompClient={client}
