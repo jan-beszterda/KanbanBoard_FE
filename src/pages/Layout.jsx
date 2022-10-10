@@ -17,11 +17,11 @@ function Layout({ children }) {
     load();
   }, [userIdFromLocaleStorage]);
 
-  let fullName = activeUser.firstName + "  " + activeUser.lastName;
-
+  let fullName = activeUser.firstName + " " + activeUser.lastName;
+  const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
   return (
     <div className="min-w-full min-h-screen w-auto ">
-      <NavBar name={fullName}></NavBar>
+      <NavBar name={capitalizeName}></NavBar>
       <SideBar />
 
       <main className=" px-80 pt-28 flex">{children}</main>
