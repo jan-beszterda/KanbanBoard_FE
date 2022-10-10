@@ -25,7 +25,7 @@ const Card = (props) => {
     cardTitle: "",
     cardText: "",
   });
-  const [showModal, setShowModal] = useState(false);
+  const [isToBeEdited, setIsToBeEdited] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -107,7 +107,7 @@ const Card = (props) => {
         cardTitle: "",
         cardText: "",
       });
-      setShowModal(false);
+      setIsToBeEdited(false);
       client.publish({
         destination: "/app/card/" + props.cardId,
       });
@@ -143,7 +143,7 @@ const Card = (props) => {
         <div className="relative w-full my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 pb-0">
-              {showModal ? (
+              {isToBeEdited ? (
                 <input
                   className="p-2 border-2 border-gray-300 rounded-md"
                   type="text"
@@ -158,7 +158,7 @@ const Card = (props) => {
                   {card && card.cardTitle}
                 </h2>
               )}
-              {showModal ? (
+              {isToBeEdited ? (
                 <div className="flex ml-3 items-stretch justify-around">
                   <HiCheck
                     className="cursor-pointer m-2"
@@ -175,7 +175,7 @@ const Card = (props) => {
                     size={"34px"}
                     type="button"
                     onClick={() => {
-                      setShowModal(false);
+                      setIsToBeEdited(false);
                     }}
                   />
                 </div>
@@ -185,7 +185,7 @@ const Card = (props) => {
                   color="#FF8E7F"
                   size={"17px"}
                   type="button"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => setIsToBeEdited(true)}
                 />
               )}
               <button
@@ -204,7 +204,7 @@ const Card = (props) => {
               )}
             </div>
             <div className="flex items-start justify-between p-3 border-b border-solid border-slate-200">
-              {showModal ? (
+              {isToBeEdited ? (
                 <textarea
                   className="basis-4/5 m-2 p-2 h-40 border-2 border-gray-300 rounded-md"
                   type="text"
