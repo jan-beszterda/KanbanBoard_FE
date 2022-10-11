@@ -5,6 +5,7 @@ import { loadBoard } from "../helper_functions/loadBoard";
 import Column from "../kb-components/Column";
 import AddColBtn from "../kb-components/AddColBtn";
 import { createStompClient } from "../helper_functions/createStompClient";
+import UpdateBoardBtn from "../kb-components/UpdateBoardBtn";
 
 function BoardPage() {
   const [board, setBoard] = useState();
@@ -37,6 +38,7 @@ function BoardPage() {
         setBoard(board);
       };
       load();
+      setIsToBeUpdated(false);
     }
   }, [isToBeUpdated]);
 
@@ -44,6 +46,7 @@ function BoardPage() {
     <div>
       <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
         {board && <h2 className="text-3xl mt-5 mr-5">{board.boardName}</h2>}
+        <UpdateBoardBtn board={board}/>
         <button className="text-start">Back</button>
       </div>
       <div className="flex flex-row justify-evenly gap-5 flex-nowrap">
@@ -60,11 +63,11 @@ function BoardPage() {
             />
           ))}
         <AddColBtn
-          name={"Title"}
+          name={"Add new column"}
           btnName={"+ Add column"}
           boardId={params.id}
           stompClient={client}
-        ></AddColBtn>
+        />
       </div>
     </div>
   );

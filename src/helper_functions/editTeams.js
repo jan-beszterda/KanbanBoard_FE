@@ -1,5 +1,5 @@
 export const editTeamName = async (teamId, teamName) => {
-  let response = await fetch("/api/team/" + teamId + "/" + teamName, {
+  let response = await fetch("/api/team/" + teamId + "/edit?teamName=" + teamName, {
     method: "PUT",
   });
 
@@ -7,7 +7,7 @@ export const editTeamName = async (teamId, teamName) => {
     console.log("Successfully edited team name");
   }
 
-  let result = await response.json();
+  let result = await response.text();
   console.log(result);
 
   return result;

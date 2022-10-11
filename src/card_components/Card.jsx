@@ -7,7 +7,6 @@ import { createStompClient } from "../helper_functions/createStompClient";
 import { createComment } from "../helper_functions/createComment";
 import { moveCard } from "../helper_functions/moveCard";
 import { loadColumn } from "../helper_functions/loadColumn";
-import EditCardModal from "./EditCardModal";
 import { editCard } from "../helper_functions/editCard";
 
 const Card = (props) => {
@@ -26,7 +25,7 @@ const Card = (props) => {
     cardTitle: "",
     cardText: "",
   });
-  const [showModal, setShowModal] = useState(false);
+  const [isToBeEdited, setIsToBeEdited] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -45,7 +44,6 @@ const Card = (props) => {
   useEffect(() => {
     const load = async () => {
       let column = await loadColumn(props.currentColumnId);
-      console.log(column);
       setCurrentColumnId(column.columnId);
       setCurrentColumnTitle(column.columnTitle);
     };
@@ -53,9 +51,9 @@ const Card = (props) => {
   }, []);
 
   useEffect(() => {
-    let stompClient = createStompClient("/topic/card/" + props.cardId, () =>
-      setIsToBeUpdated(true)
-    );
+    let stompClient = createStompClient("/topic/card/" + props.cardId, () => {
+      setIsToBeUpdated(true);
+    });
     setClient(stompClient);
     return () => {
       stompClient.deactivate();
@@ -74,12 +72,12 @@ const Card = (props) => {
 
         if (futureColumnId) {
           let column = await loadColumn(futureColumnId);
-          console.log(column);
           setCurrentColumnId(column.columnId);
           setCurrentColumnTitle(column.columnTitle);
         }
       };
       load();
+      setIsToBeEdited(false);
     }
   }, [isToBeUpdated]);
 
@@ -110,7 +108,7 @@ const Card = (props) => {
         cardTitle: "",
         cardText: "",
       });
-      setShowModal(false);
+      setIsToBeEdited(false);
       client.publish({
         destination: "/app/card/" + props.cardId,
       });
@@ -146,7 +144,7 @@ const Card = (props) => {
         <div className="relative w-full my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 pb-0">
-              {showModal ? (
+              {isToBeEdited ? (
                 <input
                   className="p-2 border-2 border-gray-300 rounded-md"
                   type="text"
@@ -161,7 +159,7 @@ const Card = (props) => {
                   {card && card.cardTitle}
                 </h2>
               )}
-              {showModal ? (
+              {isToBeEdited ? (
                 <div className="flex ml-3 items-stretch justify-around">
                   <HiCheck
                     className="cursor-pointer m-2"
@@ -178,7 +176,7 @@ const Card = (props) => {
                     size={"34px"}
                     type="button"
                     onClick={() => {
-                      setShowModal(false);
+                      setIsToBeEdited(false);
                     }}
                   />
                 </div>
@@ -188,7 +186,7 @@ const Card = (props) => {
                   color="#FF8E7F"
                   size={"17px"}
                   type="button"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => setIsToBeEdited(true)}
                 />
               )}
               <button
@@ -207,7 +205,7 @@ const Card = (props) => {
               )}
             </div>
             <div className="flex items-start justify-between p-3 border-b border-solid border-slate-200">
-              {showModal ? (
+              {isToBeEdited ? (
                 <textarea
                   className="basis-4/5 m-2 p-2 h-40 border-2 border-gray-300 rounded-md"
                   type="text"
@@ -236,7 +234,6 @@ const Card = (props) => {
                     name="column"
                     id="column"
                     onChange={(e) => {
-                      console.log(e.target.value);
                       setFutureColumnId(e.target.value);
                     }}
                   >

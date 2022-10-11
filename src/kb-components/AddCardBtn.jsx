@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { createCard } from "../helper_functions/createCard";
 
-function AddCardBtn({name,btnName, boardId, columnId}) {
+function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
   const [showModal, setShowModal] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const [cardText, setCardText] = useState("");
@@ -15,9 +15,13 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
       cardText: cardText,
     };
 
-    createCard(userId, columnId, boardId, newCard).then(() => {
-      console.log("Success Creating Card");
-      setShowModal(false);
+    createCard(userId, columnId, boardId, newCard).then((response) => {
+      if (response.status === 200) {
+        stompClient.publish({ destination: "/app/board/" + boardId });
+        setCardTitle("");
+        setCardText("");
+        setShowModal(false);
+      }
     });
   };
 
@@ -56,7 +60,9 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
                     className=" border-2 border-gray-300 rounded-md"
                     type="text"
                     value={cardTitle}
-                    onChange= {(e) => {setCardTitle (e.target.value)}}
+                    onChange={(e) => {
+                      setCardTitle(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="relative p-6 pt-3 ">
@@ -65,7 +71,9 @@ function AddCardBtn({name,btnName, boardId, columnId}) {
                     className=" h-40 border-2 border-gray-300 rounded-md"
                     type="text"
                     value={cardText}
-                    onChange= {(e) => {setCardText (e.target.value)}}
+                    onChange={(e) => {
+                      setCardText(e.target.value);
+                    }}
                   />
                 </div>
                 {/*footer*/}
