@@ -6,14 +6,19 @@ import CardItem from "./CardItem";
 
 import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModalEdit from "./ConfirmationModalEdit";
 import { removeColumn } from "../helper_functions/removeColumn";
 import Card from "../card_components/Card";
 import { removeCard } from "../helper_functions/removeCard";
+import { editColumnTitle } from "../helper_functions/editColumns";
+import { FaPencilAlt } from "react-icons/fa";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [currentCard, setCurrentCard] = useState(-1);
+  const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [editModal, setEditModal] = useState(false);
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -23,6 +28,22 @@ function Column(props) {
       });
       setShowModal(false);
     }
+  };
+
+
+  const closeModal = () => {
+    setEditModal(false);
+  };
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setNewColumnTitle(e.target.value);
+  };
+
+  const edit = () => {
+    editColumnTitle(props.columnId, newColumnTitle).then(() => {
+      closeModal();
+    });
   };
 
   const deleteCard = async (cardId) => {
@@ -64,6 +85,24 @@ function Column(props) {
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">
             {props.columnTitle}
           </h3>
+
+          <Button
+            className={"mb-4 mt-4 mr-4"}
+            type={"button"}
+            onClick={() => setEditModal(true)}
+          >
+            <FaPencilAlt color={"FF8E7F"} size={"15px"} />
+          </Button>
+          {editModal ? (
+            <ConfirmationModalEdit
+              closeModal={() => setEditModal(false)}
+              edit={edit}
+              value = {newColumnTitle}
+              onChange = {(e) => handleChange(e)}
+              btnType = {"confirm"}
+            />
+          ) : null}
+
           <Button
             className={"mb-4 mt-4 mr-4"}
             type={"button"}
