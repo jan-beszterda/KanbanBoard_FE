@@ -51,7 +51,7 @@ function AddTeamModal(props) {
               </button>
               <button
                 className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="submit"
+                type="button"
                 onClick={props.add}
               >
                 Add Team

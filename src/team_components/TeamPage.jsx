@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 
@@ -12,14 +12,22 @@ import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";
 import { editTeamName } from "../helper_functions/editTeams";
 
-function TeamPage() {
+function TeamPage(props) {
   const [team, setTeam] = useState();
   const [client, setClient] = useState({});
   const [isToBeUpdated, setIsToBeUpdated] = useState(false);
+  const [teamName, setTeamName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [teamListUpdater, setTeamListUpdater] = useState();
 
   const params = useParams();
-  const userId = localStorage.getItem("active-user-id");
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const userId = localStorage.getItem("active-user-id");
+  const data = location;
+  const updater = data;
+  console.log(updater);
   const toLayout = () => navigate("/profilepage", { replace: true });
 
   useEffect(() => {
@@ -47,58 +55,46 @@ function TeamPage() {
         setTeam(team);
       };
       load();
+      setIsToBeUpdated(false);
     }
   }, [isToBeUpdated]);
 
-  const handleSubmit = (e) => {
-    const leaveTeam = async (data = {}) => {
-      console.log("/api/team/" + params.id + "/leave?user_id=" + userId);
-      //console.log(teamId);
+  const handleSubmit = () => {
+    const leaveTeam = async () => {
       let response = await fetch(
         "/api/team/" + params.id + "/leave?user_id=" + userId,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
-
-      console.log(response);
-
-      if (response.status === 200) {
-        console.log("Left team successfully");
-      }
-
-      //let result = await response.json();
-      //console.log(response);
-
-      //return result;
+      return response;
     };
 
-    leaveTeam().then(() => {
-      toLayout();
-      window.location.reload();
+    leaveTeam().then((response) => {
+      if (response.status === 200) {
+        client.publish({ destination: "/app/team/" + team.id });
+        //teamListUpdater(true);
+        toLayout();
+      }
     });
   };
-  // End handleSubmit.
-
-  const [teamName, setTeamName] = useState("");
-  const [showModal, setShowModal] = useState(false);
 
   const closeModal = () => {
     setShowModal(false);
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setTeamName(e.target.value);
   };
 
   const edit = () => {
-    editTeamName(params.id, teamName)
-    closeModal();
-    window.location.reload();
+    editTeamName(params.id, teamName).then((response) => {
+      if (response.status === 200) {
+        client.publish({ destination: "/app/team/" + team.id });
+        setTeamName("");
+        closeModal();
+      }
+    });
   };
 
   return (
@@ -132,6 +128,7 @@ function TeamPage() {
             name={"Invite user"}
             btnName={"Invite user"}
             teamId={params.id}
+            stompClient={client}
           />
           <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
         </div>
@@ -184,9 +181,10 @@ function TeamPage() {
             />
           ))}
         <AddBoardBtn
-          name={"Board name"}
+          name={"Add new board"}
           btnName={"+ New board"}
           teamId={params.id}
+          stompClient={client}
         />
       </div>
     </div>

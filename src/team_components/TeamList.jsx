@@ -14,9 +14,8 @@ function TeamList() {
     teamDescription: "",
   });
   const [showModal, setShowModal] = useState(false);
+  const [updateTeamList, setUpdateTeamList] = useState(false);
   const userId = localStorage.getItem("active-user-id");
-
-
 
   useEffect(() => {
     let load = async () => {
@@ -24,7 +23,18 @@ function TeamList() {
       setTeams(teamLoad);
     };
     load();
-  }, [newTeam]);
+  }, []);
+
+  useEffect(() => {
+    if (updateTeamList) {
+      let load = async () => {
+        let teamLoad = await loadTeams(+userId);
+        setTeams(teamLoad);
+      };
+      load();
+      setUpdateTeamList(false);
+    }
+  }, [updateTeamList]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -34,15 +44,17 @@ function TeamList() {
     setNewTeam({ ...newTeam, [fieldName]: fieldValue });
   };
 
-  const addTeam = (e) => {
-    e.preventDefault();
+  const addTeam = () => {
     if (newTeam.teamName) {
-      createTeam(newTeam, +userId).then((result) => {
-        closeModal();
-        setNewTeam({
-          teamName: "",
-          teamDescription: "",
-        });
+      createTeam(newTeam, +userId).then((response) => {
+        if (response.status === 200) {
+          setNewTeam({
+            teamName: "",
+            teamDescription: "",
+          });
+          setUpdateTeamList(true);
+          closeModal();
+        }
       });
     }
   };
@@ -69,7 +81,14 @@ function TeamList() {
       </div>
       <div className="flex flex-col justify-start items-left">
         {teams.map((team) => (
-          <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
+          <TeamItem
+            teamId={team.id}
+            key={team.id}
+            teamName={team.teamName}
+            updateTeamList={function updateTeamList() {
+              setUpdateTeamList(true);
+            }}
+          />
         ))}
       </div>
     </div>

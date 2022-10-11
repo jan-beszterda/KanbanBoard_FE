@@ -6,13 +6,5 @@ export const createTeam = async (team, userId) => {
     },
     body: JSON.stringify(team),
   });
-
-  if (response.status === 200) {
-    console.log("Team created successfully");
-  }
-
-  let result = await response.json();
-  console.log(result);
-
-  return result;
+  return response;
 };
