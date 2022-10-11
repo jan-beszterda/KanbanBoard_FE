@@ -12,6 +12,7 @@ import Card from "../card_components/Card";
 import { removeCard } from "../helper_functions/removeCard";
 import { editColumnTitle } from "../helper_functions/editColumns";
 import { FaPencilAlt } from "react-icons/fa";
+import { createCard } from "../helper_functions/createCard";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
@@ -80,6 +81,40 @@ function Column(props) {
     }
   };
 
+  //Load cards on column 
+
+  const userId = localStorage.getItem("active-user-id");
+  const [loadCard, setLoadCard] = useState(props.cards);
+  const [addCardModel, setAddCardModel] = useState(false);
+
+  const [newCard, setNewCard] = useState({
+    cardTitle: "",
+    cardText: "",
+  });
+
+  const handleCardNameChange = (e) => {
+    setNewCard({ ...newCard, cardTitle: e.target.value });
+  };
+  
+  const handleCardDescriptionChange = (e) => {
+    setNewCard({ ...newCard, cardText: e.target.value });
+  };
+
+  console.log(newCard,userId,props.columnId,props.boardId);
+
+  const addCard = () => {
+    createCard(userId,props.columnId,props.boardId,newCard).then(() => {
+      setLoadCard ([  ...loadCard, newCard]);
+      setNewCard({  
+        cardName: "",
+        cardDescription: "",
+      });
+      setAddCardModel(false);
+    });
+    
+  };
+
+
   return (
     <>
       <div
@@ -121,10 +156,11 @@ function Column(props) {
               confirm={() => remove(props.boardId, props.columnId)}
             />
           ) : null}
+
         </div>
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">
-          {props.cards.map((card) => (
+          {loadCard.map((card) => (
             <CardItem
               key={card.cardId}
               cardId={card.cardId}
@@ -155,8 +191,27 @@ function Column(props) {
               onDetailsChange={changeCard}
             />
           ) : null}
-         <AddCardBtn name={"Card"} btnName={"+ Add card"} boardId = {props.boardId} columnId={props.columnId}/>
-        </div>
+
+
+        <button
+        className=" w-[248px] font-sans font-normal text-sm m-auto bg-dark-grey py-2 mt-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+        type="button"
+        onClick={() => setAddCardModel(true)}
+      >
+        + Add card
+      </button>
+
+      {addCardModel ? (
+        <AddCardBtn
+          name={"Add card"}
+          closemodal={() => setAddCardModel(false)}
+          addCard={addCard}
+          handleCardTitle={handleCardNameChange}
+          handleCardText={handleCardDescriptionChange}
+        />
+      ) : null}
+      
+         </div>
       </div>
     </>
   );
