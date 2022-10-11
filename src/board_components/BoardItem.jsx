@@ -5,7 +5,7 @@ function BoardItem(props) {
   return (
     <div className="flex flex-col">
       <Link
-        className="flex flex-col rounded-lg font-medium pl-5 my-5 py-10 mx-5 text-start bg-white"
+        className="flex flex-col rounded-lg font-medium pl-5 my-5 py-8 mx-5 text-start bg-white normal-case"
         key={props.boardId}
         id={props.boardId}
         to={`/boardpage/${props.boardId}`}

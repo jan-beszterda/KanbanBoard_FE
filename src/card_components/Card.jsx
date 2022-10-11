@@ -8,6 +8,7 @@ import { createComment } from "../helper_functions/createComment";
 import { moveCard } from "../helper_functions/moveCard";
 import { loadColumn } from "../helper_functions/loadColumn";
 import { editCard } from "../helper_functions/editCard";
+import { TiDelete } from "react-icons/ti";
 
 const Card = (props) => {
   const [card, setCard] = useState();
@@ -193,7 +194,8 @@ const Card = (props) => {
                 className="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={props.onClose}
               >
-                X
+                            <TiDelete color={"FF8E7F"} size={"25px"} />
+
               </button>
             </div>
             <div className="flex items-start justify-between border-b border-solid border-slate-200 p-5 pt-0 pb-3">
@@ -230,7 +232,7 @@ const Card = (props) => {
                 <div className="flex flex-col items-center mb-2 border-b">
                   <h3 className="text-l font-semibold mb-2">Move card:</h3>
                   <select
-                    className="mb-2 p-2 rounded"
+                    className="mb-2 w-[90px] rounded"
                     name="column"
                     id="column"
                     onChange={(e) => {
@@ -259,7 +261,7 @@ const Card = (props) => {
                     )}
                   </select>
                   <button
-                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 mb-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-[27.5px] my-4 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
                     onClick={handleSubmit}
                   >
@@ -268,7 +270,7 @@ const Card = (props) => {
                 </div>
                 <div className="flex flex-col items-center mb-2">
                   <button
-                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    className="font-sans font-normal text-sm m-auto bg-dark-grey py-2 px-2 my-2 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
                     onClick={props.onDelete}
                   >
@@ -312,7 +314,7 @@ const Card = (props) => {
                       key={comment.commentId}
                       className="border-b border-solid border-slate-200 p-2"
                     >
-                      <p className="text-xs font-light tracking-wide italic my-1">
+                      <p className="text-xs font-light tracking-wide italic my-1 capitalize">
                         On {comment.publishedOn} {comment.user.firstName}{" "}
                         {comment.user.lastName} ({comment.user.email}) wrote:
                       </p>
