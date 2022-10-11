@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 
 import { loadInvitations } from "../helper_functions/loadInvitations";
+import { createStompClient } from "../helper_functions/createStompClient";
+
 import AcceptInvitationBtn from "../team_components/AcceptInvitationBtn";
 import DenyInvitationBtn from "../team_components/DenyInvitationBtn";
 
 const InvitationsPage = () => {
   const [invitations, setInvitations] = useState();
+  const [client, setClient] = useState();
   const [update, setUpdate] = useState(false);
   const userId = localStorage.getItem("active-user-id");
 
@@ -15,6 +18,16 @@ const InvitationsPage = () => {
       setInvitations(invitations);
     };
     load();
+  }, []);
+
+  useEffect(() => {
+    let stompClient = createStompClient("/topic/teamlist/" + userId, () =>
+      setUpdate(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
   }, []);
 
   useEffect(() => {
@@ -31,9 +44,7 @@ const InvitationsPage = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col">
-        <h3 className="text-xl font-bold  border-b-2 p-2">
-          Invitations
-        </h3>
+        <h3 className="text-xl font-bold  border-b-2 p-2">Invitations</h3>
         {invitations &&
           (invitations.length !== 0 ? (
             invitations?.map((team) => (
@@ -49,16 +60,12 @@ const InvitationsPage = () => {
                     <AcceptInvitationBtn
                       teamId={team.id}
                       userId={userId}
-                      callback={() => {
-                        setUpdate(true);
-                      }}
+                      stompClient={client}
                     />
                     <DenyInvitationBtn
                       teamId={team.id}
                       userId={userId}
-                      callback={() => {
-                        setUpdate(true);
-                      }}
+                      callback={client}
                     />
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-function AcceptInvitationBtn({ teamId, userId, callback }) {
+function AcceptInvitationBtn({ teamId, userId, stompClient }) {
   const handleSubmit = () => {
     const acceptInvitation = async () => {
       let response = await fetch(
@@ -16,7 +16,8 @@ function AcceptInvitationBtn({ teamId, userId, callback }) {
       return response;
     };
     acceptInvitation().then(() => {
-      callback();
+      stompClient.publish({ destination: "/app/team/" + teamId });
+      stompClient.publish({ destination: "/app/teamlist/" + userId });
     });
   };
   // End handleSubmit.
