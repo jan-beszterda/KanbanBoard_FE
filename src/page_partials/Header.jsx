@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -6,7 +6,13 @@ const Header = () => {
       <div className="container-fluid">
         <Link to="/" class="navbar-brand">
           <Button type={"button"}>
-            <img src="" alt="Logo" width="60" height="60" class="d-inline-block align-text-bottom me-2" />
+            <img
+              src=""
+              alt="Logo"
+              width="60"
+              height="60"
+              class="d-inline-block align-text-bottom me-2"
+            />
             boardIT
           </Button>
         </Link>

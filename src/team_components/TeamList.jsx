@@ -5,6 +5,7 @@ import TeamItem from "../team_components/TeamItem";
 
 import { loadTeams } from "../helper_functions/loadTeams";
 import { createTeam } from "../helper_functions/createTeam";
+import { createStompClient } from "../helper_functions/createStompClient";
 
 function TeamList() {
   const [teams, setTeams] = useState([]);
@@ -14,9 +15,10 @@ function TeamList() {
     teamDescription: "",
   });
   const [showModal, setShowModal] = useState(false);
+  const [updateTeamList, setUpdateTeamList] = useState(false);
+  const [client, setClient] = useState();
+
   const userId = localStorage.getItem("active-user-id");
-
-
 
   useEffect(() => {
     let load = async () => {
@@ -24,8 +26,28 @@ function TeamList() {
       setTeams(teamLoad);
     };
     load();
-  }, [newTeam]);
+  }, []);
 
+  useEffect(() => {
+    let stompClient = createStompClient("/topic/teamlist/" + userId, () =>
+      setUpdateTeamList(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (updateTeamList) {
+      const load = async () => {
+        let teamLoad = await loadTeams(+userId);
+        setTeams(teamLoad);
+      };
+      load();
+      setUpdateTeamList(false);
+    }
+  }, [updateTeamList]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -35,15 +57,17 @@ function TeamList() {
     setNewTeam({ ...newTeam, [fieldName]: fieldValue });
   };
 
-  const addTeam = (e) => {
-    e.preventDefault();
+  const addTeam = () => {
     if (newTeam.teamName) {
-      createTeam(newTeam, +userId).then((result) => {
-        closeModal();
-        setNewTeam({
-          teamName: "",
-          teamDescription: "",
-        });
+      createTeam(newTeam, +userId).then((response) => {
+        if (response.status === 200) {
+          setNewTeam({
+            teamName: "",
+            teamDescription: "",
+          });
+          setUpdateTeamList(true);
+          closeModal();
+        }
       });
     }
   };
