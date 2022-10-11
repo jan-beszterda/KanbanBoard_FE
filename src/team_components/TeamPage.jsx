@@ -100,7 +100,7 @@ function TeamPage() {
   const edit = () => {
     editTeamName(params.id, teamName)
     setTeam({...team, teamName: teamName})
-    closeModal();
+      closeModal();
   };
 
   return (
@@ -129,13 +129,13 @@ function TeamPage() {
           </h1>
         )}
         <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
-          <button className="mr-4"></button>
+          <button className="mr-0"></button>
           <InviteUserBtn
             name={"Invite user"}
             btnName={"Invite user"}
             teamId={params.id}
           />
-          <LeaveTeamBtn className="ml-4" handleSubmit={handleSubmit} />
+          <LeaveTeamBtn className="ml-0" handleSubmit={handleSubmit} />
         </div>
         {team && (
           <p className="text-l mt-4 p-2">
