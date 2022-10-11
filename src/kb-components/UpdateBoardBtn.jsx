@@ -8,6 +8,7 @@ function UpdateBoardBtn({ board }) {
   const [boardDescription, setBoardDescription] = useState("");
 
   useEffect(() => {
+    // Async function to set name & description for the modal.
     const load = async () => {
       setBoardName( board.boardName );
       setBoardDescription(board.boardDescription);
@@ -17,11 +18,8 @@ function UpdateBoardBtn({ board }) {
 
   const handleSubmit = () => {
 
-    console.log("Board:");
-    console.log(board);
-
     const editBoard = async () => {
-      // set new desctiption and name
+      // set new description and name
       board.boardName = boardName;
       board.boardDescription = boardDescription;
 
