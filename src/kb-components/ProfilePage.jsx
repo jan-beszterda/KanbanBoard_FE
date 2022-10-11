@@ -20,6 +20,8 @@ function ProfilePage() {
 
 let fullName = user.firstName + " " + user.lastName;
 const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+
+
   
 
 
@@ -52,7 +54,11 @@ const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
 
           <div>
             <p className=" text-gray-600 font-sans font-semibold mb-5 ml-2">About me</p>
-            <textarea className=" h-[150px] text-sm border-[1px] border-dark-grey rounded-md py-2 px-2"  placeholder="Write something about yourself..."></textarea>
+            
+              <textarea className=" h-[150px] text-sm border-[1px] border-dark-grey rounded-md py-2 px-2"  placeholder="Write something about yourself..."></textarea>
+              
+
+          
           </div>
           </div>
 
@@ -71,17 +77,8 @@ const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
 
           </div>
 
-       
-
         </div>
-        
-
         </div>
-
-       
-
-        
-
         
       </div>
     </div>
