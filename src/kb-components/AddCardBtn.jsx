@@ -22,7 +22,10 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
         setCardText("");
        
       }
+      
     });
+
+    window.location.reload();
   };
 
   return (
