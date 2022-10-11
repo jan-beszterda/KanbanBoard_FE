@@ -83,6 +83,8 @@ function TeamPage() {
   };
   // End handleSubmit.
 
+
+  // edit team name
   const [teamName, setTeamName] = useState("");
   const [showModal, setShowModal] = useState(false);
 
@@ -97,8 +99,8 @@ function TeamPage() {
 
   const edit = () => {
     editTeamName(params.id, teamName)
+    setTeam({...team, teamName: teamName})
     closeModal();
-    window.location.reload();
   };
 
   return (
