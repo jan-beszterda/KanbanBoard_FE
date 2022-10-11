@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import {FaPencilAlt} from "react-icons/fa";
+import {useEffect} from "react";
+
 
 function UpdateBoardBtn({ board }) {
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
 
+  useEffect(() => {
+    const load = async () => {
+      setBoardName( board.boardName );
+      setBoardDescription(board.boardDescription);
+    };
+    load();
+  }, []);
+
   const handleSubmit = () => {
+
+    console.log("Board:");
+    console.log(board);
 
     const editBoard = async () => {
       // set new desctiption and name
