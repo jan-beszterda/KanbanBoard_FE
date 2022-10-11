@@ -12,7 +12,6 @@ function TeamItem(props) {
   ];
   let randomColor =
     colorArray[Math.floor(Math.random() * colorArray.length)].color;
-  const updateTeamList = props.updateTeamList;
 
   return (
     <Link
@@ -20,7 +19,6 @@ function TeamItem(props) {
       key={props.teamId}
       id={props.teamId}
       to={`/teampage/${props.teamId}`}
-      data={{ updater: updateTeamList }}
     >
       {props.teamName}
     </Link>

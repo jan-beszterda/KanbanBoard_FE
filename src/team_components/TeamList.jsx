@@ -5,6 +5,7 @@ import TeamItem from "../team_components/TeamItem";
 
 import { loadTeams } from "../helper_functions/loadTeams";
 import { createTeam } from "../helper_functions/createTeam";
+import { createStompClient } from "../helper_functions/createStompClient";
 
 function TeamList() {
   const [teams, setTeams] = useState([]);
@@ -15,6 +16,8 @@ function TeamList() {
   });
   const [showModal, setShowModal] = useState(false);
   const [updateTeamList, setUpdateTeamList] = useState(false);
+  const [client, setClient] = useState();
+
   const userId = localStorage.getItem("active-user-id");
 
   useEffect(() => {
@@ -26,8 +29,18 @@ function TeamList() {
   }, []);
 
   useEffect(() => {
+    let stompClient = createStompClient("/topic/teamlist/" + userId, () =>
+      setUpdateTeamList(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
+  }, []);
+
+  useEffect(() => {
     if (updateTeamList) {
-      let load = async () => {
+      const load = async () => {
         let teamLoad = await loadTeams(+userId);
         setTeams(teamLoad);
       };
@@ -35,7 +48,6 @@ function TeamList() {
       setUpdateTeamList(false);
     }
   }, [updateTeamList]);
-
 
   const closeModal = () => {
     setShowModal(false);
@@ -82,14 +94,7 @@ function TeamList() {
       </div>
       <div className="flex flex-col justify-start items-left">
         {teams.map((team) => (
-          <TeamItem
-            teamId={team.id}
-            key={team.id}
-            teamName={team.teamName}
-            updateTeamList={function updateTeamList() {
-              setUpdateTeamList(true);
-            }}
-          />
+          <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
         ))}
       </div>
     </div>

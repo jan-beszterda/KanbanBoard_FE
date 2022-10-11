@@ -12,22 +12,17 @@ import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";
 import { editTeamName } from "../helper_functions/editTeams";
 
-function TeamPage(props) {
+function TeamPage() {
   const [team, setTeam] = useState();
   const [client, setClient] = useState({});
   const [isToBeUpdated, setIsToBeUpdated] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [teamListUpdater, setTeamListUpdater] = useState();
 
   const params = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const userId = localStorage.getItem("active-user-id");
-  const data = location;
-  const updater = data;
-  console.log(updater);
   const toLayout = () => navigate("/profilepage", { replace: true });
 
   useEffect(() => {
@@ -73,7 +68,7 @@ function TeamPage(props) {
     leaveTeam().then((response) => {
       if (response.status === 200) {
         client.publish({ destination: "/app/team/" + team.id });
-        //teamListUpdater(true);
+        client.publish({ destination: "/app/teamlist/" + userId });
         toLayout();
       }
     });
