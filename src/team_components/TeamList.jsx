@@ -36,6 +36,7 @@ function TeamList() {
     }
   }, [updateTeamList]);
 
+
   const closeModal = () => {
     setShowModal(false);
   };

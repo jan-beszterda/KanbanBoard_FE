@@ -74,6 +74,7 @@ function LoginForm({ logo }) {
         onSubmit={handleSubmit}
       >
         <FormHeader
+        mt={"mt-20"}
           linkUrl={"/regisform"}
           logo={logo}
           title={"Sign in"}

@@ -1,40 +1,84 @@
 import React from "react";
+import { useEffect } from "react";
 import Avatar from "react-avatar";
+import {BiEdit} from 'react-icons/bi'
 import { Link } from "react-router-dom";
 
 function ProfilePage() {
+
+  const [user, setUser] = React.useState([])
+  const userId = localStorage.getItem("active-user-id");
+
+  useEffect (() => {
+  const loadUser = async () => {
+    let response = await fetch("/api/user/" + userId);
+    let data = await response.json();
+    setUser(data);
+  };
+  loadUser();
+}, [userId]);
+
+let fullName = user.firstName + " " + user.lastName;
+const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+
+
+  
+
+
   return (
     <div>
-      <div className="w-[1000px] h-[450px] bg-gray-200 rounded ">
+      <div className="w-[1070px] h-[450px] bg-light-grey rounded-md flex flex-row drop-shadow-sm gap-10 pl-10 pt-10  ">
 
-        <div >
+        <div className=" w-[350px] h-[175px] bg-white rounded-md drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)]" >
 
-        <h1>Welcome to Dashboard</h1>
-        <p>Let’s create teams for your projects!</p>
-        </div>
+          <div className=" mx-5 my-5 ">
+            <h1 className=" font-sans  font-bold mb-5">Welcome to Dashboard</h1>
+            <p className=" mb-10">Let’s create teams for your projects!</p>
+            <hr />
+            <p className=" text-sm text-end mt-3 text-gray-600 italic">BoardIT - Team</p>
 
-        <div>
-
-          <div>
-          <Avatar color={Avatar.getRandomColor('sitebase', ['black', 'grey', 'orange'])} name="John Doe" size="40" round={true} />
-          <p>User Name</p>
-          <p>edit</p>
           </div>
-
-          <div>
-            <p>About me</p>
-            <textarea placeholder="Write something about yourself"></textarea>
-          </div>
-
-        </div>
-
-        <div>
-          <p>Email</p>
-          <input type="text" placeholder=""  value={"UserEmail@gmal.com"}/>
-        </div>
-
         
 
+        </div>
+
+        <div className=" w-[600px] h-[380px] bg-white flex flex-row rounded-md drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] gap-5">
+
+          <div className=" my-5 pl-10 pr-5 border-[1px] border-white border-r-gray-200">
+          <div className=" flex flex-row  mb-5  ">
+          <Avatar  color={Avatar.getRandomColor('sitebase', ['black', 'grey', 'orange'])} name={capitalizeName} size="80" round={true} />
+          
+          <h1 className=" pl-3 self-center text-2xl font-bold font-sans capitalize">{capitalizeName}</h1>
+          <BiEdit color="#FF8E7F" size={"20"} className="self-center ml-5 "></BiEdit>
+          </div>
+
+          <div>
+            <p className=" text-gray-600 font-sans font-semibold mb-5 ml-2">About me</p>
+            
+              <textarea className=" h-[150px] text-sm border-[1px] border-dark-grey rounded-md py-2 px-2"  placeholder="Write something about yourself..."></textarea>
+              
+
+          
+          </div>
+          </div>
+
+      
+          <div className=" bg-white mt-10 flex flex-col gap-6">
+          
+          <div className=" flex flex-row  gap-[17px]">
+          <p className=" font-sans text-gray-600 font-semibold">Email </p>
+         <p className=" border-[1px] text-gray-400 italic  border-dark-grey text-sm pt-1 px-1 rounded-md w-[180px] pl-3 ">{user.email}</p>
+
+          </div>
+     
+          <div className=" flex flex-row gap-[10px]">
+          <p className=" font-sans text-gray-600 font-semibold">Phone </p>
+         <p className=" border-[1px] text-gray-400 italic border-dark-grey  text-sm pt- px-1 rounded-md w-[180px] pl-3">xxx-xxx-xxx</p>
+
+          </div>
+
+        </div>
+        </div>
         
       </div>
     </div>

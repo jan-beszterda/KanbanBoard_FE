@@ -31,12 +31,12 @@ const InvitationsPage = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col">
-        <h3 className="text-xl font-bold border-b border-b-2 p-2">
+        <h3 className="text-xl font-bold  border-b-2 p-2">
           Invitations
         </h3>
         {invitations &&
           (invitations.length !== 0 ? (
-            invitations.map((team) => (
+            invitations?.map((team) => (
               <div key={team.id} className="mb-2 p-2 border-b">
                 <div className="flex p-2 bg-gradient-to-l from-slate-200">
                   <div className="basis-4/5">
