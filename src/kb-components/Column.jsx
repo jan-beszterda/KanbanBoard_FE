@@ -42,6 +42,10 @@ function Column(props) {
 
   const edit = () => {
     editColumnTitle(props.columnId, newColumnTitle).then(() => {
+      props.stompClient.publish({
+        destination: "/app/board/" + props.boardId,
+      });
+      setNewColumnTitle("")
       closeModal();
     });
   };
