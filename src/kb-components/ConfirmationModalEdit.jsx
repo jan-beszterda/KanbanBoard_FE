@@ -1,57 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react'
+import { FaPencilAlt } from "react-icons/fa";
+import { editTeamName } from '../helper_functions/editTeams';
+import {useEffect,useState} from 'react'
 
 
-function AddColBtn({name,btnName, boardId}) {
 
-  const [columnTitle, setColumnTitle] = useState("");
+function ConfirmationModalEdit({onChange,btnType,value,closeModal,edit}) {
 
-    // Create a function that take in props to push api here for create card
-
-    const handleSubmit=(e)=> {
-
-      const newColumn = {
-        columnTitle: columnTitle,
-          }
-
-
-      const createColumn = async (data = {}) => {
-        let response = await fetch("/api/column/create?board_id=" + boardId, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-    
-        if (response.status === 200) {
-          console.log("Column created successfully");
-        }
-    
-        //let result = await response.json();
-        //console.log(result);
-    
-        //return result;
-      };
-    
-      createColumn(newColumn).then(() => {
-        console.log("Success Creating Column");
-        setShowModal(false);
-      });
-    } 
-
-    const [showModal, setShowModal] = useState(false);
-    
+  
+    // Create a function that take in props to push api here for create team/board/column/card
 
     return (
       <>
-        <button
-          className=" w-[248px] h-10 mt-5 font-sans font-normal text-sm bg-dark-grey px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none  ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => {setShowModal(true)}}
-        >
-            {btnName}
-        </button>
-        {showModal ? (
           <>
             <div
               className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
@@ -62,11 +22,11 @@ function AddColBtn({name,btnName, boardId}) {
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <h3 className="text-xl font-semibold">
-                      {name}
+                      New column title
                     </h3>
                     <button
                       className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => setShowModal(false)}
+                      onClick={closeModal}
                     >
                       <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                         ×
@@ -74,27 +34,27 @@ function AddColBtn({name,btnName, boardId}) {
                     </button>
                   </div>
                   {/*body*/}
-
-                  
                   <div className="relative p-6  ">
-                    <p className='mb-5 font-bold'>Title</p>
-                    <input className=' border-2 border-gray-300 rounded-md' type="text" value={columnTitle} onChange={e => setColumnTitle(e.target.value)}/>
+                    <input className=' border-2 border-gray-300 rounded-md' type="text"  name='columnTitle'
+                    value={value}
+                    onChange={onChange}
+                    />
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                     <button
                       className=" text-gray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
                       className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={handleSubmit}
+                      onClick={edit}
                     >
-                      Add
+                      {btnType}
                     </button>
                   </div>
                 </div>
@@ -102,9 +62,9 @@ function AddColBtn({name,btnName, boardId}) {
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
-        ) : null}
+       
         </>
     )
 }
 
-export default AddColBtn
+export default ConfirmationModalEdit
