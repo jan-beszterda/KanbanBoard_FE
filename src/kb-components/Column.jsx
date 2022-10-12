@@ -16,9 +16,10 @@ import { FaPencilAlt } from "react-icons/fa";
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
   const [showCard, setShowCard] = useState(false);
-  const [currentCard, setCurrentCard] = useState(-1);
+  const [currentCard, setCurrentCard] = useState();
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const [editModal, setEditModal] = useState(false);
+  props.cards.sort((a, b) => (a.cardId > b.cardId ? 1 : -1));
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -89,7 +90,7 @@ function Column(props) {
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">
             {props.columnTitle}
           </h3>
-
+          <div className={"flex"}>
           <Button
             className={"mb-4 mt-4 mr-4"}
             type={"button"}
@@ -120,6 +121,7 @@ function Column(props) {
               confirm={() => remove(props.boardId, props.columnId)}
             />
           ) : null}
+          </div>
         </div>
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">

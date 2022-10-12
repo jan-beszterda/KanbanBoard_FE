@@ -64,15 +64,22 @@ function TeamPage() {
           },
         }
       );
-      return response;
+
+      console.log(response);
+
+      if (response.status === 200) {
+        console.log("Left team successfully");
+      }
+
+      //let result = await response.json();
+      //console.log(response);
+
+      //return result;
     };
 
-    leaveTeam().then((response) => {
-      if (response.status === 200) {
-        client.publish({ destination: "/app/team/" + team.id });
-        client.publish({ destination: "/app/teamlist/" + userId });
-        toLayout();
-      }
+    leaveTeam().then(() => {
+      toLayout();
+      window.location.reload();
     });
   };
   // End handleSubmit.
@@ -190,9 +197,8 @@ function TeamPage() {
 
         <AddBoardBtn
           name={"Add new board"}
-          btnName={"+ Add new board"}
+          btnName={"+ New board"}
           teamId={params.id}
-          stompClient={client}
         />
       </div>
     </div>

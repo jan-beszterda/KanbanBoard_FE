@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import {FaPencilAlt} from "react-icons/fa";
 
-function UpdateBoardBtn({ board, setBoard }) {
+function UpdateBoardBtn({board, setBoard}) {
   const [boardName, setBoardName] = useState(board.boardName);
-  const [boardDescription, setBoardDescription] = useState(
-    board.boardDescription
-  );
-
+  const [boardDescription, setBoardDescription] = useState(board.boardDescription);
+  
   const handleSubmit = () => {
+
     const editBoard = async () => {
       // set new description and name
-      setBoard({ ...board, boardName, boardDescription });
+      setBoard({...board, boardName, boardDescription});
+
 
       // update database
       let response = await fetch("/api/board/update", {
