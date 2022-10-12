@@ -65,7 +65,7 @@ const InvitationsPage = () => {
                     <DenyInvitationBtn
                       teamId={team.id}
                       userId={userId}
-                      callback={client}
+                      stompClient={client}
                     />
                   </div>
                 </div>

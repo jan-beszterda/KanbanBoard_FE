@@ -85,6 +85,9 @@ function TeamPage() {
   const edit = () => {
     editTeamName(params.id, teamName).then((response) => {
       if (response.status === 200) {
+        team.teamMembers.map((member) => {
+          client.publish({ destination: "/app/teamlist/" + member.userId });
+        });
         client.publish({ destination: "/app/team/" + team.id });
         setTeamName("");
         closeModal();
