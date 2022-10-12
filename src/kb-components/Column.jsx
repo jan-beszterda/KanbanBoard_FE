@@ -84,7 +84,7 @@ function Column(props) {
     <>
       <div
         key={props.columnId}
-        className="flex flex-col gap-2.5 mt-5 w-[250px] bg-light-grey rounded-lg mb-20 h h-full"
+        className="flex flex-col gap-2.5 mt-5 w-[250px] bg-light-grey h-full rounded-lg"
       >
         <div className="flex flex-row justify-between">
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">
@@ -130,7 +130,6 @@ function Column(props) {
               key={card.cardId}
               cardId={card.cardId}
               cardTitle={card.cardTitle}
-              /*column={props.columnTitle}*/
               onClick={() => {
                 setCurrentCard(card.cardId);
                 setShowCard(true);
@@ -156,7 +155,13 @@ function Column(props) {
               onDetailsChange={changeCard}
             />
           ) : null}
-         <AddCardBtn name={"Card"} btnName={"+ Add card"} boardId = {props.boardId} columnId={props.columnId}/>
+          <AddCardBtn
+            name={"Add new card"}
+            btnName={"+ Add card"}
+            boardId={props.boardId}
+            columnId={props.columnId}
+            stompClient={props.stompClient}
+          />
         </div>
       </div>
     </>

@@ -42,6 +42,7 @@ function BoardPage() {
     }
   }, [isToBeUpdated]);
 
+<<<<<<< HEAD
 
   // Make sure board exists before rendering the BoardPage.
   if (!board) return;
@@ -51,6 +52,14 @@ function BoardPage() {
       <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
         <h2 className="text-3xl mt-5 mr-5">{board.boardName}</h2>
         <UpdateBoardBtn board={board} setBoard={setBoard}/>
+=======
+  return (
+    <div>
+      <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
+        {board && <h2 className="text-3xl mt-5 mr-5">{board.boardName}</h2>}
+        <UpdateBoardBtn board={board}/>
+        <button className="text-start">Back</button>
+>>>>>>> parent of f8d8b3b (update addboard without windowreload)
       </div>
       <div className="flex flex-row justify-evenly gap-5 flex-nowrap">
         {board &&
