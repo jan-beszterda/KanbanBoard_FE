@@ -89,7 +89,7 @@ function Column(props) {
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">
             {props.columnTitle}
           </h3>
-
+          <div className={"flex"}>
           <Button
             className={"mb-4 mt-4 mr-4"}
             type={"button"}
@@ -120,6 +120,7 @@ function Column(props) {
               confirm={() => remove(props.boardId, props.columnId)}
             />
           ) : null}
+          </div>
         </div>
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">
