@@ -1,33 +1,19 @@
 import React, { useState } from "react";
 import {FaPencilAlt} from "react-icons/fa";
-import {useEffect} from "react";
 
-
-function UpdateBoardBtn({ board }) {
-  const [boardName, setBoardName] = useState("");
-  const [boardDescription, setBoardDescription] = useState("");
-
-  useEffect(() => {
-    const load = async () => {
-      setBoardName( board.boardName );
-      setBoardDescription(board.boardDescription);
-    };
-    load();
-  }, []);
-
+function UpdateBoardBtn({board, setBoard}) {
+  const [boardName, setBoardName] = useState(board.boardName);
+  const [boardDescription, setBoardDescription] = useState(board.boardDescription);
+  
   const handleSubmit = () => {
 
-    console.log("Board:");
-    console.log(board);
-
     const editBoard = async () => {
-      // set new desctiption and name
-      board.boardName = boardName;
-      board.boardDescription = boardDescription;
+      // set new description and name
+      setBoard({...board, boardName, boardDescription});
 
       // update database
       let response = await fetch("/api/board/update", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -35,8 +21,7 @@ function UpdateBoardBtn({ board }) {
       });
 
       if (response.status === 200) {
-        console.log("Board created successfully");
-        //
+        //console.log("Board created successfully");
       }
 
       let result = await response.json();
@@ -45,14 +30,9 @@ function UpdateBoardBtn({ board }) {
       return result;
     };
 
-    editBoard(board).then((result) => {
-      //Set localStorage for team id
-      localStorage.setItem("active-board-id", result.boardId);
-      let idTest = localStorage.getItem("active-board-id");
-      console.log("Active board:");
-      console.log(idTest);
+    editBoard(board).then(() => {
       setShowModal(false);
-      window.location.reload();
+      //window.location.reload();
     });
   };
 
