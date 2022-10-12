@@ -42,50 +42,58 @@ function BoardPage() {
     }
   }, [isToBeUpdated]);
 
-
-  // Make sure board exists before rendering the BoardPage.
-  if (!board) return;
-
   return (
-    <div>
-      <div className="relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
-        <div className="flex">
-          {board && (
-            <>
-              <div className="flex flex-col mr-5">
-                <h2 className="text-3xl p-2">
-                  {board.boardName ? board.boardName : "[Name not set]"}
-                </h2>
-                <p className="text-l p-2">
-                  {board.boardDescription
-                    ? board.boardDescription
-                    : "[Description not set]"}
-                </p>
-              </div>
-              <UpdateBoardBtn board={board} setBoard={setBoard} />
-            </>
-          )}
-        </div>
+    <div className="w-full">
+      <div className="flex flex-col relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
+        {board && (
+          <>
+            <div className="flex items-center">
+              <h2 className="text-3xl p-2">
+                {board.boardName ? board.boardName : "[Name not set]"}
+              </h2>
+              <UpdateBoardBtn
+                board={board}
+                setBoard={setBoard}
+                stompClient={client}
+              />
+            </div>
+            <div>
+              <p className="text-l p-2">
+                {board.boardDescription
+                  ? board.boardDescription
+                  : "[Description not set]"}
+              </p>
+            </div>
+          </>
+        )}
       </div>
-      <div className="flex flex-row justify-evenly gap-5 flex-nowrap">
+      <div className="flex flex-row gap-5 flex-nowrap">
         {board &&
-          board.columnList.map((column) => (
-            <Column
-              key={column.columnId}
-              boardId={board.id}
-              columnId={column.columnId}
-              columnTitle={column.columnTitle}
-              cards={column.cardList}
-              stompClient={client}
-              columns={board.columnList}
-            />
-          ))}
-        <AddColBtn
-          name={"Add new column"}
-          btnName={"+ Add column"}
-          boardId={params.id}
-          stompClient={client}
-        />
+          board.columnList
+            .sort((a, b) => {
+              return a.columnId > b.columnId
+                ? 1
+                : a.columnId === b.columnId
+                ? 0
+                : -1;
+            })
+            .map((column) => (
+              <Column
+                key={column.columnId}
+                boardId={board.id}
+                columnId={column.columnId}
+                stompClient={client}
+                columns={board.columnList}
+              />
+            ))}
+        {board && (
+          <AddColBtn
+            name={"Add new column"}
+            btnName={"+ Add column"}
+            boardId={board.id}
+            stompClient={client}
+          />
+        )}
       </div>
     </div>
   );

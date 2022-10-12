@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TiDelete } from "react-icons/ti";
+import { FaPencilAlt } from "react-icons/fa";
 
 import AddCardBtn from "./AddCardBtn";
 import CardItem from "./CardItem";
-
 import Button from "../form_components/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import ConfirmationModalEdit from "./ConfirmationModalEdit";
@@ -11,15 +11,22 @@ import { removeColumn } from "../helper_functions/removeColumn";
 import Card from "../card_components/Card";
 import { removeCard } from "../helper_functions/removeCard";
 import { editColumnTitle } from "../helper_functions/editColumns";
-import { FaPencilAlt } from "react-icons/fa";
+import { loadColumn } from "../helper_functions/loadColumn";
 
 function Column(props) {
   const [showModal, setShowModal] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [currentCard, setCurrentCard] = useState();
-  const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [column, setColumn] = useState();
   const [editModal, setEditModal] = useState(false);
-  props.cards.sort((a, b) => (a.cardId > b.cardId ? 1 : -1));
+
+  useEffect(() => {
+    const load = async () => {
+      let column = await loadColumn(props.columnId);
+      setColumn(column);
+    };
+    load();
+  }, []);
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -31,22 +38,19 @@ function Column(props) {
     }
   };
 
-
   const closeModal = () => {
     setEditModal(false);
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
-    setNewColumnTitle(e.target.value);
+    setColumn({ ...column, [e.target.name]: e.target.value });
   };
 
   const edit = () => {
-    editColumnTitle(props.columnId, newColumnTitle).then(() => {
+    editColumnTitle(column.columnId, column).then(() => {
       props.stompClient.publish({
         destination: "/app/board/" + props.boardId,
       });
-      setNewColumnTitle("")
       closeModal();
     });
   };
@@ -67,7 +71,6 @@ function Column(props) {
       props.stompClient.publish({
         destination: "/app/board/" + props.boardId,
       });
-      console.log("on move, should publish");
     }
   }
 
@@ -88,61 +91,63 @@ function Column(props) {
       >
         <div className="flex flex-row justify-between">
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">
-            {props.columnTitle}
+            {column && column.columnTitle
+              ? column.columnTitle
+              : "[No title set]"}
           </h3>
           <div className={"flex"}>
-          <Button
-            className={"mb-4 mt-4 mr-4"}
-            type={"button"}
-            onClick={() => setEditModal(true)}
-          >
-            <FaPencilAlt color={"FF8E7F"} size={"15px"} />
-          </Button>
-          {editModal ? (
-            <ConfirmationModalEdit
-              closeModal={() => setEditModal(false)}
-              edit={edit}
-              value = {newColumnTitle}
-              onChange = {(e) => handleChange(e)}
-              btnType = {"confirm"}
-            />
-          ) : null}
+            <Button
+              className={"mb-4 mt-4 mr-4"}
+              type={"button"}
+              onClick={() => setEditModal(true)}
+            >
+              <FaPencilAlt color={"FF8E7F"} size={"15px"} />
+            </Button>
+            {editModal ? (
+              <ConfirmationModalEdit
+                closeModal={() => setEditModal(false)}
+                edit={edit}
+                value={column.columnTitle}
+                onChange={(e) => handleChange(e)}
+                btnType={"confirm"}
+              />
+            ) : null}
 
-          <Button
-            className={"mb-4 mt-4 mr-4"}
-            type={"button"}
-            onClick={() => setShowModal(true)}
-          >
-            <TiDelete color={"FF8E7F"} size={"25px"} />
-          </Button>
-          {showModal ? (
-            <ConfirmationModal
-              closeModal={() => setShowModal(false)}
-              confirm={() => remove(props.boardId, props.columnId)}
-            />
-          ) : null}
+            <Button
+              className={"mb-4 mt-4 mr-4"}
+              type={"button"}
+              onClick={() => setShowModal(true)}
+            >
+              <TiDelete color={"FF8E7F"} size={"25px"} />
+            </Button>
+            {showModal ? (
+              <ConfirmationModal
+                closeModal={() => setShowModal(false)}
+                confirm={() => remove(props.boardId, props.columnId)}
+              />
+            ) : null}
           </div>
         </div>
         <hr className="rounded-md mx-5 border-2 border-red-pink"></hr>
         <div className="flex justify-center mt-5 flex-col gap-3 items-center ">
-          {props.cards.map((card) => (
-            <CardItem
-              key={card.cardId}
-              cardId={card.cardId}
-              cardTitle={card.cardTitle}
-              onClick={() => {
-                setCurrentCard(card.cardId);
-                setShowCard(true);
-              }}
-            />
-          ))}
+          {column &&
+            column.cardList
+              .sort((a, b) => (a.cardId > b.cardId ? 1 : -1))
+              .map((card) => (
+                <CardItem
+                  key={card.cardId}
+                  cardId={card.cardId}
+                  cardTitle={card.cardTitle}
+                  onClick={() => {
+                    setCurrentCard(card);
+                    setShowCard(true);
+                  }}
+                />
+              ))}
           {showCard ? (
             <Card
-              cardId={currentCard}
+              card={currentCard}
               board={props.boardId}
-              currentColumnId={props.columnId}
-              column={props.columnTitle}
-              columnsList={props.columns}
               boardCLient={props.stompClient}
               onMove={moveCard}
               onClose={() => {
@@ -150,18 +155,20 @@ function Column(props) {
                 setCurrentCard(-1);
               }}
               onDelete={() => {
-                deleteCard(currentCard);
+                deleteCard(currentCard.cardId);
               }}
               onDetailsChange={changeCard}
             />
           ) : null}
-          <AddCardBtn
-            name={"Add new card"}
-            btnName={"+ Add card"}
-            boardId={props.boardId}
-            columnId={props.columnId}
-            stompClient={props.stompClient}
-          />
+          {column && (
+            <AddCardBtn
+              name={"Add new card"}
+              btnName={"+ Add card"}
+              boardId={props.boardId}
+              columnId={column.columnId}
+              stompClient={props.stompClient}
+            />
+          )}
         </div>
       </div>
     </>

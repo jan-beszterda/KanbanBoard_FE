@@ -26,35 +26,18 @@ function InviteUserBtn({ name, btnName, teamId, stompClient }) {
     };
     handleInvitation().then(([invitee, invitation]) => {
       if (invitee && invitation) {
-        //const invitee = getUser().then((data) => {
-        //  return data.userId;
-        //});
-        console.log(invitee, invitation);
-
         stompClient.publish({ destination: "/app/teamlist/" + invitee.userId });
         stompClient.publish({ destination: "/app/team/" + teamId });
         setUserEmail("");
         setShowModal(false);
       }
     });
-    /*inviteUser(userEmail).then((response) => {
-      if (response.status === 200) {
-        const invitee = getUser().then((data) => {
-          return data.userId;
-        });
-        console.log(invitee);
-        stompClient.publish({ destination: "/app/team/" + teamId });
-        stompClient.publish({ destination: "/app/teamlist/" + invitee });
-        setUserEmail("");
-        setShowModal(false);
-      }
-    });*/
   };
 
   return (
     <>
       <button
-        className=" font-sans font-bold uppercase text-m ml-10  px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
+        className="font-sans font-bold uppercase text-m mx-auto my-2 p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >

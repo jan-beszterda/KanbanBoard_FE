@@ -20,11 +20,8 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
         stompClient.publish({ destination: "/app/board/" + boardId });
         setCardTitle("");
         setCardText("");
-       
       }
-      
     });
-
   };
 
   return (
@@ -90,7 +87,10 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
                   <button
                     className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick= {() =>{handleSubmit(); setShowModal(false)}}
+                    onClick={() => {
+                      handleSubmit();
+                      setShowModal(false);
+                    }}
                   >
                     Add
                   </button>
