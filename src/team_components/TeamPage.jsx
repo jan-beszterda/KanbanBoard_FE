@@ -12,7 +12,6 @@ import CreateBtn from "../kb-components/CreateBtn";
 import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";
 import { editTeamName } from "../helper_functions/editTeams";
-import { createBoard } from "../helper_functions/createBoard";
 
 function TeamPage() {
   const [team, setTeam] = useState();
@@ -189,22 +188,12 @@ function TeamPage() {
             />
           ))}
 
-        <button
-          className="bg-white font-sans font-bold uppercase text-m my-5 mx-5 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => setShowBoardModal(true)}
-        >
-          + Add board
-        </button>
-        {showBoardModal ? (
-          <AddBoardBtn
-            name={"Board name"}
-            addBoard={addBoard}
-            onDescriptionChange={handleBoardDescriptionChange}
-            onTitleChange={handleBoardNameChange}
-            closeModal={() => setShowBoardModal(false)}
-          />
-        ) : null}
+        <AddBoardBtn
+          name={"Add new board"}
+          btnName={"+ Add new board"}
+          teamId={params.id}
+          stompClient={client}
+        />
       </div>
     </div>
   );

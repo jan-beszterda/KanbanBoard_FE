@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import {FaPencilAlt} from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
 
-function UpdateBoardBtn({board, setBoard}) {
+function UpdateBoardBtn({ board, setBoard }) {
   const [boardName, setBoardName] = useState(board.boardName);
-  const [boardDescription, setBoardDescription] = useState(board.boardDescription);
-  
-  const handleSubmit = () => {
+  const [boardDescription, setBoardDescription] = useState(
+    board.boardDescription
+  );
 
+  const handleSubmit = () => {
     const editBoard = async () => {
       // set new description and name
-      setBoard({...board, boardName, boardDescription});
+      setBoard({ ...board, boardName, boardDescription });
 
       // update database
       let response = await fetch("/api/board/update", {
@@ -41,13 +42,13 @@ function UpdateBoardBtn({board, setBoard}) {
   const [showModal, setShowModal] = React.useState(false);
   return (
     <>
-        <FaPencilAlt
-            className=" cursor-pointer mt-2"
-            color="#FF8E7F"
-            size={"17px"}
-            type="button"
-            onClick={() => setShowModal(true)}
-        />
+      <FaPencilAlt
+        className="cursor-pointer mt-2"
+        color="#FF8E7F"
+        size={"25px"}
+        type="button"
+        onClick={() => setShowModal(true)}
+      />
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -61,7 +62,7 @@ function UpdateBoardBtn({board, setBoard}) {
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"/>
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none" />
                   </button>
                 </div>
                 {/*body*/}
@@ -103,7 +104,7 @@ function UpdateBoardBtn({board, setBoard}) {
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"/>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black" />
         </>
       ) : null}
     </>
