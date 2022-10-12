@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import React from "react";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
@@ -83,7 +84,6 @@ function TeamPage() {
   };
   // End handleSubmit.
 
-
   // edit team name
   const [teamName, setTeamName] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -98,16 +98,25 @@ function TeamPage() {
   };
 
   const edit = () => {
-    editTeamName(params.id, teamName)
-    setTeam({...team, teamName: teamName})
-      closeModal();
+    editTeamName(params.id, teamName).then((response) => {
+      if (response.status === 200) {
+        team.teamMembers.map((member) => {
+          client.publish({ destination: "/app/teamlist/" + member.userId });
+        });
+        client.publish({ destination: "/app/team/" + team.id });
+        setTeamName("");
+        closeModal();
+      }
+    });
   };
+
+  // End handleSubmit.
 
   return (
     <div className="w-full">
       <div className="flex flex-wrap p-2 mb-6 border-b">
         {team && (
-          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 ">
+          <h1 className=" capitalize flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 ">
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
 
             <FaPencilAlt
@@ -153,7 +162,7 @@ function TeamPage() {
           {team &&
             (team.teamMembers.length !== 0 ? (
               team.teamMembers.map((member) => (
-                <p className="mb-2 p-2" key={member.userId}>
+                <p className="mb-2 p-2  capitalize" key={member.userId}>
                   {member.firstName} {member.lastName} ({member.email})
                 </p>
               ))
@@ -175,7 +184,7 @@ function TeamPage() {
             ))}
         </div>
       </div>
-      <div className=" rounded-md bg-light-grey flex flex-col justify-evenly">
+      <div className=" rounded-md bg-light-grey flex flex-col mb-20 justify-evenly normal-case">
         {team &&
           team.boards.map((board) => (
             <BoardItem
@@ -185,8 +194,9 @@ function TeamPage() {
               boardDescription={board.boardDescription}
             />
           ))}
+
         <AddBoardBtn
-          name={"Board name"}
+          name={"Add new board"}
           btnName={"+ New board"}
           teamId={params.id}
         />

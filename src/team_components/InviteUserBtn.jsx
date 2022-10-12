@@ -5,23 +5,50 @@ function InviteUserBtn({ name, btnName, teamId, stompClient }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = () => {
-    const inviteUser = async () => {
-      let response = await fetch(
-        "/api/team/" + teamId + "/invite_user?user_email=" + userEmail,
-        {
-          method: "PUT",
-        }
-      );
-      return response;
+    const handleInvitation = async () => {
+      const inviteUser = async () => {
+        let response = await fetch(
+          "/api/team/" + teamId + "/invite_user?user_email=" + userEmail,
+          {
+            method: "PUT",
+          }
+        );
+        return response;
+      };
+      const getUser = async () => {
+        let response = await fetch("/api/user/get_by_email?email=" + userEmail);
+        let result = await response.json();
+        return result;
+      };
+      const invitee = await getUser();
+      const invitation = await inviteUser();
+      return [invitee, invitation];
     };
+    handleInvitation().then(([invitee, invitation]) => {
+      if (invitee && invitation) {
+        //const invitee = getUser().then((data) => {
+        //  return data.userId;
+        //});
+        console.log(invitee, invitation);
 
-    inviteUser(userEmail).then((response) => {
-      if (response.status === 200) {
+        stompClient.publish({ destination: "/app/teamlist/" + invitee.userId });
         stompClient.publish({ destination: "/app/team/" + teamId });
         setUserEmail("");
         setShowModal(false);
       }
     });
+    /*inviteUser(userEmail).then((response) => {
+      if (response.status === 200) {
+        const invitee = getUser().then((data) => {
+          return data.userId;
+        });
+        console.log(invitee);
+        stompClient.publish({ destination: "/app/team/" + teamId });
+        stompClient.publish({ destination: "/app/teamlist/" + invitee });
+        setUserEmail("");
+        setShowModal(false);
+      }
+    });*/
   };
 
   return (
