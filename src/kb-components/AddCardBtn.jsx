@@ -25,7 +25,6 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
       
     });
 
-    window.location.reload();
   };
 
   return (
