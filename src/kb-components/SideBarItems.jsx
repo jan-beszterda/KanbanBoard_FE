@@ -9,7 +9,7 @@ import Home from "../page_partials/Home";
 function SideBarItems() {
   return (
     <div>
-      <div className=" z-20 fixed flex flex-col w-60 h-screen py-8 bg-white border-r dark:bg-white dark:border-gray-200">
+      <div className=" z-20 fixed flex flex-col w-60 h-screen py-8 bg-white border-r dark:bg-white dark:border-gray-200 overflow-y-auto">
         <Link to={"/profilepage"}>
           <h2 className="  text-center text-3xl font-semibold text-gray-800 dark:text-black">
             Dashboard

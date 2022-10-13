@@ -107,7 +107,7 @@ function TeamPage() {
     <div className="w-full">
       <div className="flex flex-wrap p-2 mb-6 border-b">
         {team && (
-          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 ">
+          <h1 className="  flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2  normal-case">
             {team.teamName ? team.teamName : <span>[Name not set]</span>}
 
             <FaPencilAlt
@@ -150,11 +150,11 @@ function TeamPage() {
       </div>
       <div className="flex gap-0 mb-6 border-b">
         <div className="basis-1/2 gap-2 border-r">
-          <h3 className="text-xl font-bold border-b p-2">Members</h3>
+          <h3 className="text-xl font-bold border-b p-2  ">Members</h3>
           {team &&
             (team.teamMembers.length !== 0 ? (
               team.teamMembers.map((member) => (
-                <p className="mb-2 p-2" key={member.userId}>
+                <p className="mb-2 p-2 capitalize" key={member.userId}>
                   {member.firstName} {member.lastName} ({member.email})
                 </p>
               ))
@@ -167,7 +167,7 @@ function TeamPage() {
           {team &&
             (team.invited.length !== 0 ? (
               team.invited.map((invitee) => (
-                <p className="mb-2 p-2" key={invitee.userId}>
+                <p className="mb-2 p-2 capitalize" key={invitee.userId}>
                   {invitee.firstName} {invitee.lastName} ({invitee.email})
                 </p>
               ))

@@ -26,7 +26,7 @@ if  (activeUser.lastName === null) {
 
   return (
     <MyContext.Provider value={{activeUser,setActiveUser}}>
-    <div className="min-w-full min-h-screen w-auto ">
+    <div className="min-w-full min-h-screen ">
       <NavBar name={capitalizeName}></NavBar>
       <SideBar />
 

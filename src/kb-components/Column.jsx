@@ -84,7 +84,7 @@ function Column(props) {
     <>
       <div
         key={props.columnId}
-        className="flex flex-col gap-2.5 mt-5 w-[250px] bg-light-grey h-full rounded-lg"
+        className="flex flex-col gap-2.5 mt-5 w-[250px] bg-light-grey h-full rounded-lg mb-20"
       >
         <div className="flex flex-row justify-between">
           <h3 className="text-red-pink-dark mb-4 mt-4 ml-4 font-bold">

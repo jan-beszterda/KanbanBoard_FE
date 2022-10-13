@@ -4,7 +4,7 @@ import SideBarItems from '../kb-components/SideBarItems'
 
 function SideBar() {
   return (
-    <div>
+    <div >
         <SideBarItems/>
     </div>
   )
