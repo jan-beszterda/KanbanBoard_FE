@@ -2,7 +2,15 @@ import { useState } from "react";
 
 import { createCard } from "../helper_functions/createCard";
 
-function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
+function AddCardBtn({
+  name,
+  btnName,
+  boardId,
+  columnId,
+  stompClient,
+  cards,
+  setCards,
+}) {
   const [showModal, setShowModal] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const [cardText, setCardText] = useState("");
@@ -15,8 +23,10 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
       cardText: cardText,
     };
 
-    createCard(userId, columnId, boardId, newCard).then((response) => {
+    createCard(userId, boardId, columnId, newCard).then((response) => {
       if (response.status === 200) {
+        let card = response.json();
+        setCards([...cards, card]);
         stompClient.publish({ destination: "/app/board/" + boardId });
         setCardTitle("");
         setCardText("");

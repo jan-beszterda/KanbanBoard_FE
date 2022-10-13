@@ -1,6 +1,10 @@
-function ConfirmationModalEdit({ onChange, btnType, value, closeModal, edit }) {
-  // Create a function that take in props to push api here for create team/board/column/card
-
+function ConfirmationModalEdit({
+  onChange,
+  btnType,
+  columnTitle,
+  closeModal,
+  edit,
+}) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -25,8 +29,8 @@ function ConfirmationModalEdit({ onChange, btnType, value, closeModal, edit }) {
                 className=" border-2 border-gray-300 rounded-md"
                 type="text"
                 name="columnTitle"
-                value={value}
-                onChange={onChange}
+                value={columnTitle}
+                onChange={(e) => onChange(e)}
               />
             </div>
             {/*footer*/}

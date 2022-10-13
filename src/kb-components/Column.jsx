@@ -18,15 +18,28 @@ function Column(props) {
   const [showCard, setShowCard] = useState(false);
   const [currentCard, setCurrentCard] = useState();
   const [column, setColumn] = useState();
+  const [cards, setCards] = useState();
   const [editModal, setEditModal] = useState(false);
+  const [updatedColumn, setUpdatedColumn] = useState();
 
   useEffect(() => {
     const load = async () => {
-      let column = await loadColumn(props.columnId);
+      let column = await loadColumn(props.column.columnId);
       setColumn(column);
+      setCards(column.cardList);
+      setUpdatedColumn(column);
     };
     load();
   }, []);
+
+  useEffect(() => {
+    const load = async () => {
+      let column = await loadColumn(props.column.columnId);
+      setColumn(column);
+      setCards(column.cardList);
+    };
+    load();
+  }, [cards]);
 
   const remove = async (boardId, columnId) => {
     let response = await removeColumn(boardId, columnId);
@@ -43,15 +56,17 @@ function Column(props) {
   };
 
   const handleChange = (e) => {
-    setColumn({ ...column, [e.target.name]: e.target.value });
+    setUpdatedColumn({ ...updatedColumn, [e.target.name]: e.target.value });
   };
 
   const edit = () => {
-    editColumnTitle(column.columnId, column).then(() => {
-      props.stompClient.publish({
-        destination: "/app/board/" + props.boardId,
-      });
-      closeModal();
+    editColumnTitle(column.columnId, updatedColumn).then((response) => {
+      if (response.ok) {
+        props.stompClient.publish({
+          destination: "/app/board/" + props.boardId,
+        });
+        closeModal();
+      }
     });
   };
 
@@ -86,7 +101,7 @@ function Column(props) {
   return (
     <>
       <div
-        key={props.columnId}
+        key={props.column.columnId}
         className="flex flex-col gap-2.5 mt-5 w-[250px] bg-light-grey h-full rounded-lg"
       >
         <div className="flex flex-row justify-between">
@@ -107,8 +122,8 @@ function Column(props) {
               <ConfirmationModalEdit
                 closeModal={() => setEditModal(false)}
                 edit={edit}
-                value={column.columnTitle}
-                onChange={(e) => handleChange(e)}
+                columnTitle={updatedColumn.columnTitle}
+                onChange={handleChange}
                 btnType={"confirm"}
               />
             ) : null}
@@ -123,7 +138,7 @@ function Column(props) {
             {showModal ? (
               <ConfirmationModal
                 closeModal={() => setShowModal(false)}
-                confirm={() => remove(props.boardId, props.columnId)}
+                confirm={() => remove(props.boardId, column.columnId)}
               />
             ) : null}
           </div>
@@ -166,6 +181,8 @@ function Column(props) {
               btnName={"+ Add card"}
               boardId={props.boardId}
               columnId={column.columnId}
+              cards={cards}
+              setCards={setCards}
               stompClient={props.stompClient}
             />
           )}

@@ -81,7 +81,7 @@ function BoardPage() {
               <Column
                 key={column.columnId}
                 boardId={board.id}
-                columnId={column.columnId}
+                column={column}
                 stompClient={client}
                 columns={board.columnList}
               />
