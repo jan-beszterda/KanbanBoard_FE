@@ -90,7 +90,7 @@ function TeamPage() {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="flex flex-wrap p-2 mb-6 border-b">
+      <div className="flex flex-wrap p-2 mb-6 py-2 border-b">
         <div className="flex flex-col flex-grow flex-shrink-0 basis-4/5">
           <div className="flex items-center">
             {team && (
@@ -125,7 +125,7 @@ function TeamPage() {
             </p>
           )}
         </div>
-        <div className="flex flex-col jusdtify-ityems-center basis-1/5 flex-grow-0 flex-shrink p-2">
+        <div className="flex flex-col basis-1/5 p-2 rounded-md ">
           {team && (
             <InviteUserBtn
               name={"Invite user"}

@@ -52,7 +52,7 @@ function AddBoardBtn({ name, btnName, teamId }) {
   return (
     <>
       <button
-        className="bg-white font-sans font-bold uppercase text-m my-5 mx-5 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+        className="bg-white font-sans font-bold uppercase text-m my-5 mx-5 px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >

@@ -196,7 +196,7 @@ const Card = (props) => {
                 </div>
               ) : (
                 <FaPencilAlt
-                  className="ml-3 mt-2 cursor-pointer"
+                  className="ml-3 mt-1 cursor-pointer"
                   color="#FF8E7F"
                   size={"17px"}
                   type="button"

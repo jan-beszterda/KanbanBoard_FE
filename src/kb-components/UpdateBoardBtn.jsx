@@ -31,9 +31,9 @@ function UpdateBoardBtn({ board, setBoard, stompClient }) {
   return (
     <>
       <FaPencilAlt
-        className="cursor-pointer mx-4 mt-1"
+        className="cursor-pointer mx-4 "
         color="#FF8E7F"
-        size={"18px"}
+        size={"20px"}
         type="button"
         onClick={() => setShowModal(true)}
       />
