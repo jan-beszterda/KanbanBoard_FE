@@ -1,11 +1,7 @@
-export const editColumnTitle = async (columnId, column) => {
-  let response = await fetch("/api/column/" + columnId + "/edit", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(column),
-  });
-
-  return response;
-};
+export const editColumnTitle = async (columnId, columnTitle) => {
+    let response = await fetch("/api/column/" + columnId + "/edit?columnTitle=" + columnTitle, {
+      method: "PUT",
+    });
+  
+    return response;
+  };

@@ -21,7 +21,7 @@ function AddTeamModal(props) {
             {/*body*/}
 
             <div className="relative p-6  ">
-              <p className="mb-5 font-bold">Name</p>
+              <p className="mb-5 font-bold">Title</p>
               <input
                 className=" border-2 border-gray-300 rounded-md"
                 type="text"

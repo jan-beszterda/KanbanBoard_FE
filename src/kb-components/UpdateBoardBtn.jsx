@@ -1,42 +1,53 @@
-import { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import {FaPencilAlt} from "react-icons/fa";
 
-function UpdateBoardBtn({ board, setBoard, stompClient }) {
-  const [showModal, setShowModal] = useState(false);
-
-  const handleChange = (e) => {
-    setBoard({ ...board, [e.target.name]: e.target.value });
-  };
-
+function UpdateBoardBtn({board, setBoard}) {
+  const [boardName, setBoardName] = useState(board.boardName);
+  const [boardDescription, setBoardDescription] = useState(board.boardDescription);
+  
   const handleSubmit = () => {
+
     const editBoard = async () => {
-      let response = await fetch("/api/board/" + board.id + "/update", {
+      // set new description and name
+      setBoard({...board, boardName, boardDescription});
+
+      // update database
+      let response = await fetch("/api/board/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(board),
       });
-      return response;
+
+      if (response.status === 200) {
+        //console.log("Board created successfully");
+      }
+
+      let result = await response.json();
+      console.log(result);
+
+      return result;
     };
 
-    editBoard(board).then((response) => {
-      if (response.ok) {
-        stompClient.publish({ destination: "/app/board/" + board.id });
-        setShowModal(false);
-      }
+    editBoard(board).then(() => {
+      setShowModal(false);
+      //window.location.reload();
     });
   };
 
+  // End handleSubmit.
+
+  const [showModal, setShowModal] = React.useState(false);
   return (
     <>
-      <FaPencilAlt
-        className="cursor-pointer mx-2"
-        color="#FF8E7F"
-        size={"25px"}
-        type="button"
-        onClick={() => setShowModal(true)}
-      />
+        <FaPencilAlt
+            className=" cursor-pointer mt-2"
+            color="#FF8E7F"
+            size={"17px"}
+            type="button"
+            onClick={() => setShowModal(true)}
+        />
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -50,7 +61,7 @@ function UpdateBoardBtn({ board, setBoard, stompClient }) {
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none" />
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"/>
                   </button>
                 </div>
                 {/*body*/}
@@ -60,18 +71,16 @@ function UpdateBoardBtn({ board, setBoard, stompClient }) {
                   <input
                     className=" border-2 border-gray-300 rounded-md"
                     type="text"
-                    name="boardName"
-                    value={board.boardName}
-                    onChange={(e) => handleChange(e)}
+                    value={boardName}
+                    onChange={(e) => setBoardName(e.target.value)}
                   />
                 </div>
                 <div className="relative p-6 pt-3 ">
                   <p className="mb-5  font-bold ">Description</p>
                   <textarea
                     className=" h-40 border-2 border-gray-300 rounded-md"
-                    name="boardDescription"
-                    value={board.boardDescription}
-                    onChange={(e) => handleChange(e)}
+                    value={boardDescription}
+                    onChange={(e) => setBoardDescription(e.target.value)}
                   />
                 </div>
                 {/*footer*/}
@@ -94,7 +103,7 @@ function UpdateBoardBtn({ board, setBoard, stompClient }) {
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black" />
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"/>
         </>
       ) : null}
     </>

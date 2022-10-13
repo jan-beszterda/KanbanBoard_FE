@@ -1,4 +1,6 @@
-function AcceptInvitationBtn({ teamId, userId, stompClient }) {
+import React from "react";
+
+function AcceptInvitationBtn({ teamId, userId, callback }) {
   const handleSubmit = () => {
     const acceptInvitation = async () => {
       let response = await fetch(
@@ -7,15 +9,17 @@ function AcceptInvitationBtn({ teamId, userId, stompClient }) {
           method: "PUT",
         }
       );
+      if (response.status === 200) {
+        console.log("Endpoint works!");
+        console.log(response);
+      }
       return response;
     };
-    acceptInvitation().then((response) => {
-      if (response.ok) {
-        stompClient.publish({ destination: "/app/team/" + teamId });
-        stompClient.publish({ destination: "/app/teamlist/" + userId });
-      }
+    acceptInvitation().then(() => {
+      callback();
     });
   };
+  // End handleSubmit.
 
   return (
     <button

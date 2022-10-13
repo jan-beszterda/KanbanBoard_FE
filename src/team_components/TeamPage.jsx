@@ -1,23 +1,21 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import React from "react";
 
 import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
 import InviteUserBtn from "./InviteUserBtn";
+import CreateBtn from "../kb-components/CreateBtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";
-import { editTeam } from "../helper_functions/editTeams";
-import EditTeamBtn from "../kb-components/EditTeamBtn";
+import { editTeamName } from "../helper_functions/editTeams";
 
 function TeamPage() {
   const [team, setTeam] = useState();
   const [client, setClient] = useState({});
   const [isToBeUpdated, setIsToBeUpdated] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const params = useParams();
   const userId = localStorage.getItem("active-user-id");
@@ -49,93 +47,106 @@ function TeamPage() {
         setTeam(team);
       };
       load();
-      setIsToBeUpdated(false);
     }
   }, [isToBeUpdated]);
 
-  const handleSubmit = () => {
-    const leaveTeam = async () => {
+  const handleSubmit = (e) => {
+    const leaveTeam = async (data = {}) => {
+      console.log("/api/team/" + params.id + "/leave?user_id=" + userId);
+      //console.log(teamId);
       let response = await fetch(
         "/api/team/" + params.id + "/leave?user_id=" + userId,
         {
           method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
-      return response;
-    };
-    leaveTeam().then((response) => {
+
+      console.log(response);
+
       if (response.status === 200) {
-        client.publish({ destination: "/app/team/" + team.id });
-        client.publish({ destination: "/app/teamlist/" + userId });
-        toLayout();
+        console.log("Left team successfully");
       }
+
+      //let result = await response.json();
+      //console.log(response);
+
+      //return result;
+    };
+
+    leaveTeam().then(() => {
+      toLayout();
+      window.location.reload();
     });
   };
+  // End handleSubmit.
 
-  const handleChange = (fieldName, fieldValue) => {
-    setTeam({ ...team, [fieldName]: fieldValue });
+
+  // edit team name
+  const [teamName, setTeamName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setTeamName(e.target.value);
   };
 
   const edit = () => {
-    editTeam(team.id, team).then((response) => {
-      if (response.status === 200) {
-        team.teamMembers.map((member) => {
-          client.publish({ destination: "/app/teamlist/" + member.userId });
-        });
-        client.publish({ destination: "/app/team/" + team.id });
-        setShowModal(false);
-      }
-    });
+    editTeamName(params.id, teamName)
+    setTeam({...team, teamName: teamName})
+      closeModal();
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full">
       <div className="flex flex-wrap p-2 mb-6 border-b">
-        <div className="flex flex-col flex-grow flex-shrink-0 basis-4/5">
-          <div className="flex items-center">
-            {team && (
-              <h1 className="capitalize text-3xl p-2 ">
-                {team.teamName ? team.teamName : "[Name not set]"}
-              </h1>
-            )}
-            {team && (
-              <FaPencilAlt
-                className="cursor-pointer mx-2 my-2"
-                color="#FF8E7F"
-                size={"20px"}
-                type="button"
-                onClick={() => setShowModal(true)}
-              />
-            )}
+        {team && (
+          <h1 className=" uppercase flex gap-5 flex-row flex-auto basis-4/5 flex-grow flex-shrink-0 text-3xl p-2 ">
+            {team.teamName ? team.teamName : <span>[Name not set]</span>}
+
+            <FaPencilAlt
+              className=" cursor-pointer mt-2"
+              color="#FF8E7F"
+              size={"17px"}
+              type="button"
+              onClick={() => setShowModal(true)}
+            ></FaPencilAlt>
             {showModal ? (
-              <EditTeamBtn
+              <CreateBtn
+              btnTitle={"Edit Team Name"}
                 edit={edit}
-                closeModal={() => setShowModal(false)}
+                closeModal={closeModal}
                 btnType={"Edit"}
-                values={team}
+                value={teamName}
                 onChange={handleChange}
               />
             ) : null}
-          </div>
-          {team && (
-            <p className="text-l mt-4 p-2">
-              {team.teamDescription
-                ? team.teamDescription
-                : "[Description not set]"}
-            </p>
-          )}
+          </h1>
+        )}
+        <div className="flex-auto basis-1/5 flex-grow-0 flex-shrink p-2">
+          <button className="mr-0"></button>
+          <InviteUserBtn
+            name={"Invite user"}
+            btnName={"Invite user"}
+            teamId={params.id}
+          />
+          <LeaveTeamBtn className="ml-0" handleSubmit={handleSubmit} />
         </div>
-        <div className="flex flex-col jusdtify-ityems-center basis-1/5 flex-grow-0 flex-shrink p-2">
-          {team && (
-            <InviteUserBtn
-              name={"Invite user"}
-              btnName={"Invite user"}
-              teamId={team.id}
-              stompClient={client}
-            />
-          )}
-          <LeaveTeamBtn handleSubmit={handleSubmit} />
-        </div>
+        {team && (
+          <p className="text-l mt-4 p-2">
+            {team.teamDescription ? (
+              team.teamDescription
+            ) : (
+              <span>[Description not set]</span>
+            )}
+          </p>
+        )}
       </div>
       <div className="flex gap-0 mb-6 border-b">
         <div className="basis-1/2 gap-2 border-r">
@@ -143,7 +154,7 @@ function TeamPage() {
           {team &&
             (team.teamMembers.length !== 0 ? (
               team.teamMembers.map((member) => (
-                <p className="mb-2 p-2  capitalize" key={member.userId}>
+                <p className="mb-2 p-2" key={member.userId}>
                   {member.firstName} {member.lastName} ({member.email})
                 </p>
               ))
@@ -165,7 +176,7 @@ function TeamPage() {
             ))}
         </div>
       </div>
-      <div className=" rounded-md bg-light-grey flex flex-col mb-20 justify-evenly normal-case">
+      <div className=" rounded-md bg-light-grey flex flex-col justify-evenly">
         {team &&
           team.boards.map((board) => (
             <BoardItem
@@ -175,14 +186,11 @@ function TeamPage() {
               boardDescription={board.boardDescription}
             />
           ))}
-        {team && (
-          <AddBoardBtn
-            name={"Add new board"}
-            btnName={"+ New board"}
-            teamId={team.id}
-            stompClient={client}
-          />
-        )}
+        <AddBoardBtn
+          name={"Board name"}
+          btnName={"+ New board"}
+          teamId={params.id}
+        />
       </div>
     </div>
   );
