@@ -3,26 +3,42 @@ import { useEffect } from "react";
 import Avatar from "react-avatar";
 import {BiEdit} from 'react-icons/bi'
 import { editUserName } from "../helper_functions/editTeams";
-import { Link, useFetcher } from "react-router-dom";
 import CreateBtn from './CreateBtn'
+import { MyContext } from "../pages/Layout";
 
 function ProfilePage() {
-  const [user, setUser] = React.useState([])
-  const userId = localStorage.getItem("active-user-id");
 
+  const userId = localStorage.getItem("active-user-id");
   const [editName,setEditName] = React.useState("");
   const [editNameModal,setEditNameModal] = React.useState(false);
+  
+  const {activeUser,setActiveUser} = React.useContext(MyContext);
+  const newName = editName.split(" ",3);
+  let newFirstName = newName[0];
+  
+  const lastNameIndex1 = () => {
+    if  (newName[1] === undefined) {
+      return "";
+    }
+    else {
+      return newName[1];
+    }
+  }
+
+  const lastNameIndex2 = () => {
+    if  (newName[2] === undefined) {
+      return "";
+    }
+    else {
+      return newName[2];
+    }
+  }
+
+  let newLastName = lastNameIndex1() + " " + lastNameIndex2();
 
 
-  useEffect (() => {
-  const loadUser = async () => {
-    let response = await fetch("/api/user/" + userId);
-    let data = await response.json();
-    setUser(data);
-  };
-  loadUser();
-}, [user]);
 
+  console.log(newLastName);
 
 const onChange = (e) => {
   setEditName(e.target.value);
@@ -30,8 +46,8 @@ const onChange = (e) => {
 
 const onClick = () => {
   editUserName(userId, editName);
-  setEditNameModal(false);
-  
+  setActiveUser({...activeUser, firstName: newFirstName, lastName: newLastName});
+  closeModal();
 };
 
 const openModal = () => {
@@ -41,11 +57,14 @@ const closeModal = () => {
   setEditNameModal(false);
 };
 
-if (user.lastName === null) {
-  user.lastName = "";
+if (activeUser.lastName === null) {
+  activeUser.lastName = "";
 }
 
-const userName = user.firstName + " " + user.lastName;
+const userName = activeUser.firstName + " " + activeUser.lastName;
+
+
+
 
 
   return (
@@ -95,7 +114,7 @@ const userName = user.firstName + " " + user.lastName;
           
           <div className=" flex flex-row  gap-[17px]">
           <p className=" font-sans text-gray-600 font-semibold">Email </p>
-         <p className=" border-[1px] text-gray-400 italic  border-dark-grey text-sm pt-1 px-1 rounded-md w-[160px] pl-3 ">{user.email}</p>
+         <p className=" border-[1px] text-gray-400 italic  border-dark-grey text-sm pt-1 px-1 rounded-md w-[160px] pl-3 ">{activeUser.email}</p>
 
           </div>
      
