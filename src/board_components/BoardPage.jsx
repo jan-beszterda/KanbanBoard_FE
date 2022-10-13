@@ -44,7 +44,7 @@ function BoardPage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
+      <div className="flex relative h-auto mb-10 mt-5 flex-col justify-start text-start gap-12 w-auto">
         {board && (
           <>
             <div className="flex items-center">

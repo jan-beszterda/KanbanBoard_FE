@@ -92,7 +92,7 @@ function TeamList() {
           />
         ) : null}
       </div>
-      <div className="flex flex-col justify-start items-left overflow-auto">
+      <div className="flex flex-col justify-start items-left overflow-y-auto h-80 flex-auto ">
         {teams.map((team) => (
           <TeamItem teamId={team.id} key={team.id} teamName={team.teamName} />
         ))}
