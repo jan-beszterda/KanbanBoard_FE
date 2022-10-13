@@ -20,6 +20,7 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
         stompClient.publish({ destination: "/app/board/" + boardId });
         setCardTitle("");
         setCardText("");
+        setShowModal(false);
       }
     });
   };
@@ -89,7 +90,6 @@ function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
                     type="button"
                     onClick={() => {
                       handleSubmit();
-                      setShowModal(false);
                     }}
                   >
                     Add
