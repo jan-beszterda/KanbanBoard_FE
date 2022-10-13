@@ -42,7 +42,7 @@ function UpdateBoardBtn({board, setBoard}) {
   return (
     <>
         <FaPencilAlt
-            className=" cursor-pointer mt-5"
+            className=" cursor-pointer ml-2"
             color="#FF8E7F"
             size={"17px"}
             type="button"

@@ -30,7 +30,7 @@ if  (activeUser.lastName === null) {
       <NavBar name={capitalizeName}></NavBar>
       <SideBar />
 
-      <main  className=" px-80 pt-28 flex">{children}</main>
+      <main  className=" mx-80 pt-28 flex">{children}</main>
     </div>
     </MyContext.Provider>
   );

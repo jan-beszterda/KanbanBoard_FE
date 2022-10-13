@@ -212,7 +212,7 @@ const Card = (props) => {
             </div>
             <div className="flex items-start justify-between border-b border-solid border-slate-200 p-5 pt-0 pb-3">
               {cardAuthor && (
-                <p className="text-xs font-light tracking-wide italic">
+                <p className="text-xs font-light tracking-wide italic capitalize">
                   Created by: {cardAuthor.firstName} {cardAuthor.lastName} (
                   {cardAuthor.email})
                 </p>
