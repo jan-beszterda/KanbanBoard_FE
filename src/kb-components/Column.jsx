@@ -92,7 +92,7 @@ function Column(props) {
           </h3>
           <div className={"flex"}>
           <Button
-            className={"mb-4 mt-4 mr-4"}
+            className={"mb-4 mt-4 mr-2"}
             type={"button"}
             onClick={() => setEditModal(true)}
           >
