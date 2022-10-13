@@ -6,7 +6,7 @@ import AddBoardBtn from "../kb-components/AddBoardBtn";
 import BoardItem from "../board_components/BoardItem";
 import LeaveTeamBtn from "./LeaveTeamBtn";
 import InviteUserBtn from "./InviteUserBtn";
-import CreateBtn from "../kb-components/CreateBtn";
+import CreateBtn from "../kb-components/EditTeamBbtn";
 
 import { loadTeam } from "../helper_functions/loadTeam";
 import { createStompClient } from "../helper_functions/createStompClient";

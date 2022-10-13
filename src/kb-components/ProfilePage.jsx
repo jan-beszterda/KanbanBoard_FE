@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Avatar from "react-avatar";
 import {BiEdit} from 'react-icons/bi'
 import { editUserName } from "../helper_functions/editTeams";
-import CreateBtn from './CreateBtn'
+import CreateBtn from './EditTeamBbtn'
 import { MyContext } from "../pages/Layout";
 
 function ProfilePage() {

@@ -24,9 +24,6 @@ if  (activeUser.lastName === null) {
   const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
 
 
-
-
-
   return (
     <MyContext.Provider value={{activeUser,setActiveUser}}>
     <div className="min-w-full min-h-screen w-auto ">
