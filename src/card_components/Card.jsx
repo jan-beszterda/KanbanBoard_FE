@@ -9,11 +9,13 @@ import { moveCard } from "../helper_functions/moveCard";
 import { loadColumn } from "../helper_functions/loadColumn";
 import { editCard } from "../helper_functions/editCard";
 import { TiDelete } from "react-icons/ti";
+import { loadBoard } from "../helper_functions/loadBoard";
 
 const Card = (props) => {
   const [card, setCard] = useState();
   const [currentColumnId, setCurrentColumnId] = useState();
   const [currentColumnTitle, setCurrentColumnTitle] = useState();
+  const [columnList, setColumnList] = useState([]);
   const [futureColumnId, setFutureColumnId] = useState();
   const [cardAuthor, setCardAuthor] = useState();
   const [cardComments, setCardComments] = useState([]);
@@ -22,39 +24,44 @@ const Card = (props) => {
   const [newComment, setNewComment] = useState({
     commentText: "",
   });
-  const [cardChanges, setCardChanges] = useState({
-    cardTitle: "",
-    cardText: "",
-  });
   const [isToBeEdited, setIsToBeEdited] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      let card = await loadCard(props.cardId);
+      let card = await loadCard(props.card.cardId);
       setCardAuthor(card.author);
       setCardComments(card.comments);
       card.author = null;
       card.comments = null;
       setCard(card);
-
-      setCardChanges({ cardTitle: card.cardTitle, cardText: card.cardText });
     };
     load();
   }, []);
 
   useEffect(() => {
     const load = async () => {
-      let column = await loadColumn(props.currentColumnId);
-      setCurrentColumnId(column.columnId);
-      setCurrentColumnTitle(column.columnTitle);
+      let board = await loadBoard(props.board);
+      let columns = board.columnList;
+      setColumnList(columns);
+      let column = columns.find((column) => {
+        return column.cardList.find((card) => {
+          return card.cardId === props.card.cardId;
+        });
+      });
+      let currentColumn = await loadColumn(column.columnId);
+      setCurrentColumnId(currentColumn.columnId);
+      setCurrentColumnTitle(currentColumn.columnTitle);
     };
     load();
   }, []);
 
   useEffect(() => {
-    let stompClient = createStompClient("/topic/card/" + props.cardId, () => {
-      setIsToBeUpdated(true);
-    });
+    let stompClient = createStompClient(
+      "/topic/card/" + props.card.cardId,
+      () => {
+        setIsToBeUpdated(true);
+      }
+    );
     setClient(stompClient);
     return () => {
       stompClient.deactivate();
@@ -64,21 +71,28 @@ const Card = (props) => {
   useEffect(() => {
     if (isToBeUpdated) {
       const load = async () => {
-        let card = await loadCard(props.cardId);
+        let card = await loadCard(props.card.cardId);
         setCardAuthor(card.author);
         setCardComments(card.comments);
         card.author = null;
         card.comments = null;
         setCard(card);
 
-        if (futureColumnId) {
-          let column = await loadColumn(futureColumnId);
-          setCurrentColumnId(column.columnId);
-          setCurrentColumnTitle(column.columnTitle);
-        }
+        let board = await loadBoard(props.board);
+        let columns = board.columnList;
+        setColumnList(columns);
+
+        let column = columns.find((column) => {
+          return column.cardList.find((card) => {
+            return card.cardId === props.card.cardId;
+          });
+        });
+        let currentColumn = await loadColumn(column.columnId);
+        setCurrentColumnId(currentColumn.columnId);
+        setCurrentColumnTitle(currentColumn.columnTitle);
       };
       load();
-      setIsToBeEdited(false);
+      setIsToBeUpdated(false);
     }
   }, [isToBeUpdated]);
 
@@ -86,32 +100,31 @@ const Card = (props) => {
     let response = await createComment(
       newComment,
       localStorage.getItem("active-user-id"),
-      props.cardId
+      card.cardId
     );
     if (response.status === 200) {
+      let comment = await response.json();
+      console.log(comment);
+      setCardComments([...cardComments, comment]);
       setNewComment({
         commentText: "",
       });
       client.publish({
-        destination: "/app/card/" + props.cardId,
+        destination: "/app/card/" + card.cardId,
       });
     }
   };
 
   const handleCardFieldChange = (fieldName, fieldValue) => {
-    setCardChanges({ ...cardChanges, [fieldName]: fieldValue });
+    setCard({ ...card, [fieldName]: fieldValue });
   };
 
-  const changeCardDetails = async (cardId, card) => {
-    let response = await editCard(cardId, card);
+  const changeCardDetails = async (cardId, editedCard) => {
+    let response = await editCard(cardId, editedCard);
     if (response.status === 200) {
-      setCardChanges({
-        cardTitle: "",
-        cardText: "",
-      });
       setIsToBeEdited(false);
       client.publish({
-        destination: "/app/card/" + props.cardId,
+        destination: "/app/card/" + card.cardId,
       });
     }
     return response;
@@ -124,33 +137,33 @@ const Card = (props) => {
   const changeColumn = async (cardId, columnId1, columnId2) => {
     let response = await moveCard(cardId, columnId1, columnId2);
     if (response.status === 200) {
-      client.publish({ destination: "/app/card/" + props.cardId });
+      client.publish({ destination: "/app/card/" + card.cardId });
     }
     return response;
   };
 
   const handleEdit = (e) => {
     e.preventDefault();
-    props.onDetailsChange(changeCardDetails, props.cardId, cardChanges);
+    props.onDetailsChange(changeCardDetails, card.cardId, card);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onMove(changeColumn, props.cardId, currentColumnId, futureColumnId);
+    props.onMove(changeColumn, card.cardId, currentColumnId, futureColumnId);
   };
 
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-full my-6 mx-auto max-w-3xl">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none max-h-screen overflow-y-auto">
             <div className="flex items-start justify-between p-5 pb-0">
               {isToBeEdited ? (
                 <input
                   className="p-2 border-2 border-gray-300 rounded-md"
                   type="text"
                   name="cardTitle"
-                  value={cardChanges.cardTitle}
+                  value={card.cardTitle}
                   onChange={(e) => {
                     handleCardFieldChange(e.target.name, e.target.value);
                   }}
@@ -194,8 +207,7 @@ const Card = (props) => {
                 className="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={props.onClose}
               >
-                            <TiDelete color={"FF8E7F"} size={"25px"} />
-
+                <TiDelete color={"FF8E7F"} size={"25px"} />
               </button>
             </div>
             <div className="flex items-start justify-between border-b border-solid border-slate-200 p-5 pt-0 pb-3">
@@ -212,7 +224,7 @@ const Card = (props) => {
                   className="basis-4/5 m-2 p-2 h-40 border-2 border-gray-300 rounded-md"
                   type="text"
                   name="cardText"
-                  value={cardChanges.cardText}
+                  value={card.cardText}
                   onChange={(e) => {
                     handleCardFieldChange(e.target.name, e.target.value);
                   }}
@@ -239,22 +251,17 @@ const Card = (props) => {
                       setFutureColumnId(e.target.value);
                     }}
                   >
-                    {props.columnsList.map((column) =>
+                    {columnList.map((column) =>
                       column.columnId === currentColumnId ? (
                         <option
                           key={column.columnId}
                           value={column.columnId}
                           disabled={true}
-                          selected={true}
                         >
                           {column.columnTitle}
                         </option>
                       ) : (
-                        <option
-                          key={column.columnId}
-                          value={column.columnId}
-                          disabled={false}
-                        >
+                        <option key={column.columnId} value={column.columnId}>
                           {column.columnTitle}
                         </option>
                       )

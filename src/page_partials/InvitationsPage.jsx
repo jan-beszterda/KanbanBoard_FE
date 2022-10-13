@@ -12,6 +12,18 @@ const InvitationsPage = () => {
   const [update, setUpdate] = useState(false);
   const userId = localStorage.getItem("active-user-id");
 
+  let colorArray = [
+    { color: "from-red-500" },
+    { color: "from-yellow-500" },
+    { color: "from-green-500" },
+    { color: "from-blue-500" },
+    { color: "from-indigo-500" },
+    { color: "from-purple-500" },
+    { color: "from-pink-500" },
+  ];
+  let randomColor =
+    colorArray[Math.floor(Math.random() * colorArray.length)].color;
+
   useEffect(() => {
     const load = async () => {
       let invitations = await loadInvitations(userId);
@@ -49,7 +61,7 @@ const InvitationsPage = () => {
           (invitations.length !== 0 ? (
             invitations?.map((team) => (
               <div key={team.id} className="mb-2 p-2 border-b">
-                <div className="flex p-2 bg-gradient-to-l from-slate-200">
+                <div className={`flex p-2 bg-gradient-to-l ${randomColor}`}>
                   <div className="basis-4/5">
                     <h4 className="text-l font-semibold">
                       Team: {team.teamName}

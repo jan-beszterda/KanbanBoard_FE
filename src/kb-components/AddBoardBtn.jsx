@@ -1,20 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-function AddBoardBtn({ name, btnName, teamId }) {
+function AddBoardBtn({ name, btnName, teamId, stompClient }) {
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  const handleSubmit = (e) => {
-    console.log("teamId:");
-    console.log(teamId);
-
+  const handleSubmit = () => {
     const newBoard = {
       boardName: boardName,
       boardDescription: boardDescription,
     };
-
-    console.log("newBoard:");
-    console.log(newBoard);
 
     const signUpBoard = async (data = {}) => {
       let response = await fetch("/api/board/create?owner_team=" + teamId, {
@@ -24,31 +19,19 @@ function AddBoardBtn({ name, btnName, teamId }) {
         },
         body: JSON.stringify(data),
       });
-
-      if (response.status === 200) {
-        console.log("Board created successfully");
-      }
-
-      let result = await response.json();
-      console.log(result);
-
-      return result;
+      return response;
     };
 
-    signUpBoard(newBoard).then((result) => {
-      //Set localStorage for team id
-      localStorage.setItem("active-board-id", result.boardId);
-      let idTest = localStorage.getItem("active-board-id");
-      console.log("Active board:");
-      console.log(idTest);
-      setShowModal(false);
-      window.location.reload();
-      // toTeamPage(); // did not work as expected, wanted to reload page.
+    signUpBoard(newBoard).then((response) => {
+      if (response.ok) {
+        stompClient.publish({ destination: "/app/team/" + teamId });
+        setBoardName("");
+        setBoardDescription("");
+        setShowModal(false);
+      }
     });
   };
-  // End handleSubmit.
 
-  const [showModal, setShowModal] = React.useState(false);
   return (
     <>
       <button
@@ -77,7 +60,7 @@ function AddBoardBtn({ name, btnName, teamId }) {
                 {/*body*/}
 
                 <div className="relative p-6  ">
-                  <p className="mb-5 font-bold">Title</p>
+                  <p className="mb-5 font-bold">Name</p>
                   <input
                     className=" border-2 border-gray-300 rounded-md"
                     type="text"
