@@ -180,6 +180,7 @@ function TeamPage() {
             name={"Add new board"}
             btnName={"+ New board"}
             teamId={team.id}
+            stompClient={client}
           />
         )}
       </div>

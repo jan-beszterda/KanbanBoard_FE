@@ -48,7 +48,6 @@ const Card = (props) => {
           return card.cardId === props.card.cardId;
         });
       });
-      console.log(column);
       let currentColumn = await loadColumn(column.columnId);
       setCurrentColumnId(currentColumn.columnId);
       setCurrentColumnTitle(currentColumn.columnTitle);
