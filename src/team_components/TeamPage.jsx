@@ -119,6 +119,7 @@ function TeamPage() {
             ></FaPencilAlt>
             {showModal ? (
               <CreateBtn
+              btnTitle={"Edit Team Name"}
                 edit={edit}
                 closeModal={closeModal}
                 btnType={"Edit"}

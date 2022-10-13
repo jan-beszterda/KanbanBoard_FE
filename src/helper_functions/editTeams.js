@@ -7,3 +7,13 @@ export const editTeamName = async (teamId, teamName) => {
   );
   return response;
 };
+
+export const editUserName = async (userId, userName) => {
+  let response = await fetch(
+    "/api/user/" + userId + "/userNameEdit?newName=" + userName,
+    {
+      method: "PUT",
+    }
+  );
+  return response;
+}

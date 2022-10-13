@@ -4,8 +4,9 @@ import NavBar from "../page_partials/NavBar";
 import SideBar from "../page_partials/SideBar";
 
 import { loadUser } from "../helper_functions/loadUser";
+import { data } from "autoprefixer";
 
-function Layout({ children }) {
+function Layout({ children,data }) {
   const [activeUser, setActiveUser] = useState([]);
   let userIdFromLocaleStorage = localStorage.getItem("active-user-id");
 
@@ -17,14 +18,20 @@ function Layout({ children }) {
     load();
   }, [userIdFromLocaleStorage]);
 
+if  (activeUser.lastName === null) {
+    activeUser.lastName = "";
+  }
+
   let fullName = activeUser.firstName + " " + activeUser.lastName;
   const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
+
+  localStorage.setItem("active-user-name", capitalizeName);
   return (
     <div className="min-w-full min-h-screen w-auto ">
       <NavBar name={capitalizeName}></NavBar>
       <SideBar />
 
-      <main className=" px-80 pt-28 flex">{children}</main>
+      <main  className=" px-80 pt-28 flex">{children}</main>
     </div>
   );
 }
