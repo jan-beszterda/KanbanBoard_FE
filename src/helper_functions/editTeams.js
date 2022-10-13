@@ -1,10 +1,11 @@
-export const editTeamName = async (teamId, teamName) => {
-  let response = await fetch(
-    "/api/team/" + teamId + "/edit?teamName=" + teamName,
-    {
-      method: "PUT",
-    }
-  );
+export const editTeam = async (teamId, team) => {
+  let response = await fetch("/api/team/" + teamId + "/edit", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(team),
+  });
   return response;
 };
 

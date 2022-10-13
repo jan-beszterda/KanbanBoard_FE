@@ -1,6 +1,4 @@
-import React from "react";
-
-function DenyInvitationBtn({ teamId, userId, callback }) {
+function DenyInvitationBtn({ teamId, userId, stompClient }) {
   const handleSubmit = () => {
     const denyInvitation = async () => {
       let response = await fetch(
@@ -9,18 +7,15 @@ function DenyInvitationBtn({ teamId, userId, callback }) {
           method: "PUT",
         }
       );
-      if (response.status === 200) {
-        console.log("Endpoint works!");
-        console.log(response);
-      }
       return response;
     };
-
-    denyInvitation().then(() => {
-      callback();
+    denyInvitation().then((response) => {
+      if (response.ok) {
+        stompClient.publish({ destination: "/app/team/" + teamId });
+        stompClient.publish({ destination: "/app/teamlist/" + userId });
+      }
     });
   };
-  // End handleSubmit.
 
   return (
     <button

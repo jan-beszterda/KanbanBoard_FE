@@ -1,13 +1,8 @@
-import React from 'react'
-import SideBarItems from '../kb-components/SideBarItems'
-
+import React from "react";
+import SideBarItems from "../kb-components/SideBarItems";
 
 function SideBar() {
-  return (
-    <div>
-        <SideBarItems/>
-    </div>
-  )
+  return <SideBarItems />;
 }
 
-export default SideBar
+export default SideBar;

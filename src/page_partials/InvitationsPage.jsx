@@ -1,13 +1,28 @@
 import { useState, useEffect } from "react";
 
 import { loadInvitations } from "../helper_functions/loadInvitations";
+import { createStompClient } from "../helper_functions/createStompClient";
+
 import AcceptInvitationBtn from "../team_components/AcceptInvitationBtn";
 import DenyInvitationBtn from "../team_components/DenyInvitationBtn";
 
 const InvitationsPage = () => {
   const [invitations, setInvitations] = useState();
+  const [client, setClient] = useState();
   const [update, setUpdate] = useState(false);
   const userId = localStorage.getItem("active-user-id");
+
+  let colorArray = [
+    { color: "from-red-500" },
+    { color: "from-yellow-500" },
+    { color: "from-green-500" },
+    { color: "from-blue-500" },
+    { color: "from-indigo-500" },
+    { color: "from-purple-500" },
+    { color: "from-pink-500" },
+  ];
+  let randomColor =
+    colorArray[Math.floor(Math.random() * colorArray.length)].color;
 
   useEffect(() => {
     const load = async () => {
@@ -15,6 +30,16 @@ const InvitationsPage = () => {
       setInvitations(invitations);
     };
     load();
+  }, []);
+
+  useEffect(() => {
+    let stompClient = createStompClient("/topic/teamlist/" + userId, () =>
+      setUpdate(true)
+    );
+    setClient(stompClient);
+    return () => {
+      stompClient.deactivate();
+    };
   }, []);
 
   useEffect(() => {
@@ -31,14 +56,12 @@ const InvitationsPage = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col">
-        <h3 className="text-xl font-bold  border-b-2 p-2">
-          Invitations
-        </h3>
+        <h3 className="text-xl font-bold  border-b-2 p-2">Invitations</h3>
         {invitations &&
           (invitations.length !== 0 ? (
             invitations?.map((team) => (
               <div key={team.id} className="mb-2 p-2 border-b">
-                <div className="flex p-2 bg-gradient-to-l from-slate-200">
+                <div className={`flex p-2 bg-gradient-to-l ${randomColor}`}>
                   <div className="basis-4/5">
                     <h4 className="text-l font-semibold">
                       Team: {team.teamName}
@@ -49,16 +72,12 @@ const InvitationsPage = () => {
                     <AcceptInvitationBtn
                       teamId={team.id}
                       userId={userId}
-                      callback={() => {
-                        setUpdate(true);
-                      }}
+                      stompClient={client}
                     />
                     <DenyInvitationBtn
                       teamId={team.id}
                       userId={userId}
-                      callback={() => {
-                        setUpdate(true);
-                      }}
+                      stompClient={client}
                     />
                   </div>
                 </div>
