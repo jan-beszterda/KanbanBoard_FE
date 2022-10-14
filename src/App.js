@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import LandingPage from "./pages/LandingPage";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import TeamPage from "./team_components/TeamPage";
+import BoardPage from "./board_components/BoardPage";
+import ProfilePage from "./kb-components/ProfilePage";
+import InvitationsPage from "./page_partials/InvitationsPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        // Skapa guardrouter för att skydda sidor som bara ska vara tillgängliga
+        för inloggade användare
+        <Route
+          path="/profilepage"
+          element={
+            <Layout>
+              {" "}
+              <ProfilePage />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/invitations"
+          element={
+            <Layout>
+              {" "}
+              <InvitationsPage />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/teampage/:id"
+          element={
+            <Layout>
+              {" "}
+              <TeamPage />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/boardpage/:id"
+          element={
+            <Layout>
+              {" "}
+              <BoardPage />{" "}
+            </Layout>
+          }
+        />
+        <Route path="/*" element={<LandingPage />} />
+      </Routes>
     </div>
   );
 }
