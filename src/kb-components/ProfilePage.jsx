@@ -3,7 +3,11 @@ import { useEffect } from "react";
 import Avatar from "react-avatar";
 import {BiEdit} from 'react-icons/bi'
 import { editUserName } from "../helper_functions/editTeams";
+
 import CreateBtn from './EditUserBtn'
+
+import CreateBtn from './EditUserName'
+
 import { MyContext } from "../pages/Layout";
 
 function ProfilePage() {
@@ -33,6 +37,7 @@ function ProfilePage() {
       return newName[2];
     }
   }
+
   let newLastName = lastNameIndex1() + " " + lastNameIndex2();
 
 

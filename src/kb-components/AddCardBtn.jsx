@@ -2,15 +2,7 @@ import { useState } from "react";
 
 import { createCard } from "../helper_functions/createCard";
 
-function AddCardBtn({
-  name,
-  btnName,
-  boardId,
-  columnId,
-  stompClient,
-  cards,
-  setCards,
-}) {
+function AddCardBtn({ name, btnName, boardId, columnId, stompClient }) {
   const [showModal, setShowModal] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const [cardText, setCardText] = useState("");
@@ -23,16 +15,16 @@ function AddCardBtn({
       cardText: cardText,
     };
 
-    createCard(userId, boardId, columnId, newCard).then((response) => {
+    createCard(userId, columnId, boardId, newCard).then((response) => {
       if (response.status === 200) {
-        let card = response.json();
-        setCards([...cards, card]);
         stompClient.publish({ destination: "/app/board/" + boardId });
         setCardTitle("");
         setCardText("");
-        setShowModal(false);
+       
       }
+      
     });
+
   };
 
   return (
@@ -98,9 +90,7 @@ function AddCardBtn({
                   <button
                     className="bg-red-pink text-white active:bg-red-pink-dark font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => {
-                      handleSubmit();
-                    }}
+                    onClick= {() =>{handleSubmit(); setShowModal(false)}}
                   >
                     Add
                   </button>

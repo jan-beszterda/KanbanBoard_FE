@@ -8,6 +8,7 @@ export const editTeam = async (teamId, team) => {
   });
   return response;
 };
+
 export const editUserName = async (userId, userName) => {
   let response = await fetch(
     "/api/user/" + userId + "/userNameEdit?newName=" + userName,
