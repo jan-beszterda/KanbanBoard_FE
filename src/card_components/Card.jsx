@@ -104,7 +104,6 @@ const Card = (props) => {
     );
     if (response.status === 200) {
       let comment = await response.json();
-      console.log(comment);
       setCardComments([...cardComments, comment]);
       setNewComment({
         commentText: "",

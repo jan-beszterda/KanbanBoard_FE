@@ -16,10 +16,8 @@ function LoginForm({ logo }) {
 
   const navigate = useNavigate();
   const toLayout = () => navigate("/profilepage", { replace: true });
-  //const [loggedUser, setLoggedUser] = useState({});
 
   const handleChange = (e) => {
-    console.log(e.target.id, e.target.value);
     setLoginState({ ...loginState, [e.target.id]: e.target.value });
   };
 
@@ -28,7 +26,6 @@ function LoginForm({ logo }) {
     authenticateUser();
   };
 
-  //Handle Login API Integration here
   const authenticateUser = () => {
     const user = {
       firstName: "",
@@ -49,20 +46,11 @@ function LoginForm({ logo }) {
       });
 
       let result = await response.json();
-      //setLoggedUser(result);
-      if (response.status === 200) {
-        console.log("User logged in successfully");
-      }
       return result;
     };
 
     logInUser(user).then((result) => {
-      console.log("Success Logging In");
-      console.log(result);
-      //Set localStorage for user id
       localStorage.setItem("active-user-id", result.userId);
-      let idTest = localStorage.getItem("active-user-id");
-      console.log(idTest);
       toLayout();
     });
   };

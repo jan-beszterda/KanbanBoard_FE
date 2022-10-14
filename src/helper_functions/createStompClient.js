@@ -9,9 +9,6 @@ export const createStompClient = (topicAddress, onMessage) => {
         onMessage();
       });
     },
-    debug: (str) => {
-      console.log(str);
-    },
   });
   stompClient.activate();
   return stompClient;
