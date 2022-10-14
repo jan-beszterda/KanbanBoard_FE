@@ -2,27 +2,68 @@ import React from "react";
 import { useEffect } from "react";
 import Avatar from "react-avatar";
 import {BiEdit} from 'react-icons/bi'
-import { Link } from "react-router-dom";
+import { editUserName } from "../helper_functions/editTeams";
+import CreateBtn from './EditUserBtn'
+import { MyContext } from "../pages/Layout";
 
 function ProfilePage() {
 
-  const [user, setUser] = React.useState([])
   const userId = localStorage.getItem("active-user-id");
-
-  useEffect (() => {
-  const loadUser = async () => {
-    let response = await fetch("/api/user/" + userId);
-    let data = await response.json();
-    setUser(data);
-  };
-  loadUser();
-}, [userId]);
-
-let fullName = user.firstName + " " + user.lastName;
-const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
-
-
+  const [editName,setEditName] = React.useState("");
+  const [editNameModal,setEditNameModal] = React.useState(false);
   
+  const {activeUser,setActiveUser} = React.useContext(MyContext);
+  const newName = editName.split(" ",3);
+  let newFirstName = newName[0];
+  
+  const lastNameIndex1 = () => {
+    if  (newName[1] === undefined) {
+      return "";
+    }
+    else {
+      return newName[1];
+    }
+  }
+
+  const lastNameIndex2 = () => {
+    if  (newName[2] === undefined) {
+      return "";
+    }
+    else {
+      return newName[2];
+    }
+  }
+  let newLastName = lastNameIndex1() + " " + lastNameIndex2();
+
+
+
+  console.log(newLastName);
+
+const onChange = (e) => {
+  setEditName(e.target.value);
+};
+
+const onClick = () => {
+  editUserName(userId, editName);
+  setActiveUser({...activeUser, firstName: newFirstName, lastName: newLastName});
+  closeModal();
+};
+
+const openModal = () => {
+  setEditNameModal(true);
+};
+const closeModal = () => {
+  setEditNameModal(false);
+};
+
+if (activeUser.lastName === null) {
+  activeUser.lastName = "";
+}
+
+const userName = activeUser.firstName + " " + activeUser.lastName;
+
+
+
 
 
   return (
@@ -44,12 +85,17 @@ const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
 
         <div className=" w-[600px] h-[380px] bg-white flex flex-row rounded-md drop-shadow-[0_5px_5px_rgba(0,0,0,0.25)] gap-5">
 
-          <div className=" my-5 pl-10 pr-5 border-[1px] border-white border-r-gray-200">
+          <div className=" my-5 pl-10 pr-5  border-[1px] border-white border-r-gray-200">
           <div className=" flex flex-row  mb-5  ">
-          <Avatar  color={Avatar.getRandomColor('sitebase', ['black', 'grey', 'orange'])} name={capitalizeName} size="80" round={true} />
+          <Avatar  color={Avatar.getRandomColor('sitebase', ['black', 'grey', 'orange'])} name={userName} size="80" round={true} />
           
-          <h1 className=" pl-3 self-center text-2xl font-bold font-sans capitalize">{capitalizeName}</h1>
-          <BiEdit color="#FF8E7F" size={"20"} className="self-center ml-5 "></BiEdit>
+          <h1 className=" pl-3 self-center text-2xl font-bold font-sans capitalize">{userName}</h1>
+          <BiEdit onClick={openModal}  color="#FF8E7F" size={"20"} className="self-center ml-5 cursor-pointer "></BiEdit>
+          {
+            editNameModal ? (
+              <CreateBtn btnTitle={"New name"} btnType={"Change"} edit={onClick} onChange={onChange} closeModal={closeModal} />
+            ) : null
+          }
           </div>
 
           <div>
@@ -67,13 +113,13 @@ const capitalizeName = fullName.charAt(0).toUpperCase() + fullName.slice(1);
           
           <div className=" flex flex-row  gap-[17px]">
           <p className=" font-sans text-gray-600 font-semibold">Email </p>
-         <p className=" border-[1px] text-gray-400 italic  border-dark-grey text-sm pt-1 px-1 rounded-md w-[180px] pl-3 ">{user.email}</p>
+         <p className=" border-[1px] text-gray-400 italic  border-dark-grey text-sm pt-1 px-1 rounded-md w-[160px] pl-3 ">{activeUser.email}</p>
 
           </div>
      
           <div className=" flex flex-row gap-[10px]">
           <p className=" font-sans text-gray-600 font-semibold">Phone </p>
-         <p className=" border-[1px] text-gray-400 italic border-dark-grey  text-sm pt- px-1 rounded-md w-[180px] pl-3">xxx-xxx-xxx</p>
+         <p className=" border-[1px] text-gray-400 italic border-dark-grey  text-sm pt- px-1 rounded-md w-[160px] pl-3">xxx-xxx-xxx</p>
 
           </div>
 
