@@ -5,28 +5,18 @@ function InviteUserBtn({ name, btnName, teamId, stompClient }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = () => {
-    const handleInvitation = async () => {
-      const inviteUser = async () => {
-        let response = await fetch(
-          "/api/team/" + teamId + "/invite_user?user_email=" + userEmail,
-          {
-            method: "PUT",
-          }
-        );
-        return response;
-      };
-      const getUser = async () => {
-        let response = await fetch("/api/user/get_by_email?email=" + userEmail);
-        let result = await response.json();
-        return result;
-      };
-      const invitee = await getUser();
-      const invitation = await inviteUser();
-      return [invitee, invitation];
+    const inviteUser = async () => {
+      let response = await fetch(
+        "/api/team/" + teamId + "/invite_user?user_email=" + userEmail,
+        {
+          method: "PUT",
+        }
+      );
+      return response;
     };
-    handleInvitation().then(([invitee, invitation]) => {
-      if (invitee && invitation) {
-        stompClient.publish({ destination: "/app/teamlist/" + invitee.userId });
+
+    inviteUser(userEmail).then((response) => {
+      if (response.status === 200) {
         stompClient.publish({ destination: "/app/team/" + teamId });
         setUserEmail("");
         setShowModal(false);
@@ -37,7 +27,7 @@ function InviteUserBtn({ name, btnName, teamId, stompClient }) {
   return (
     <>
       <button
-        className="font-sans font-bold uppercase text-m mx-auto my-2 p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+        className=" font-sans font-bold capitalize text-m ml-10  px-2  py-2 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-3 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >

@@ -44,7 +44,7 @@ function BoardPage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col relative h-auto mb-10 mt-5 flex flex-col justify-start text-start gap-12 w-auto">
+      <div className="flex relative h-auto mb-8 mt-2 flex-col justify-start text-start gap-12 w-auto">
         {board && (
           <>
             <div className="flex items-center">
@@ -57,7 +57,8 @@ function BoardPage() {
                 stompClient={client}
               />
             </div>
-            <div>
+            <div className=" flex flex-row items-center">
+              <h1 className=" font-bold">Description : </h1>
               <p className="text-l p-2">
                 {board.boardDescription
                   ? board.boardDescription

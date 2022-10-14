@@ -1,15 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-function AddBoardBtn({ name, btnName, teamId, stompClient }) {
+function AddBoardBtn({ name, btnName, teamId }) {
   const [boardName, setBoardName] = useState("");
   const [boardDescription, setBoardDescription] = useState("");
-  const [showModal, setShowModal] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    console.log("teamId:");
+    console.log(teamId);
+
     const newBoard = {
       boardName: boardName,
       boardDescription: boardDescription,
     };
+
+    console.log("newBoard:");
+    console.log(newBoard);
 
     const signUpBoard = async (data = {}) => {
       let response = await fetch("/api/board/create?owner_team=" + teamId, {
@@ -19,23 +24,35 @@ function AddBoardBtn({ name, btnName, teamId, stompClient }) {
         },
         body: JSON.stringify(data),
       });
-      return response;
+
+      if (response.status === 200) {
+        console.log("Board created successfully");
+      }
+
+      let result = await response.json();
+      console.log(result);
+
+      return result;
     };
 
-    signUpBoard(newBoard).then((response) => {
-      if (response.ok) {
-        stompClient.publish({ destination: "/app/team/" + teamId });
-        setBoardName("");
-        setBoardDescription("");
-        setShowModal(false);
-      }
+    signUpBoard(newBoard).then((result) => {
+      //Set localStorage for team id
+      localStorage.setItem("active-board-id", result.boardId);
+      let idTest = localStorage.getItem("active-board-id");
+      console.log("Active board:");
+      console.log(idTest);
+      setShowModal(false);
+      window.location.reload();
+      // toTeamPage(); // did not work as expected, wanted to reload page.
     });
   };
+  // End handleSubmit.
 
+  const [showModal, setShowModal] = React.useState(false);
   return (
     <>
       <button
-        className="bg-white font-sans font-bold uppercase text-m my-5 mx-5 px-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+        className="bg-white font-sans font-bold uppercase text-m my-5 mx-5 px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >
@@ -60,7 +77,7 @@ function AddBoardBtn({ name, btnName, teamId, stompClient }) {
                 {/*body*/}
 
                 <div className="relative p-6  ">
-                  <p className="mb-5 font-bold">Name</p>
+                  <p className="mb-5 font-bold">Title</p>
                   <input
                     className=" border-2 border-gray-300 rounded-md"
                     type="text"
